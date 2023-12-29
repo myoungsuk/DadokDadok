@@ -1,4 +1,4 @@
-package com.multi.mini6.reviewboard.domain;
+package com.multi.mini6.reviewboard.vo;
 
 import java.util.Date;
 

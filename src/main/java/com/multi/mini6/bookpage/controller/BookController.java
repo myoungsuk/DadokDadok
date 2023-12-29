@@ -1,8 +1,8 @@
 package com.multi.mini6.bookpage.controller;
 
 
-import com.multi.mini6.bookpage.domain.BookVO;
-import com.multi.mini6.bookpage.domain.PageVO;
+import com.multi.mini6.bookpage.vo.BookVO;
+import com.multi.mini6.bookpage.vo.PageVO;
 import com.multi.mini6.bookpage.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

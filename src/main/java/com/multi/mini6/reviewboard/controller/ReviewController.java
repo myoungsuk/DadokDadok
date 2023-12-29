@@ -1,6 +1,6 @@
 package com.multi.mini6.reviewboard.controller;
 
-import com.multi.mini6.reviewboard.domain.ReviewVO;
+import com.multi.mini6.reviewboard.vo.ReviewVO;
 import com.multi.mini6.reviewboard.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

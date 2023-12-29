@@ -1,8 +1,8 @@
 package com.multi.mini6.bookpage.service;
 
-import com.multi.mini6.bookpage.domain.MovieVO;
-import com.multi.mini6.bookpage.domain.PageVO;
-import com.multi.mini6.bookpage.mapper.MovieMapper;
+import com.multi.mini6.bookpage.vo.MovieVO;
+import com.multi.mini6.bookpage.vo.PageVO;
+import com.multi.mini6.bookpage.dao.MovieMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

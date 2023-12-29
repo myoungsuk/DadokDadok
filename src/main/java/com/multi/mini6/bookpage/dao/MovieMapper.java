@@ -1,6 +1,6 @@
-package com.multi.mini6.bookpage.mapper;
+package com.multi.mini6.bookpage.dao;
 
-import com.multi.mini6.bookpage.domain.MovieVO;
+import com.multi.mini6.bookpage.vo.MovieVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

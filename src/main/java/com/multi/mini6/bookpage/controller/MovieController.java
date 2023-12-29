@@ -1,7 +1,7 @@
 package com.multi.mini6.bookpage.controller;
 
-import com.multi.mini6.bookpage.domain.MovieVO;
-import com.multi.mini6.bookpage.domain.PageVO;
+import com.multi.mini6.bookpage.vo.MovieVO;
+import com.multi.mini6.bookpage.vo.PageVO;
 import com.multi.mini6.bookpage.service.MovieService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

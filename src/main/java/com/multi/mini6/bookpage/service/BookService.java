@@ -1,8 +1,8 @@
 package com.multi.mini6.bookpage.service;
 
-import com.multi.mini6.bookpage.domain.BookVO;
-import com.multi.mini6.bookpage.domain.PageVO;
-import com.multi.mini6.bookpage.mapper.BookMapper;
+import com.multi.mini6.bookpage.vo.BookVO;
+import com.multi.mini6.bookpage.vo.PageVO;
+import com.multi.mini6.bookpage.dao.BookMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,7 +1,7 @@
-package com.multi.mini6.bookpage.mapper;
+package com.multi.mini6.bookpage.dao;
 
-import com.multi.mini6.bookpage.domain.BookVO;
-import com.multi.mini6.bookpage.domain.PageVO;
+import com.multi.mini6.bookpage.vo.BookVO;
+import com.multi.mini6.bookpage.vo.PageVO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

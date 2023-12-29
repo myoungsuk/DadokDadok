@@ -1,4 +1,4 @@
-package com.multi.mini6.bookpage.domain;
+package com.multi.mini6.bookpage.vo;
 
 import lombok.Data;
 
