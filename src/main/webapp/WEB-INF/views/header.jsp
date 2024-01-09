@@ -18,7 +18,7 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a href="about.jsp">도서</a></li>
+                <li><a href="about.jsp">도서1</a></li>
                 <li><a href="services.jsp">도서관</a></li>
                 <li><a href="testimonials.jsp">도서후기</a></li>
                 <li><a href="pricing.jsp">자유게시판</a></li>
