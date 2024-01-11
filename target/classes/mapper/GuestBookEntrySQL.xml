@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mini6.loginpage.dao.GuestBookDAO">
+
+    <!-- 방명록 작성 -->
+    <insert id="addEntry" parameterType="guestBookVO">
+        INSERT INTO guest_book (author_email, author_nickname, recipient_email, recipient_nickname, message, modifiedAt, createdAt)
+        VALUES (#{author_email}, #{author_nickname}, #{recipient_email}, #{recipient_nickname}, #{message}, NOW(), NOW())
+    </insert>
+
+
+    <!-- 방명록 리스트 가져오기 -->
+    <select id="getGuestBookEntryList" resultType="guestBookVO">
+        SELECT *
+        FROM guest_book
+        WHERE author_email = #{email} OR recipient_email = #{email}
+    </select>
+
+    <!-- 방명록 삭제 -->
+    <delete id="deleteEntry">
+        DELETE
+        FROM guest_book
+        WHERE id = #{id}
+    </delete>
+
+    <!-- 방명록 수정 -->
+    <update id="updateEntry" parameterType="guestBookVO">
+        UPDATE guest_book
+        SET message         = #{message},
+            modifiedAt      = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 방명록 이메일로 검색해서 가져오기 -->
+    <select id="getEntryByEmail" parameterType="string" resultType="guestBookVO">
+        SELECT *
+        FROM guest_book
+        WHERE author_email = #{email} OR recipient_email = #{email}
+    </select>
+
+    <!-- 방명록 초입 방명록 글 5개만 가져오게 -->
+    <select id="getEntriesByEmail" parameterType="string" resultType="guestBookVO">
+        SELECT id, author_email, author_nickname, recipient_email, recipient_nickname, message, modifiedAt, createdAt
+        FROM guest_book
+        WHERE recipient_email = #{email}
+        ORDER BY modifiedAt DESC
+        LIMIT 5
+    </select>
+
+    <!-- 방명록 글 전체 가져오기 -->
+    <select id="getAllEntriesByEmail" parameterType="string" resultType="guestBookVO">
+        SELECT id, author_email, author_nickname, recipient_email, recipient_nickname, message, modifiedAt, createdAt
+        FROM guest_book
+        WHERE recipient_email = #{email}
+        ORDER BY modifiedAt DESC
+    </select>
+
+    <!-- 방명록 상세 조회 -->
+    <select id="getGuestBookCommnetById" parameterType="int" resultType="guestBookVO">
+        SELECT id, author_email, author_nickname, message, modifiedAt
+        FROM guest_book
+        WHERE id = #{id}
+    </select>
+
+
+</mapper>
