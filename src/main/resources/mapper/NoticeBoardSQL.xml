@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="noticeboard">
+
+    <insert id="insertNotice" parameterType="NoticeBoardVO">
+        <![CDATA[
+    INSERT INTO notice (notc_title, notc_content, notc_createdAt, notc_updatedAt, notc_views, notice_uuid, notice_file_name)
+    VALUES (#{notc_title}, #{notc_content}, #{notc_createdAt}, #{notc_updatedAt}, #{notc_views}, #{notice_uuid}, #{notice_file_name})
+    ]]>
+    </insert>
+
+    <update id="updateNotice" parameterType="NoticeBoardVO">
+        <![CDATA[
+        UPDATE notice
+        SET notc_title = #{notc_title},
+            notc_content = #{notc_content},
+            notc_updatedAt = #{notc_updatedAt},
+            notc_views = #{notc_views},
+            notice_uuid = #{notice_uuid},
+            notice_file_name = #{notice_file_name}
+        WHERE notc_id = #{notc_id}
+    ]]>
+    </update>
+
+    <delete id="deleteNotice" parameterType="int">
+        <![CDATA[
+    DELETE FROM notice WHERE notc_id = #{notc_id}
+    ]]>
+    </delete>
+
+    <update id="updateViewCount" parameterType="int">
+        UPDATE notice
+        SET notc_views = notc_views + 1
+        WHERE notc_id = #{notc_id}
+    </update>
+
+    <select id="one" parameterType="int" resultType="NoticeBoardVO">
+        select * from notice
+        where notc_id = #{notc_id}
+    </select>
+
+    <select id="getNoticeBoardById" parameterType="int" resultType="NoticeBoardVO">
+        SELECT * FROM notice WHERE notc_id = #{notc_id}
+    </select>
+
+    <select id="list" resultType="NoticeBoardVO">
+        select * from notice order by notc_id desc
+    </select>
+
+    <select id="selectNoticeAll" resultType="NoticeBoardVO">
+        select * from notice
+    </select>
+
+    <select id="getNoticeBoardCount" resultType="int">
+        select count(*) from notice
+    </select>
+
+    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">
+        select * from (
+        select
+        row_number() over (order by notc_id desc) as notc_no,
+        notc_id,
+        notc_title,
+        notc_content,
+        notc_createdAt,
+        notc_updatedAt,
+        notc_views
+        from notice
+        ) row_notice
+        where row_notice.notc_no between #{start} and #{end}
+    </select>
+
+</mapper>
