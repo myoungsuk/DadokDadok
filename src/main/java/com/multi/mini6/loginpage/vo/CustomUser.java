@@ -19,7 +19,8 @@ import java.util.stream.Collectors;
 @Getter
 public class CustomUser extends User {
 
-    private MemberVO member;
+    final private MemberVO member;
+    final private String nickname;
 
     // CustomUser가 상속한 User클래스를 기준으로 생성자를 설정해주면
     // VO와 시큐리티를 연동할 수 있습니다.
@@ -31,6 +32,7 @@ public class CustomUser extends User {
                         .map(authority -> new SimpleGrantedAuthority(authority.getAuthority_name()))
                         .collect(Collectors.toList())); // 권한 목록
         this.member = vo;
+        this.nickname = vo.getNickname();
     }
 
     // 필요한 경우, MemberVO의 추가적인 정보를 CustomUser에서 사용하기 위한 메소드를 추가할 수 있습니다.

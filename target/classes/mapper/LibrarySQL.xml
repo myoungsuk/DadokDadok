@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="library">
+    <!-- ORM, Mapper파일! -->
+    <insert id="insert" parameterType="libraryVO">
+        insert into library values
+        (#{lib_code},#{lib_name},#{lib_region},#{lib_dtl_region},#{lib_address},
+        #{lib_tel},#{lib_fax},#{lib_latitude},#{lib_longitude},#{lib_homepage},
+        #{lib_closed},#{lib_operating_time},#{lib_bookcount});
+    </insert>
+
+    <update id="update" parameterType="libraryVO">
+        update library
+        set lib_name = #{lib_name},
+        lib_region = #{lib_region}, lib_dtl_region = #{lib_dtl_region}, lib_address = #{lib_address},
+        lib_tel = #{lib_tel}, lib_fax=#{lib_fax},
+        lib_latitude=#{lib_latitude},lib_longitude=#{lib_longitude},
+        lib_homepage=#{lib_homepage},
+        lib_closed=#{lib_closed},lib_operating_time=#{lib_operating_time},
+        lib_bookcount=#{lib_bookcount}
+        where lib_code = #{lib_code};
+    </update>
+
+    <delete id="delete" parameterType="libraryVO">
+        delete from library where lib_code = #{lib_code}
+    </delete>
+    <select id="one" parameterType="libraryVO" resultType="libraryVO">
+        select * from library where lib_code = #{lib_code}
+    </select>
+    <select id="list" resultType="libraryVO">
+        select * from library order by lib_code desc
+    </select>
+
+    <!-- 페이징 처리 -->
+    <!-- 전체 페이지개수 계산할 때 전체 게시물 개수가 필요함. total / page = pages -->
+    <select id="count" resultType="int">
+        select count(*) from library
+    </select>
+
+    <select id="list2" parameterType="librarypageVO" resultType="libraryVO">
+        select *
+        from
+        (select
+        ROW_NUMBER() over(order by lib_code desc) as lib_no,
+        lib_code, lib_name, lib_address, lib_tel, lib_latitude ,lib_longitude
+        from library l) l2
+        where l2.lib_no BETWEEN ${start} and ${end}
+    </select>
+
+    <select id="list3" parameterType="librarypageVO" resultType="libraryVO">
+        select * from(
+        select ROW_NUMBER() over(order by lib_code desc)
+        as lib_no, lib_code, lib_name, lib_address, lib_tel, lib_latitude ,lib_longitude
+        from library l) l2
+        where l2.lib_no BETWEEN ${start} and ${end}
+    </select>
+
+    <!-- 이름으로 검색 -->
+    <select id="search_name" parameterType="librarypageVO" resultType="libraryVO">
+        select * from(
+        select ROW_NUMBER() over(order by lib_code desc)
+        as lib_no, lib_code, lib_name, lib_address, lib_tel, lib_latitude ,lib_longitude
+        from library l
+        where lib_name like concat('%', #{keyword}, '%')
+        ) l2
+        where l2.lib_no BETWEEN ${start} and ${end}
+    </select>
+
+    <select id="search_count"  parameterType="librarypageVO" resultType="int">
+        select count(*) from library
+        WHERE lib_name LIKE CONCAT('%', #{keyword},'%')
+
+
+    </select>
+
+    <select id="count1" parameterType="librarypageVO" resultType="int">
+        select count(*) from library
+        <if test='keyword != null and keyword != ""'>
+            WHERE lib_name LIKE CONCAT('%', #{keyword},'%')
+        </if>
+    </select>
+
+
+
+</mapper>
