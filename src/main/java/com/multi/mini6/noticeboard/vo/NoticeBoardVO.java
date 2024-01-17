@@ -25,6 +25,11 @@ public class NoticeBoardVO {
     private String notice_uuid; // 첨부파일uuid
     private String notice_file_name; // 첨부파일명
 
+    private int next; // 다음글
+    private int last; // 이전글
+    private String nexttitle; // 다음글제목
+    private String lasttitle; // 이전글제목
+
     public String getImageUrl() {
         if (notice_uuid != null && !notice_uuid.isEmpty()) {
             return "/upload-dir/" + notice_uuid + "_" + notice_file_name;

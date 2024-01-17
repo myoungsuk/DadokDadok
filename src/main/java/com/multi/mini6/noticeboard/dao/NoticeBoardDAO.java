@@ -26,21 +26,21 @@ public class NoticeBoardDAO {
         my.delete("deleteNotice", notc_id);
     }
 
-    public List<NoticeBoardVO> list() throws Exception{
-        return my.selectList("noticeboard.list");
+    public List<NoticeBoardVO> listNotice() throws Exception{
+        return my.selectList("noticeboard.listNotice");
     }
 
-    public NoticeBoardVO one(int notc_id) throws Exception{
+    public NoticeBoardVO oneNotice(int notc_id) throws Exception{
         System.out.println("notc_id : " + notc_id);
-        return my.selectOne("one", notc_id);
+        return my.selectOne("oneNotice", notc_id);
     }
 
     public NoticeBoardVO getNoticeBoardById(int notc_id) {
         return my.selectOne("getNoticeBoardById", notc_id);
     }
 
-    public void updateViewCount(int notc_id) {
-        my.update("noticeboard.updateViewCount", notc_id);
+    public void updateViewCountNotice(int notc_id) {
+        my.update("noticeboard.updateViewCountNotice", notc_id);
     }
 
     public List<NoticeBoardVO> selectNoticeAll(){
@@ -56,6 +56,19 @@ public class NoticeBoardDAO {
         return my.selectList("getPagedNoticeBoard", noticeBoardPageVO);
     }
 
+    public NoticeBoardVO moveNoticeBoardPage(int notc_id) throws Exception{
+        return my.selectOne("moveNoticeBoardPage", notc_id);
+    }
+
+    public List<NoticeBoardVO> searchNoticeBoard(NoticeBoardPageVO noticeBoardPageVO) {
+        // Implement the logic to construct the MyBatis mapper method call
+        // Example:
+        return my.selectList("searchNoticeBoard", noticeBoardPageVO);
+    }
+
+//    public List<NoticeBoardVO> searchNoticeBoard(NoticeBoardCriteriaVO criteria){
+//        return my.selectList("searchNoticeBoard", criteria);
+//    }
 
 }
 

@@ -33,7 +33,7 @@ public class NoticeBoardController {
     public void getNotices(Model model,
                            NoticeBoardPageVO noticeBoardPageVO,
                            @RequestParam(defaultValue = "1") int page,
-                           @RequestParam(defaultValue = "5") int pageSize) throws Exception {
+                           @RequestParam(defaultValue = "10") int pageSize) throws Exception {
         int totalItemCount = noticeBoardService.getNoticeBoardCount();
         noticeBoardPageVO = new NoticeBoardPageVO(page, pageSize, totalItemCount);
         List<NoticeBoardVO> noticeboard = noticeBoardService.getPagedNoticeBoard(noticeBoardPageVO);
@@ -52,26 +52,25 @@ public class NoticeBoardController {
     }
 
     @PostMapping("/noticeboard_insert")
-    public String insertNotice(@RequestParam("file") MultipartFile file, @RequestParam("notc_title") String notc_title, @RequestParam("notc_content") String notc_content, RedirectAttributes redirectAttributes) {
+    public String insertNotice(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("notc_title") String notc_title, @RequestParam("notc_content") String notc_content, RedirectAttributes redirectAttributes) {
         try {
-            if (!file.isEmpty()) {
+            NoticeBoardVO noticeBoardVO = new NoticeBoardVO();
+            noticeBoardVO.setNotc_title(notc_title);
+            noticeBoardVO.setNotc_content(notc_content);
+
+            if (file != null && !file.isEmpty()) {
                 String fileName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
                 Path filePath = Paths.get("C:/Users/yuumi/Downloads/apache-tomcat-8.5.96/bin/upload-dir/" + uuid + "_" + fileName);
                 Files.write(filePath, file.getBytes());
 
-                NoticeBoardVO noticeBoardVO = new NoticeBoardVO();
-                noticeBoardVO.setNotc_title(notc_title);
-                noticeBoardVO.setNotc_content(notc_content);
                 noticeBoardVO.setNotice_uuid(uuid);
                 noticeBoardVO.setNotice_file_name(fileName);
-
-                noticeBoardService.insertNotice(noticeBoardVO);
-
-                redirectAttributes.addFlashAttribute("successMessage", "Notice inserted successfully");
-            } else {
-                redirectAttributes.addFlashAttribute("errorMessage", "File is empty");
             }
+
+            noticeBoardService.insertNotice(noticeBoardVO);
+
+            redirectAttributes.addFlashAttribute("successMessage", "Notice inserted successfully");
         } catch (Exception e) {
             e.printStackTrace();
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to insert notice");
@@ -79,6 +78,7 @@ public class NoticeBoardController {
 
         return "redirect:noticeboard";
     }
+
 
     @GetMapping("/noticeboard_update/{notc_id}")
     public String showUpdateForm(@PathVariable("notc_id") int notc_id, Model model) {
@@ -115,22 +115,77 @@ public class NoticeBoardController {
         return "redirect:/noticeboard";
     }
 
-    @GetMapping("/noticeboard_one")
+    @RequestMapping(value = "/noticeboard_one", method = RequestMethod.GET)
     public String viewNotice(@RequestParam("notc_id") int notc_id, Model model) {
         try {
             NoticeBoardVO noticeBoardVO = noticeBoardService.getNoticeBoardById(notc_id);
-            if (noticeBoardVO != null) {
-                noticeBoardService.updateViewCount(notc_id);
 
+            if (noticeBoardVO != null) {
                 model.addAttribute("noticeBoardVO", noticeBoardVO);
+
+                noticeBoardService.updateViewCountNotice(notc_id);
+
+                model.addAttribute("move", noticeBoardService.moveNoticeBoardPage(noticeBoardVO.getNotc_id()));
+
                 return "noticeboard/noticeboard_one";
             } else {
                 return "noticeboard/notice_not_found";
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            model.addAttribute("error", "An error occurred while processing your request.");
             return "error";
         }
     }
+
+    @GetMapping("/noticeboard_search")
+    public String searchNotice(@RequestParam(value = "searchType", required = false) String searchType,
+                               @RequestParam(value = "keyword", required = false) String keyword,
+                               @RequestParam(value = "page", defaultValue = "1") int page,
+                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
+                               Model model) {
+        if (searchType == null || keyword == null || searchType.isEmpty() || keyword.isEmpty()) {
+            // Handle invalid or missing search parameters
+            // For example, you can add an error message to the model and return to the search page with the error message displayed
+            model.addAttribute("error", "Search type and keyword are required.");
+            return "noticeboard/search_error";
+        }
+
+        try {
+            int totalItemCount = noticeBoardService.getNoticeBoardCount(); // Get the total count of items
+            NoticeBoardPageVO pageVO = new NoticeBoardPageVO(page, pageSize, totalItemCount); // Create a NoticeBoardPageVO with pagination parameters
+            pageVO.setType(searchType);
+            pageVO.setKeyword(keyword);
+            pageVO.calculateOffset(); // Calculate the offset based on the current page and page size
+            pageVO.setStartEnd(); // Set the start and end indices for the current page
+
+            List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(pageVO); // Pass the pageVO to the service method for search
+            model.addAttribute("searchResults", searchResults);
+            model.addAttribute("noticeBoardPageVO", pageVO); // Add the pageVO to the model for pagination
+            return "noticeboard/noticeboard_search";
+        } catch (Exception e) {
+            // Handle exceptions, such as database errors or service failures
+            // For example, you can add an error message to the model and return to the search page with the error message displayed
+            model.addAttribute("error", "An error occurred while processing your search.");
+            return "noticeboard/search_error";
+        }
+    }
+
+
+
+//    @GetMapping("/noticeboard_search")
+//    public String searchNoticeBoard(@RequestParam("searchType") String searchType,
+//                                    @RequestParam("keyword") String keyword,
+//                                    Model model) {
+//        NoticeBoardCriteriaVO criteria = new NoticeBoardCriteriaVO();
+//        criteria.setSearchType(searchType);
+//        criteria.setKeyword(keyword);
+//
+//        List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(criteria);
+//        model.addAttribute("searchResults", searchResults);
+//
+//        return "noticeboard/noticeboard_search";
+//    }
+
+
 
 }

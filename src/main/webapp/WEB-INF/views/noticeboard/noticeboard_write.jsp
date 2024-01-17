@@ -3,38 +3,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>게시글 등록</title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>Setting</title>
+    <meta content="" name="description">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="../../../resources/assets/img/favicon.png" rel="icon">
+    <link href="../../../resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+          rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="../../../resources/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/aos/aos.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+    <link href="../../../resources/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link href="../../../resources/assets/css/style.css" rel="stylesheet">
     <style>
-        body {
-            padding: 20px;
+    .logo-link {
+          display: flex;
+          align-items: center;
+          text-decoration: none; /* 링크 밑줄 제거 */
         }
-        .pages {
-            background: lime;
-            margin-right: 5px;
+
+        .logo-image {
+          max-width: 300px; /* 로고 이미지 크기 조정 */
+          height: auto; /* 이미지 높이 자동 조절 */
         }
-    </style>
+
+        .logo-text {
+          font-size: 24px; /* 로고 텍스트 크기 */
+          font-weight: bold; /* 글씨 굵게 */
+          color: #333; /* 글씨 색상 */
+          /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
+        }
+            .center {
+              margin-top: 2%; /* Adjust the top margin as a percentage of the viewport height */
+              margin-bottom: 2%; /* Adjust the bottom margin as a percentage of the viewport height */
+              margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
+              margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
+            }
+          </style>
 </head>
 <body>
-    <h2>공지게시판 - 게시</h2>
+
+<!-- ======= Top Bar ======= -->
+<jsp:include page="/WEB-INF/views/topbar.jsp"/>
+<!-- End Top Bar -->
+
+<!-- ======= Header ======= -->
+<jsp:include page="/WEB-INF/views/header.jsp"/>
+<!-- End Header -->
+<main id="main">
+
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Setting</h2>
+                <ol>
+                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li>Setting</li>
+                </ol>
+            </div>
+
+        </div>
+    </section><!-- End Breadcrumbs -->
+<div class="center">
+    <h2>공지 등록</h2>
     <form action="noticeboard_insert" method="post" enctype="multipart/form-data">
         <div class="form-group">
             <label for="notc_title">제목</label>
             <input type="text" class="form-control" id="notc_title" name="notc_title" placeholder="제목을 입력해주세요.">
         </div>
+        <br>
         <div class="form-group">
             <label for="notc_content">내용</label>
             <textarea class="form-control" id="notc_content" name="notc_content" rows="10"></textarea>
         </div>
+        <br>
         <div class="form-group">
-                <label for="file">Choose File</label>
+                <label for="file">파일 첨부</label>
                 <input type="file" id="file" name="file">
             </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
+            <br>
+            <button type="submit" class="btn btn-primary">작성완료</button>
         <a href="noticeboard" class="btn btn-secondary">목록으로</a>
     </form>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    </div>
+    </main><!-- End #main -->
+                <!-- ======= Footer ======= -->
+                <jsp:include page="/WEB-INF/views/footer.jsp"/>
+                <!-- End Footer -->
 </body>
 </html>

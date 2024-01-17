@@ -47,19 +47,19 @@ public class NoticeBoardService {
     }
 
     public List<NoticeBoardVO> noticeboard_list() throws Exception{
-        return noticeBoardDAO.list();
+        return noticeBoardDAO.listNotice();
     }
 
     public NoticeBoardVO noticeboard_one(int noticeBoardVO) throws Exception{
-        return noticeBoardDAO.one(noticeBoardVO);
+        return noticeBoardDAO.oneNotice(noticeBoardVO);
     }
 
     public NoticeBoardVO getNoticeBoardById(int notc_id) {
         return noticeBoardDAO.getNoticeBoardById(notc_id);
     }
 
-    public void updateViewCount(int notc_id) {
-        noticeBoardDAO.updateViewCount(notc_id);
+    public void updateViewCountNotice(int notc_id) {
+        noticeBoardDAO.updateViewCountNotice(notc_id);
     }
 
     public List<NoticeBoardVO> getAllNotices(){
@@ -73,5 +73,19 @@ public class NoticeBoardService {
     public int getNoticeBoardCount() {
         return noticeBoardDAO.getNoticeBoardCount();
     }
+
+    public NoticeBoardVO moveNoticeBoardPage(int notc_id) throws Exception {
+        return noticeBoardDAO.moveNoticeBoardPage(notc_id);
+    }
+
+    public List<NoticeBoardVO> searchNoticeBoard(NoticeBoardPageVO noticeBoardPageVO) {
+        // Implement the logic to search based on pageVO, including type and keyword
+        // Example:
+        return noticeBoardDAO.searchNoticeBoard(noticeBoardPageVO);
+    }
+
+//    public List<NoticeBoardVO> searchNoticeBoard(NoticeBoardCriteriaVO criteria) {
+//        return noticeBoardDAO.searchNoticeBoard(criteria);
+//    }
 
 }
