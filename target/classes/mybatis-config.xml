@@ -12,6 +12,8 @@
 		<typeAlias type="com.multi.mini6.loginpage.vo.MemberVO" alias="memberVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.loginpage.vo.MemberDeleteReasonVO" alias="memberDeleteReasonVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.loginpage.vo.GuestBookVO" alias="guestBookVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.librarypage.vo.LibraryVO" alias="libraryVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.librarypage.vo.LibraryPageVO" alias="libraryPageVO"></typeAlias>
 	</typeAliases>
 
 	<mappers>
@@ -20,6 +22,7 @@
 		<mapper resource="mapper/BookSQL.xml" />
 		<mapper resource="mapper/MovieSQL.xml" />
 		<mapper resource="mapper/GuestBookEntrySQL.xml" />
+		<mapper resource="mapper/LibrarySQL.xml" />
 	</mappers>
 </configuration>
 
