@@ -21,7 +21,7 @@
                 <li><a href="about.jsp">도서</a></li>
                 <li><a href="/librarypage/library_list3?page=1">도서관</a></li>
                 <li><a href="testimonials.jsp">도서후기</a></li>
-                <li><a href="pricing.jsp">자유게시판</a></li>
+                <li><a href="/freeboard/board_list">자유게시판</a></li>
                 <li><a href="portfolio.jsp">공지사항</a></li>
 
 
