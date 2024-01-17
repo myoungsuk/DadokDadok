@@ -11,8 +11,8 @@ public class LibraryVO extends LibraryPageVO {
 
     private String lib_code; //111287
     private String lib_name; //가슴따뜻한작은도서관
-    private String lib_region; //서울특별시 ->lib_address에서 추출
-    private String lib_dtl_region; //서대문구 -> lib_address에서 추출
+//    private String lib_region; //서울특별시 ->lib_address에서 추출
+//    private String lib_dtl_region; //서대문구 -> lib_address에서 추출
     private String lib_address; //서울특별시 서대문구 응암로1길 10
     private String lib_tel; //02-330-8652
     private String lib_fax; //053-257-2284
