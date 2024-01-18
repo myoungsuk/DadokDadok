@@ -15,15 +15,23 @@
 		<typeAlias type="com.multi.mini6.reviewboard.vo.ReviewCommentVO" alias="reviewcommentVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.reviewboard.vo.PageVo" alias="pageVO2"></typeAlias>
 		<typeAlias type="com.multi.mini6.reviewboard.vo.ReviewAttachVO" alias="reviewattachVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.noticeboard.vo.NoticeBoardVO" alias="noticeboardVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.noticeboard.vo.NoticeBoardPageVO" alias="noticeboardpageVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.loginpage.vo.GuestBookVO" alias="guestBookVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.librarypage.vo.LibraryVO" alias="libraryVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.librarypage.vo.LibraryPageVO" alias="libraryPageVO"></typeAlias>
 	</typeAliases>
 
 	<mappers>
 		<!-- SQL문 정의하는 파일들의 목록을 지정. -->
-<!--		<mapper resource="mapper/MemberSQL.xml" />-->
-<!--		<mapper resource="mapper/BookSQL.xml" />-->
-<!--		<mapper resource="mapper/MovieSQL.xml" />-->
 		<mapper resource="mapper/ReviewSQL2.xml" />
 		<mapper resource="mapper/ReviewCommentSQL.xml" />
+		<mapper resource="mapper/MemberSQL.xml" />
+		<mapper resource="mapper/BookSQL.xml" />
+		<mapper resource="mapper/MovieSQL.xml" />
+		<mapper resource="mapper/NoticeBoardSQL.xml" />
+		<mapper resource="mapper/GuestBookEntrySQL.xml" />
+		<mapper resource="mapper/LibrarySQL.xml" />
 	</mappers>
 </configuration>
 
