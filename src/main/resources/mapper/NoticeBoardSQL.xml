@@ -56,20 +56,20 @@
         select count(*) from notice
     </select>
 
-<!--    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">-->
-<!--        select * from (-->
-<!--        select-->
-<!--        row_number() over (order by notc_id desc) as notc_no,-->
-<!--        notc_id,-->
-<!--        notc_title,-->
-<!--        notc_content,-->
-<!--        notc_createdAt,-->
-<!--        notc_updatedAt,-->
-<!--        notc_views-->
-<!--        from notice-->
-<!--        ) row_notice-->
-<!--        where row_notice.notc_no between #{start} and #{end}-->
-<!--    </select>-->
+    <!--    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">-->
+    <!--        select * from (-->
+    <!--        select-->
+    <!--        row_number() over (order by notc_id desc) as notc_no,-->
+    <!--        notc_id,-->
+    <!--        notc_title,-->
+    <!--        notc_content,-->
+    <!--        notc_createdAt,-->
+    <!--        notc_updatedAt,-->
+    <!--        notc_views-->
+    <!--        from notice-->
+    <!--        ) row_notice-->
+    <!--        where row_notice.notc_no between #{start} and #{end}-->
+    <!--    </select>-->
 
     <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">
         <![CDATA[
@@ -110,13 +110,34 @@
         SELECT *
         FROM notice
         <where>
-            <if test="keyword != null and keyword != ''">
+            <if test="searchType == 'title'">
+                AND notc_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'content'">
+                AND notc_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'titleContent'">
                 AND (notc_title LIKE CONCAT('%', #{keyword}, '%') OR notc_content LIKE CONCAT('%', #{keyword}, '%'))
             </if>
-            <!-- Add more conditions as needed -->
         </where>
         ORDER BY notc_id DESC
         LIMIT #{offset}, #{limit}
+    </select>
+
+    <select id="getNoticeBoardCountBySearch" parameterType="NoticeBoardPageVO" resultType="int">
+        SELECT COUNT(*)
+        FROM notice
+        <where>
+            <if test="searchType == 'title'">
+                AND notc_title LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'content'">
+                AND notc_content LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="searchType == 'titleContent'">
+                AND (notc_title LIKE CONCAT('%', #{keyword}, '%') OR notc_content LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+        </where>
     </select>
 
 </mapper>

@@ -99,6 +99,7 @@
                 <p>${existingNotice.notice_file_name}</p>
             </div>
         </c:if>
+        <br>
         <div class="form-group">
             <label for="attachment">첨부 파일</label>
             <input type="file" class="form-control-file" id="attachment" name="file">

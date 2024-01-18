@@ -56,20 +56,39 @@
         select count(*) from notice
     </select>
 
+<!--    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">-->
+<!--        select * from (-->
+<!--        select-->
+<!--        row_number() over (order by notc_id desc) as notc_no,-->
+<!--        notc_id,-->
+<!--        notc_title,-->
+<!--        notc_content,-->
+<!--        notc_createdAt,-->
+<!--        notc_updatedAt,-->
+<!--        notc_views-->
+<!--        from notice-->
+<!--        ) row_notice-->
+<!--        where row_notice.notc_no between #{start} and #{end}-->
+<!--    </select>-->
+
     <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">
-        select * from (
-        select
-        row_number() over (order by notc_id desc) as notc_no,
-        notc_id,
-        notc_title,
-        notc_content,
-        notc_createdAt,
-        notc_updatedAt,
-        notc_views
-        from notice
-        ) row_notice
-        where row_notice.notc_no between #{start} and #{end}
+        <![CDATA[
+    SELECT *
+    FROM (
+        SELECT
+            row_number() over (order by notc_id desc) as notc_no,
+            notc_id,
+            notc_title,
+            notc_content,
+            notc_createdAt,
+            notc_updatedAt,
+            notc_views
+        FROM notice
+    ) row_notice
+    WHERE row_notice.notc_no BETWEEN #{start} AND #{end}
+    ]]>
     </select>
+
 
     <select id="moveNoticeBoardPage" parameterType="int" resultType="NoticeBoardVO">
         SELECT *
@@ -88,7 +107,16 @@
     </select>
 
     <select id="searchNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">
-        ${_parameter}
+        SELECT *
+        FROM notice
+        <where>
+            <if test="keyword != null and keyword != ''">
+                AND (notc_title LIKE CONCAT('%', #{keyword}, '%') OR notc_content LIKE CONCAT('%', #{keyword}, '%'))
+            </if>
+            <!-- Add more conditions as needed -->
+        </where>
+        ORDER BY notc_id DESC
+        LIMIT #{offset}, #{limit}
     </select>
 
 </mapper>

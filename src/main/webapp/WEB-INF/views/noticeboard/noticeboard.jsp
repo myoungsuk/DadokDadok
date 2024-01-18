@@ -3,6 +3,7 @@
 <%@ page import="com.multi.mini6.noticeboard.vo.NoticeBoardVO" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +119,11 @@
                         <c:forEach items="${noticeboard}" var="noticeboardVO">
                             <tr>
                                 <td><c:out value="${noticeboardVO.notc_id}" /></td>
-                                <td><a href="noticeboard_one?notc_id=${noticeboardVO.notc_id}"><c:out value="${noticeboardVO.notc_title}" /></a></td>
+                                <td>
+                                    <a href="noticeboard_one?notc_id=${noticeboardVO.notc_id}">
+                                        <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
+                                    </a>
+                                </td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
@@ -141,12 +146,32 @@
                 </form>
                 <br>
                 <ul class="pagination justify-content-center">
-                        <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="i">
-                            <li class="page-item${noticeBoardPageVO.page == i ? ' active' : ''}">
-                                <a class="page-link" href="noticeboard?page=${i}&pageSize=10">${i}</a>
-                            </li>
-                        </c:forEach>
-                    </ul>
+                    <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
+                        <a class="page-link" href="noticeboard?page=1&pageSize=10" aria-label="First">
+                            &lt;&lt;<span aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
+                        <a class="page-link" href="noticeboard?page=${noticeBoardPageVO.page - 1}&pageSize=10" aria-label="Previous">
+                            &lt;<span aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="i">
+                        <li class="page-item${noticeBoardPageVO.page == i ? ' active' : ''}">
+                            <a class="page-link" href="noticeboard?page=${i}&pageSize=10">${i}</a>
+                        </li>
+                    </c:forEach>
+                    <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
+                        <a class="page-link" href="noticeboard?page=${noticeBoardPageVO.page + 1}&pageSize=10" aria-label="Next">
+                            ><span aria-hidden="true"></span>
+                        </a>
+                    </li>
+                    <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
+                        <a class="page-link" href="noticeboard?page=${noticeBoardPageVO.totalPages}&pageSize=10" aria-label="Last">
+                            >><span aria-hidden="true"></span>
+                        </a>
+                    </li>
+                </ul>
             </div>
         </div>
     </div>

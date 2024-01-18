@@ -11,13 +11,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 import javax.inject.Inject;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.UUID;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -143,32 +146,46 @@ public class NoticeBoardController {
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                Model model) {
+        // Log incoming parameters for debugging
+        System.out.println("Received Parameters - searchType: " + searchType + ", keyword: " + keyword + ", page: " + page + ", pageSize: " + pageSize);
+
         if (searchType == null || keyword == null || searchType.isEmpty() || keyword.isEmpty()) {
-            // Handle invalid or missing search parameters
-            // For example, you can add an error message to the model and return to the search page with the error message displayed
             model.addAttribute("error", "Search type and keyword are required.");
             return "noticeboard/search_error";
         }
 
         try {
-            int totalItemCount = noticeBoardService.getNoticeBoardCount(); // Get the total count of items
-            NoticeBoardPageVO pageVO = new NoticeBoardPageVO(page, pageSize, totalItemCount); // Create a NoticeBoardPageVO with pagination parameters
-            pageVO.setType(searchType);
+            NoticeBoardPageVO pageVO = new NoticeBoardPageVO(page, pageSize, 0); // Replace 0 with the actual totalItemCount
+            pageVO.setSearchType(searchType);
             pageVO.setKeyword(keyword);
+
+            int totalItemCount = noticeBoardService.getNoticeBoardCountBySearch(pageVO);
+            pageVO.setTotalItemCount(totalItemCount);
+
+            int searchCount = noticeBoardService.getNoticeBoardCountBySearch(pageVO);
+            model.addAttribute("searchCount", searchCount);
+
             pageVO.calculateOffset(); // Calculate the offset based on the current page and page size
             pageVO.setStartEnd(); // Set the start and end indices for the current page
 
-            List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(pageVO); // Pass the pageVO to the service method for search
+            List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(pageVO);
             model.addAttribute("searchResults", searchResults);
-            model.addAttribute("noticeBoardPageVO", pageVO); // Add the pageVO to the model for pagination
+            model.addAttribute("noticeBoardPageVO", pageVO);
+            model.addAttribute("searchType", searchType); // Pass searchType to the view
+            model.addAttribute("keyword", keyword); // Pass keyword to the view
+
             return "noticeboard/noticeboard_search";
         } catch (Exception e) {
-            // Handle exceptions, such as database errors or service failures
-            // For example, you can add an error message to the model and return to the search page with the error message displayed
+            // Log incoming parameters and exception details for debugging
+            System.out.println("Received Parameters - searchType: " + searchType + ", keyword: " + keyword + ", page: " + page + ", pageSize: " + pageSize);
+            e.printStackTrace(); // Print the exception stack trace for detailed error information
+
             model.addAttribute("error", "An error occurred while processing your search.");
             return "noticeboard/search_error";
         }
     }
+
+
 
 
 
