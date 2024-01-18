@@ -10,11 +10,11 @@
 
 		INSERT INTO review
 		(member_id,
-		book_id, review_title,
+		book_isbn, review_title,
 		review_content,
 		review_createdAt, review_updatedAt)
 		VALUES
-		(#{member_id}, #{book_id},
+		(#{member_id}, #{book_isbn},
 		#{review_title},
 		#{review_content}, now(),now())
 	</insert>
@@ -53,6 +53,7 @@
 		review_views
 		from review r) r2
 		where r2.review_no BETWEEN #{start} and #{end}
+		order by review_createdAt desc
 
 	</select>
 	<select id="search" parameterType="pageVO2" resultType="reviewVO">

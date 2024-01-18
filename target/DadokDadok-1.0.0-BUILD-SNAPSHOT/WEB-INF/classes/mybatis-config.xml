@@ -10,14 +10,20 @@
 		<typeAlias type="com.multi.mini6.bookpage.vo.MovieVO" alias="movieVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.loginpage.vo.AuthorityVO" alias="authorityVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.loginpage.vo.MemberVO" alias="memberVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.reviewboard.vo.ReviewVO" alias="reviewVO"></typeAlias>
 		<typeAlias type="com.multi.mini6.loginpage.vo.MemberDeleteReasonVO" alias="memberDeleteReasonVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.reviewboard.vo.ReviewCommentVO" alias="reviewcommentVO"></typeAlias>
+		<typeAlias type="com.multi.mini6.reviewboard.vo.PageVo" alias="pageVO2"></typeAlias>
+		<typeAlias type="com.multi.mini6.reviewboard.vo.ReviewAttachVO" alias="reviewattachVO"></typeAlias>
 	</typeAliases>
 
 	<mappers>
 		<!-- SQL문 정의하는 파일들의 목록을 지정. -->
-		<mapper resource="mapper/MemberSQL.xml" />
-		<mapper resource="mapper/BookSQL.xml" />
-		<mapper resource="mapper/MovieSQL.xml" />
+<!--		<mapper resource="mapper/MemberSQL.xml" />-->
+<!--		<mapper resource="mapper/BookSQL.xml" />-->
+<!--		<mapper resource="mapper/MovieSQL.xml" />-->
+		<mapper resource="mapper/ReviewSQL2.xml" />
+		<mapper resource="mapper/ReviewCommentSQL.xml" />
 	</mappers>
 </configuration>
 

@@ -45,8 +45,8 @@
     <!-- 회원가입 -->
     <insert id="insertMember">
         INSERT INTO member
-            (email, password, name, phone_num, createdAt, nickname, info, user_img)
-        VALUES (#{email}, #{password}, #{name}, #{phoneNum}, #{createdAt}, #{nickname}, #{info}, #{userImg})
+            (email, password, name, phone_num, nickname, info, user_img)
+        VALUES (#{email}, #{password}, #{name}, #{phoneNum}, #{nickname}, #{info}, #{userImg})
     </insert>
 
     <!-- 권한 부여 -->

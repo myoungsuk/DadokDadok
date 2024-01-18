@@ -35,8 +35,6 @@ ReviewDAO reviewDAO;
     }
 
     public void review_insert(ReviewVO reviewVO){
-
-
          reviewDAO.insert(reviewVO);
     }
 

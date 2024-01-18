@@ -8,7 +8,7 @@ public class ReviewVO {
     private int review_id;
     private int member_id;
 
-    private int book_id;
+    private int book_isbn;
 
     private String review_title;
     private String review_content;
@@ -50,10 +50,10 @@ public class ReviewVO {
         this.member_id = member_id;
     }
     public int getBook_id() {
-        return book_id;
+        return book_isbn;
     }
-    public void setBook_id(int book_id) {
-        this.book_id = book_id;
+    public void setBook_id(int book_isbn) {
+        this.book_isbn = book_isbn;
     }
     public String getReview_title() {
         return review_title;
@@ -132,7 +132,7 @@ public class ReviewVO {
     public String toString() {
         return "ReviewVO [review_id=" + review_id +
                 ", member_id=" + member_id +
-                ", book_id=" + book_id +
+                ", book_isbn=" + book_isbn +
                 ", review_title=" + review_title +
                 ", review_content=" + review_content +
                 ", review_views=" + review_views +
