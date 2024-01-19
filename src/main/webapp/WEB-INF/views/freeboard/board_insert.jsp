@@ -33,34 +33,45 @@
         let cloneFile =  $(".file_box").clone();
 
         $("input[type='file']").change(function(e) {
+            let maxFile = 5;
             let formData = new FormData(); //key-value 형태의 데이터 쌍을 저장하는 객체
             let inputFile = $("input[name='file']");
             let files = inputFile[0].files; // 선택한 파일 목록 가져옴
             console.log("files: " + files);
 
+            // 선택한 파일 개수 확인
+            if(files.length > maxFile) {
+                alert("업로드 가능한 최대 파일 개수는 " + maxFile + "개 입니다.");
+                return false; // 추가파일 처리 중단
+            }
+
             // 파일데이터 폼에 집어넣기
             for (let i = 0; i < files.length; i++) {
-              if (!checkExtension(files[i].name, files[i].size)) {
-                return false;
-              }
-              formData.append("file", files[i]);
+                if (!checkExtension(files[i].name, files[i].size)) {
+                     return false;
+                }
+                formData.append("file", files[i]);
             } //for
             //console.log("----------파일 적재 후 formData 태그------------");
-            //console.log("formData: " + formData);
+           // console.log("formData: " + formData);
 
             $.ajax({
-              url: "/freeboard/uploadAjaxFormAction",
-              processData: false,  // 데이터 변환 방지
-              contentType: false,  // 콘텐츠 타입 설정 방지
-              data: formData,
-              type: "POST",
-              dataType: "json",
-              success: function(result) {
-                 //console.log("result: " + result);
-                 //console.log(JSON.stringify(result, null, 2));
-                 showUploadResult(result); // 업로드 결과 처리 함수
-              }
-            }); //ajax
+                url: "/freeboard/uploadAjaxFormAction",
+                processData: false,  // 데이터 변환 방지
+                contentType: false,  // 콘텐츠 타입 설정 방지
+                data: formData,
+                type: "POST",
+                dataType: "json",
+                success: function(result) {
+                   //console.log("result: " + result);
+                   //console.log(JSON.stringify(result, null, 2));
+                   showUploadResult(result); // 업로드 결과 처리 함수
+                },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                      console.log(jqXHR.responseText);
+                      console.error("Error deleting file:", error);
+                 } //error
+              }); //ajax
         }); //input[type=file] change
 
 
@@ -130,6 +141,15 @@
             e.stopPropagation();
              console.log("submit btn click");
 
+            // 제목, 내용 비어있는지 확인
+            let title = $("input[name='board_title']").val().trim();
+            let content = $("textarea[name='board_content']").val().trim();
+            if(title == "" || content == ""){
+                alert("제목과 내용을 모두 입력해주세요.");
+                e.preventDefault();
+                return false;
+            }
+
              let formObj = $("form");
              let str = "";
 
@@ -144,7 +164,7 @@
               }); // preview_box each end
 
               // 추가된 input를 form에 추가 후 데이터 전송
-              formObj.append(str).submit();
+             formObj.append(str).submit();
         }); // submit btn onclick end
 
 
@@ -178,11 +198,11 @@
             <form action="/freeboard/board_insert" method="post" enctype="multipart/form-data" class="insert_form">
                 <div class="in_row">
                    <p>제 목:</p>
-                   <input type="text" name="board_title">
+                   <input type="text" name="board_title" maxlength="50">
                 </div>
                 <div class="in_row">
                    <p>내 용:</p>
-                   <textarea name="board_content"></textarea>
+                   <textarea name="board_content" maxlength="2000"></textarea>
                 </div>
                 <div class="file_row">
                    <p>파일첨부</p>
@@ -190,7 +210,7 @@
                        <div class="file_info">
                           <input type="file" name="file" id="upload_btn" multiple>
                           <label for="upload_btn">파일선택</label>
-                          <div> png, jpg, jpeg, gif, pdf, doc/docx, xls/xlsx, ppt/pptx 만 업로드 가능합니다.</div>
+                          <div> 첨부 가능한 파일 개수: 5개, 파일 형식: png, jpg, jpeg, gif, pdf, doc/docx, xls/xlsx, ppt/pptx</div>
                        </div>
                       <div class="file_preview"> </div>
                    </div>
