@@ -1,10 +1,7 @@
 package com.multi.mini6.freeboard.service;
 
 import com.multi.mini6.freeboard.dao.FreeBoardDAO;
-import com.multi.mini6.freeboard.vo.FreeBoardAttachVO;
-import com.multi.mini6.freeboard.vo.FreeBoardCommentVO;
-import com.multi.mini6.freeboard.vo.FreeBoardPageVO;
-import com.multi.mini6.freeboard.vo.FreeBoardVO;
+import com.multi.mini6.freeboard.vo.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,20 +34,20 @@ public class FreeBoardService {
 
     freeBoardVO.getAttachList().forEach(attach -> {
       attach.setBoard_id(freeBoardVO.getBoard_id()); // 첨부파일에 게시글 ID 설정
-      freeBoardDAO.fileInsert(attach);
+      freeBoardDAO.freeBoardFileInsert(attach);
     });
 
     return result;
   }
 
   // 게시글 목록
-  public List<FreeBoardVO> list(FreeBoardPageVO freeboardPageVO) {
+  public List<FreeBoardVO> freeBoardList(FreeBoardPageVO freeboardPageVO) {
     return freeBoardDAO.list(freeboardPageVO);
   }
 
   // 전체 게시물 수
   public int boardCount(FreeBoardPageVO freeboardPageVO) {
-    return  freeBoardDAO.boardCount(freeboardPageVO);
+    return  freeBoardDAO.freeBoardCount(freeboardPageVO);
   }
 
   // 게시글 상세보기
@@ -64,8 +61,8 @@ public class FreeBoardService {
   }
 
   // 게시글 클릭시 조회수 증가
-  public void viewsCount(int board_id) {
-    freeBoardDAO.viewsCount(board_id);
+  public void viewsCount(FreeBoardVO freeBoardVO) {
+    freeBoardDAO.freeBoardViewsCount(freeBoardVO);
   }
 
   // 이전글
@@ -80,7 +77,7 @@ public class FreeBoardService {
 
   // 게시글 삭제시 첨부파일 삭제
   public void fileDelete(int board_id){
-    freeBoardDAO.fileDelete(board_id);
+    freeBoardDAO.freeBoardFileDelete(board_id);
   }
 
   // 게시글 삭제
@@ -110,7 +107,7 @@ public class FreeBoardService {
       // 데이터베이스에 있는 파일 중 fileList에 없는 파일을 삭제
       for (FreeBoardAttachVO existingFile : fileInfo) {
         if (!fileUuid.contains(existingFile.getBoard_uuid())) {
-          freeBoardDAO.fileChange(existingFile.getBoard_uuid());
+          freeBoardDAO.freeBoardFileChange(existingFile.getBoard_uuid());
         }
       }
     }
@@ -126,7 +123,7 @@ public class FreeBoardService {
           }
         }
         if (!exists) {
-          freeBoardDAO.fileInsert(file);
+          freeBoardDAO.freeBoardFileInsert(file);
         }
       }
     }
@@ -137,13 +134,13 @@ public class FreeBoardService {
 
   // 댓글 저장
 public void commentInsert(FreeBoardCommentVO freeBoardCommentVO){
-    freeBoardDAO.commentInsert(freeBoardCommentVO);
+    freeBoardDAO.freeBoardCommentInsert(freeBoardCommentVO);
 }
 
 // 댓글 리스트 가져오기
   public Map<Integer, List<FreeBoardCommentVO>> findList(int board_id ){
      // 댓글 정보 가져오기
-      List<FreeBoardCommentVO> commentInfo =  freeBoardDAO.findList(board_id);
+      List<FreeBoardCommentVO> commentInfo =  freeBoardDAO.freeBoardCommentList(board_id);
 
       Map<Integer, List<FreeBoardCommentVO>> groupedComments = new HashMap<>();
       // 댓글 정보를 그룹별로 분류
@@ -169,17 +166,17 @@ public void commentInsert(FreeBoardCommentVO freeBoardCommentVO){
 
   // 댓글 수정
   public void commentUpdate(FreeBoardCommentVO freeBoardCommentVO) {
-    freeBoardDAO.commentUpdate(freeBoardCommentVO);
+    freeBoardDAO.freeBoardCommentUpdate(freeBoardCommentVO);
   }
 
   // 댓글삭제
   public void commentDelete(int bocm_id){
-    freeBoardDAO.commentDelete(bocm_id);
+    freeBoardDAO.freeBoardCommentDelete(bocm_id);
   }
 
   // 대댓글 입력
   public void commentReply(FreeBoardCommentVO freeBoardCommentVO){
-    freeBoardDAO.commentReply(freeBoardCommentVO);
+    freeBoardDAO.freeBoardCommentReply(freeBoardCommentVO);
   }
 
 
