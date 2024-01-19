@@ -32,7 +32,7 @@
 		delete from review where review_id = #{review_id}
 	</delete>
 
-	<select id="one" parameterType="reviewVO" resultType="reviewVO">
+	<select id="getReviewOne" parameterType="reviewVO" resultType="reviewVO">
 		select * from review where review_id = #{review_id}
 	</select>
 
