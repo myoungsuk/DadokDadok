@@ -29,7 +29,7 @@ public class ReviewDAO {
     }
     public ReviewVO one(ReviewVO reviewVO) throws Exception {
         // 3.SQL문 결정/생성
-        ReviewVO dto = my.selectOne("one", reviewVO);
+        ReviewVO dto = my.selectOne("getReviewOne", reviewVO);
 
         return dto;
     }
