@@ -18,11 +18,12 @@
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a href="about.jsp">도서</a></li>
+                <li><a href="/bookpage/bookmain">도서</a></li>
                 <li><a href="/librarypage/library_list3?page=1">도서관</a></li>
-                <li><a href="testimonials.jsp">도서후기</a></li>
-                <li><a href="pricing.jsp">자유게시판</a></li>
-                <li><a href="portfolio.jsp">공지사항</a></li>
+                <li><a href="/reviewboard/review_list3?page=1">도서후기</a></li>
+                <li><a href="/freeboard/board_list">자유게시판</a></li>
+                <li><a href="/noticeboard/noticeboard">공지사항</a></li>
+
 
                 <%--                <li class="dropdown"><a href="#"><span>Drop Down</span> <i class="bi bi-chevron-down"></i></a>--%>
                 <%--                    <ul>--%>
