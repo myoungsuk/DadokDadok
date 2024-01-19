@@ -14,23 +14,23 @@
     </insert>
 
 <!--자유게시판 글 등록 - 파일첨부 -->
-    <insert id="fileInsert"  parameterType="freeboardAttachVO">
+    <insert id="freeBoardFileInsert"  parameterType="freeboardAttachVO">
         insert into board_attach (board_id, board_uuid, board_file_name, board_file_type)
         values(#{board_id}, #{board_uuid}, #{board_file_name}, #{board_file_type})
     </insert>
 
     <!--자유게시판 글 등록 - 첨부파일 삭제 -->
-    <delete id="fileDelete">
+    <delete id="freeBoardFileDelete">
         delete from board_attach where board_id = #{board_id}
     </delete>
 
     <!--자유게시판 글 등록 - 첨부파일 번호 찾기-->
-    <select id="fileID" resultType="freeboardAttachVO">
+    <select id="freeBoardFileID" resultType="freeboardAttachVO">
         select * from board_attach where board_id = #{board_id}
     </select>
 
     <!--자유게시판 글 수정 - 첨부파일 삭제 -->
-    <delete id="fileChange">
+    <delete id="freeBoardFileChange">
         delete from board_attach where board_uuid = #{board_uuid}
     </delete>
 
@@ -60,7 +60,7 @@
     </select>
 
     <!-- 자유게시판의 전체 게시물 개수 -->
-    <select id="boardCount" resultType="int" parameterType="freeboardPageVO">
+    <select id="freeBoardCount" resultType="int" parameterType="freeboardPageVO">
         SELECT COUNT(*)
         FROM board
         JOIN member ON board.member_id = member.member_id
@@ -82,8 +82,8 @@
     </select>
 
     <!-- 자유게시판 글 상세보기 - 조회수 증가 -->
-    <update id="viewsCount" parameterType="int">
-        update board set board_views = board_views + 1 where board_id = #{board_id}
+    <update id="freeBoardViewsCount" parameterType="FreeBoardVO">
+        update board set board_views = board_views + 1 where board_id = #{board_id} and member_id != #{member_id}
     </update>
 
     <!-- 자유게시판 글 상세보기 - 이전글 정보 조회 -->
@@ -111,14 +111,14 @@
 
 
     <!--댓글저장-->
-    <insert id="commentInsert" parameterType="freeboardCommentVO">
+    <insert id="freeBoardCommentInsert" parameterType="freeboardCommentVO">
         insert into board_comment (board_id, cm_content, cm_createdAt, cm_modifiedAt, member_id, cm_class, cm_group)
         select #{board_id}, #{cm_content}, now(), now(), #{member_id}, #{cm_class}, COALESCE(MAX(cm_group), 0) + 1
         from board_comment where board_id = #{board_id}
     </insert>
 
     <!--댓글 리스트가져오기-->
-    <select id="commentList" parameterType="freeboardCommentVO" resultType="freeboardCommentVO">
+    <select id="freeBoardCommentList" parameterType="freeboardCommentVO" resultType="freeboardCommentVO">
         SELECT board_comment.*, member.nickname
         FROM board_comment
         JOIN member ON board_comment.member_id = member.member_id
@@ -126,17 +126,17 @@
     </select>
 
     <!--댓글 수정-->
-    <update id="commentUpdate" parameterType="freeboardCommentVO">
+    <update id="freeBoardCommentUpdate" parameterType="freeboardCommentVO">
         update board_comment set cm_content = #{cm_content}, cm_modifiedAt = now() where bocm_id = #{bocm_id};
     </update>
 
     <!--댓글삭제-->
-    <delete id="commentDelete" parameterType="int">
+    <delete id="freeBoardCommentDelete" parameterType="int">
         delete from board_comment where bocm_id = #{bocm_id}
     </delete>
 
     <!--대댓글입력-->
-    <insert id="commentReply" parameterType="freeboardCommentVO">
+    <insert id="freeBoardCommentReply" parameterType="freeboardCommentVO">
         insert into board_comment (board_id, cm_content, cm_createdAt, cm_modifiedAt, member_id, cm_class, cm_group)
         values (#{board_id}, #{cm_content}, now(), now(), #{member_id}, 1, #{cm_group} )
     </insert>
