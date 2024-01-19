@@ -6,6 +6,8 @@ import com.multi.mini6.noticeboard.vo.NoticeBoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +21,8 @@ import javax.inject.Inject;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.UUID;
 import java.util.List;
 
@@ -39,14 +43,25 @@ public class NoticeBoardController {
                            @RequestParam(defaultValue = "10") int pageSize) throws Exception {
         int totalItemCount = noticeBoardService.getNoticeBoardCount();
         noticeBoardPageVO = new NoticeBoardPageVO(page, pageSize, totalItemCount);
-        List<NoticeBoardVO> noticeboard = noticeBoardService.getPagedNoticeBoard(noticeBoardPageVO);
+
+        List<NoticeBoardVO> pinnedNotices = noticeBoardService.getPinnedNotices();
+
+        List<NoticeBoardVO> remainingNotices = noticeBoardService.getRemainingNotices(noticeBoardPageVO);
+
+        List<NoticeBoardVO> combinedNotices = new ArrayList<>();
+        combinedNotices.addAll(pinnedNotices);
+        combinedNotices.addAll(remainingNotices);
+
         int totalPages = noticeBoardPageVO.getTotalPages();
         int count = noticeBoardService.getNoticeBoardCount();
-        log.info("noticeboard: " + noticeboard);
-        model.addAttribute("noticeboard", noticeboard);
+        log.info("noticeboard: " + combinedNotices);
+
+        model.addAttribute("pinnedNotices", pinnedNotices);
+        model.addAttribute("noticeboard", combinedNotices);
         model.addAttribute("noticeBoardPageVO", noticeBoardPageVO);
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("count", count);
+
     }
 
     @RequestMapping(value = "/noticeboard_write")
@@ -55,16 +70,21 @@ public class NoticeBoardController {
     }
 
     @PostMapping("/noticeboard_insert")
-    public String insertNotice(@RequestParam(value = "file", required = false) MultipartFile file, @RequestParam("notc_title") String notc_title, @RequestParam("notc_content") String notc_content, RedirectAttributes redirectAttributes) {
+    public String insertNotice(@RequestParam(value = "file", required = false) MultipartFile file,
+                               @RequestParam("notc_title") String notc_title,
+                               @RequestParam("notc_content") String notc_content,
+                               @RequestParam(value = "pinnedCheckbox", defaultValue = "false") boolean pinned,
+                               RedirectAttributes redirectAttributes) {
         try {
             NoticeBoardVO noticeBoardVO = new NoticeBoardVO();
             noticeBoardVO.setNotc_title(notc_title);
             noticeBoardVO.setNotc_content(notc_content);
+            noticeBoardVO.setPinned(pinned);
 
             if (file != null && !file.isEmpty()) {
                 String fileName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-                Path filePath = Paths.get("C:/Users/yuumi/Downloads/apache-tomcat-8.5.96/bin/upload-dir/" + uuid + "_" + fileName);
+                Path filePath = Paths.get("file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" + uuid + "_" + fileName);
                 Files.write(filePath, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
@@ -82,7 +102,6 @@ public class NoticeBoardController {
         return "redirect:noticeboard";
     }
 
-
     @GetMapping("/noticeboard_update/{notc_id}")
     public String showUpdateForm(@PathVariable("notc_id") int notc_id, Model model) {
         NoticeBoardVO existingNotice = noticeBoardService.getNoticeBoardById(notc_id);
@@ -95,9 +114,11 @@ public class NoticeBoardController {
     @PostMapping("/noticeboard_update/{notc_id}")
     public String handleUpdateForm(@PathVariable("notc_id") int notc_id,
                                    @ModelAttribute("existingNotice") NoticeBoardVO existingNotice,
-                                   @RequestParam("file") MultipartFile file,
+                                   @RequestParam(value = "file", required = false) MultipartFile file,
+                                   @RequestParam(value = "pinnedCheckbox", defaultValue = "false") boolean pinned,
                                    RedirectAttributes redirectAttributes) {
         try {
+            existingNotice.setPinned(pinned);
             noticeBoardService.updateNotice(existingNotice, file);
             return "redirect:/noticeboard/noticeboard_one?notc_id=" + notc_id;
         } catch (Exception e) {
@@ -128,7 +149,9 @@ public class NoticeBoardController {
 
                 noticeBoardService.updateViewCountNotice(notc_id);
 
-                model.addAttribute("move", noticeBoardService.moveNoticeBoardPage(noticeBoardVO.getNotc_id()));
+                NoticeBoardVO move = noticeBoardService.moveNoticeBoardPage(notc_id);
+                System.out.println(move.getNext());
+                model.addAttribute("move", move);
 
                 return "noticeboard/noticeboard_one";
             } else {
@@ -146,8 +169,6 @@ public class NoticeBoardController {
                                @RequestParam(value = "page", defaultValue = "1") int page,
                                @RequestParam(value = "pageSize", defaultValue = "10") int pageSize,
                                Model model) {
-        // Log incoming parameters for debugging
-        System.out.println("Received Parameters - searchType: " + searchType + ", keyword: " + keyword + ", page: " + page + ", pageSize: " + pageSize);
 
         if (searchType == null || keyword == null || searchType.isEmpty() || keyword.isEmpty()) {
             model.addAttribute("error", "Search type and keyword are required.");
@@ -155,7 +176,7 @@ public class NoticeBoardController {
         }
 
         try {
-            NoticeBoardPageVO pageVO = new NoticeBoardPageVO(page, pageSize, 0); // Replace 0 with the actual totalItemCount
+            NoticeBoardPageVO pageVO = new NoticeBoardPageVO(page, pageSize, 0);
             pageVO.setSearchType(searchType);
             pageVO.setKeyword(keyword);
 
@@ -165,44 +186,23 @@ public class NoticeBoardController {
             int searchCount = noticeBoardService.getNoticeBoardCountBySearch(pageVO);
             model.addAttribute("searchCount", searchCount);
 
-            pageVO.calculateOffset(); // Calculate the offset based on the current page and page size
-            pageVO.setStartEnd(); // Set the start and end indices for the current page
+            pageVO.calculateOffset();
+            pageVO.setStartEnd();
 
             List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(pageVO);
             model.addAttribute("searchResults", searchResults);
             model.addAttribute("noticeBoardPageVO", pageVO);
-            model.addAttribute("searchType", searchType); // Pass searchType to the view
-            model.addAttribute("keyword", keyword); // Pass keyword to the view
+            model.addAttribute("searchType", searchType);
+            model.addAttribute("keyword", keyword);
 
             return "noticeboard/noticeboard_search";
         } catch (Exception e) {
-            // Log incoming parameters and exception details for debugging
             System.out.println("Received Parameters - searchType: " + searchType + ", keyword: " + keyword + ", page: " + page + ", pageSize: " + pageSize);
-            e.printStackTrace(); // Print the exception stack trace for detailed error information
+            e.printStackTrace();
 
             model.addAttribute("error", "An error occurred while processing your search.");
             return "noticeboard/search_error";
         }
     }
-
-
-
-
-
-//    @GetMapping("/noticeboard_search")
-//    public String searchNoticeBoard(@RequestParam("searchType") String searchType,
-//                                    @RequestParam("keyword") String keyword,
-//                                    Model model) {
-//        NoticeBoardCriteriaVO criteria = new NoticeBoardCriteriaVO();
-//        criteria.setSearchType(searchType);
-//        criteria.setKeyword(keyword);
-//
-//        List<NoticeBoardVO> searchResults = noticeBoardService.searchNoticeBoard(criteria);
-//        model.addAttribute("searchResults", searchResults);
-//
-//        return "noticeboard/noticeboard_search";
-//    }
-
-
 
 }

@@ -71,5 +71,21 @@ public class NoticeBoardDAO {
         return my.selectOne("getNoticeBoardCountBySearch", pageVO);
     }
 
+    public List<NoticeBoardVO> getPinnedNotices() {
+        return my.selectList("getPinnedNotices");
+    }
+
+    public List<NoticeBoardVO> getRemainingNotices(NoticeBoardPageVO noticeBoardPageVO) throws Exception {
+        // You may need to calculate the offset based on the page and pageSize parameters
+        int offset = (noticeBoardPageVO.getPage() - 1) * noticeBoardPageVO.getPageSize();
+        int pageSize = noticeBoardPageVO.getPageSize();
+
+        Map<String, Object> parameters = new HashMap<>();
+        parameters.put("offset", offset);
+        parameters.put("pageSize", pageSize);
+
+        return my.selectList("getRemainingNotices", parameters);
+    }
+
 }
 

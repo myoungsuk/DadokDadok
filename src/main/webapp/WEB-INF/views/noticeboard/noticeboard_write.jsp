@@ -79,7 +79,7 @@
     </section><!-- End Breadcrumbs -->
 <div class="center">
     <h2>공지 등록</h2>
-    <form id="noticeboardForm" action="noticeboard_insert" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
+    <form id="noticeboardForm" action="noticeboard_insert" method="post" enctype="multipart/form-data" onsubmit="return prepareContent()">
         <div class="form-group">
             <label for="notc_title">제목</label>
             <input type="text" class="form-control" id="notc_title" name="notc_title" placeholder="제목을 입력하세요." required>
@@ -89,12 +89,16 @@
             <label for="notc_content">내용</label>
             <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required></textarea>
         </div>
+        <input type="hidden" id="processedContent" name="processedContent">
         <br>
         <div class="form-group">
             <label for="file">파일 첨부: </label>
             <input type="file" id="file" name="file">
         </div>
         <br>
+        상단에 고정<input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true">
+        <input type="hidden" id="pinnedHidden" name="pinned" value="false">
+        <br><br>
         <button type="submit" class="btn btn-primary">등록</button>
         <a href="noticeboard" class="btn btn-secondary">목록으로</a>
     </form>
@@ -104,4 +108,25 @@
                 <jsp:include page="/WEB-INF/views/footer.jsp"/>
                 <!-- End Footer -->
 </body>
+<script>
+    document.getElementById('pinnedCheckbox').addEventListener('change', function() {
+        var hiddenInput = document.getElementById('pinnedHidden');
+        if (this.checked) {
+            hiddenInput.value = 'true'; // Set the value to 'true' when checked
+        } else {
+            hiddenInput.value = 'false'; // Set the value to 'false' when unchecked
+        }
+    });
+
+    function prepareContent() {
+        // Get the content from the textarea
+        var content = document.getElementById("notc_content").value;
+        // Replace newline characters with a delimiter (e.g., "<br>")
+        var processedContent = content.replace(/\n/g, "<br>");
+        // Update the value of the hidden input field with the processed content
+        document.getElementById("processedContent").value = processedContent;
+        // Return true to allow the form submission to proceed
+        return true;
+    }
+</script>
 </html>

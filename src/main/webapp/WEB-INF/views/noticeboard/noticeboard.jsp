@@ -70,6 +70,17 @@
             vertical-align: middle; /* Align elements vertically */
         }
 
+        .pinned-notice {
+                background-color: #f2f2f2; /* Light gray background */
+                font-weight: bold; /* Make text bold */
+            }
+
+        .post-number {
+                    color: red; /* Set the text color to red */
+                }
+        .n_info {
+                        text-align: center;
+                    }
       </style>
 </head>
 
@@ -100,7 +111,11 @@
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
-        <h2>공지게시판</h2>
+        <div class="n_info">
+                <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+                <div>공지 사항을 준수해 주세요.</div>
+                <div>중요 공지는 상단에 고정되어 있습니다.</div>
+            </div>
         <p>총 게시물 수: ${count}</p>
 
         <div class="row">
@@ -110,27 +125,44 @@
                         <tr>
                             <th scope="col">글번호</th>
                             <th scope="col">제목</th>
+                            <th scope="col">작성자</th>
                             <th scope="col">작성일</th>
-                            <th scope="col">수정일</th>
                             <th scope="col">조회수</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${noticeboard}" var="noticeboardVO">
-                            <tr>
-                                <td><c:out value="${noticeboardVO.notc_id}" /></td>
+                        <c:forEach items="${pinnedNotices}" var="noticeboardVO">
+                            <tr class="pinned-notice">
+                                <td><span class="post-number">${noticeboardVO.notc_id}</span></td>
                                 <td>
                                     <a href="noticeboard_one?notc_id=${noticeboardVO.notc_id}">
                                         <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
                                     </a>
                                 </td>
+                                <td><c:out value="${noticeboardVO.member_id}" /></td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
                             </tr>
                         </c:forEach>
+                        <c:forEach items="${noticeboard}" var="noticeboardVO">
+                            <c:if test="${!noticeboardVO.pinned}">
+                                <tr>
+                                    <td><c:out value="${noticeboardVO.notc_id}" /></td>
+                                    <td>
+                                        <a href="noticeboard_one?notc_id=${noticeboardVO.notc_id}">
+                                            <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
+                                        </a>
+                                    </td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><c:out value="${noticeboardVO.notc_views}" /></td>
+                                </tr>
+                            </c:if>
+                        </c:forEach>
                     </tbody>
                 </table>
+
+
                 <br>
                 <form action="noticeboard_search" method="get" class="search-form">
                     <div class="input-group">
