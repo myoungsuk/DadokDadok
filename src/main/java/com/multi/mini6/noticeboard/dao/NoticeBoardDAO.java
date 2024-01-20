@@ -84,4 +84,3 @@ public class NoticeBoardDAO {
         return my.selectList("getRemainingNotices", parameters);
     }
 }
-
