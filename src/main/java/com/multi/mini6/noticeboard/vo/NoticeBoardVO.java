@@ -39,7 +39,6 @@ public class NoticeBoardVO {
             return null;
         }
     }
-
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date notc_createdAt = new Date(); // 작성일
