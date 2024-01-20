@@ -14,36 +14,32 @@ public class ReviewDAO {
     @Autowired
     SqlSessionTemplate my;
 
-    public int insert(ReviewVO reviewVO){
+    public int reviewInsert(ReviewVO reviewVO){
         return my.insert("reviewInsert", reviewVO);
     };
-    public int update(ReviewVO reviewVO) {
-        return my.update("reviewupdate", reviewVO);
+    public int reviewUpdate(ReviewVO reviewVO) {
+        return my.update("reviewUpdate", reviewVO);
     }
 
-    public int delete(ReviewVO reviewVO) {
-        return my.delete("delete", reviewVO);
+    public int reviewDelete(ReviewVO reviewVO) {
+        return my.delete("reviewDelete", reviewVO);
     }
-    public List<ReviewVO> list(PageVo pageVO) {
-        return my.selectList("reviewlist", pageVO);
+    public List<ReviewVO> reviewList(PageVo pageVO) {
+        return my.selectList("reviewList", pageVO);
     }
-    public ReviewVO one(ReviewVO reviewVO) throws Exception {
+    public ReviewVO getReviewOne(ReviewVO reviewVO) throws Exception {
         // 3.SQL문 결정/생성
         ReviewVO dto = my.selectOne("getReviewOne", reviewVO);
 
         return dto;
     }
 
-    public List<ReviewVO> list1(PageVo pageVO) {
-        return my.selectList("list2", pageVO); //==>bbs.html에 있는 bbs를 호출
+    public int reviewCount() {
+        return my.selectOne("reviewCount");
     }
-    public int count() {
-        return my.selectOne("reviewcount");
+    public List<ReviewVO> reviewSearch(PageVo pageVo) {
+        return my.selectList("reviewSearch", pageVo);
     }
-    public List<ReviewVO> search(PageVo pageVo) {
-        return my.selectList("search", pageVo);
-    }
-
     public int searchCount(PageVo pageVo) {
         return my.selectOne("searchCount", pageVo);
     }
@@ -52,12 +48,12 @@ public class ReviewDAO {
         return my.update("increaseViews", reviewId);
     }
     // 게시글 등록 - 파일업로드
-    public int fileInsert(ReviewAttachVO reviewAttachVO) {
+    public int attachInsert(ReviewAttachVO reviewAttachVO) {
         return my.insert("attachInsert", reviewAttachVO);
     }
     // 게시글 상세보기 - 첨부파일조회
-    public List<ReviewAttachVO> findByBoardId(int review_id){
-        return my.selectList("fileID", review_id);
+    public List<ReviewAttachVO> reviewFileID(int review_id){
+        return my.selectList("reviewFileID", review_id);
     }
     // 게시글 삭제시 첨부파일 삭제
     public  void fileDelete(int review_id){
@@ -66,7 +62,7 @@ public class ReviewDAO {
 
 
     // 게시글 수정시 첨부파일 삭제
-    public  void fileChange(String review_uuid){
-        my.delete("fileChange", review_uuid);
+    public  void reviewFileChange(String review_uuid){
+        my.delete("reviewFileChange", review_uuid);
     }
 }
