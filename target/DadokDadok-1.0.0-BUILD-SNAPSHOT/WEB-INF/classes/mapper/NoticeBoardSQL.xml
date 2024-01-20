@@ -143,6 +143,7 @@
             <if test="searchType == 'titleContent'">
                 AND (notc_title LIKE CONCAT('%', #{keyword}, '%') OR notc_content LIKE CONCAT('%', #{keyword}, '%'))
             </if>
+            <!-- Add more conditions as needed -->
         </where>
         ORDER BY notc_id DESC
         LIMIT #{offset}, #{limit}
