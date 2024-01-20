@@ -24,8 +24,8 @@ public class FreeBoardDAO {
   };
 
   // 게시글 등록 - 파일업로드
-  public int fileInsert(FreeBoardAttachVO boardAttachVO) {
-    return sqlSession.insert("fileInsert", boardAttachVO);
+  public int freeBoardFileInsert(FreeBoardAttachVO boardAttachVO) {
+    return sqlSession.insert("freeBoardFileInsert", boardAttachVO);
   }
 
   // 게시글 목록 조회
@@ -34,8 +34,8 @@ public class FreeBoardDAO {
   };
 
   // 게시글 총 개수
-  public int boardCount(FreeBoardPageVO freeboardPageVO){
-    return sqlSession.selectOne("boardCount", freeboardPageVO);
+  public int freeBoardCount(FreeBoardPageVO freeboardPageVO){
+    return sqlSession.selectOne("freeBoardCount", freeboardPageVO);
   };
 
   // 게시글 상세 보기
@@ -45,12 +45,12 @@ public class FreeBoardDAO {
 
   // 게시글 상세보기 - 첨부파일조회
   public List<FreeBoardAttachVO> findByBoardId(int board_id){
-    return sqlSession.selectList("fileID", board_id);
+    return sqlSession.selectList("freeBoardFileID", board_id);
   }
 
   // 게시글 클릭시 조회수 증가
-  public void viewsCount(int board_id) {
-    sqlSession.update("viewsCount", board_id);
+  public void freeBoardViewsCount(FreeBoardVO freeBoardVO) {
+    sqlSession.update("freeBoardViewsCount", freeBoardVO);
   }
 
   // 이전글
@@ -74,40 +74,40 @@ public class FreeBoardDAO {
   }
 
   // 게시글 삭제시 첨부파일 삭제
-  public  void fileDelete(int board_id){
-    sqlSession.delete("fileDelete", board_id);
+  public  void freeBoardFileDelete(int board_id){
+    sqlSession.delete("freeBoardFileDelete", board_id);
   }
 
 
   // 게시글 수정시 첨부파일 삭제
-  public  void fileChange(String board_uuid){
-    sqlSession.delete("fileChange", board_uuid);
+  public  void freeBoardFileChange(String board_uuid){
+    sqlSession.delete("freeBoardFileChange", board_uuid);
   }
 
 
   // 댓글 저장
-  public void commentInsert(FreeBoardCommentVO freeBoardCommentVO) {
-    sqlSession.insert("commentInsert", freeBoardCommentVO);
+  public void freeBoardCommentInsert(FreeBoardCommentVO freeBoardCommentVO) {
+    sqlSession.insert("freeBoardCommentInsert", freeBoardCommentVO);
   }
 
   // 댓글리스트 가져오기
-  public List<FreeBoardCommentVO>findList (int board_id) {
-    return sqlSession.selectList("commentList", board_id);
+  public List<FreeBoardCommentVO>freeBoardCommentList (int board_id) {
+    return sqlSession.selectList("freeBoardCommentList", board_id);
   }
 
   // 댓글 수정
-  public int commentUpdate(FreeBoardCommentVO freeBoardCommentVO) {
-    return sqlSession.update("commentUpdate",freeBoardCommentVO);
+  public int freeBoardCommentUpdate(FreeBoardCommentVO freeBoardCommentVO) {
+    return sqlSession.update("freeBoardCommentUpdate",freeBoardCommentVO);
   }
 
   // 댓글 삭제
-  public int commentDelete(int  bocm_id) {
-    return sqlSession.update("commentDelete",bocm_id);
+  public int freeBoardCommentDelete(int  bocm_id) {
+    return sqlSession.update("freeBoardCommentDelete",bocm_id);
   }
 
   // 대댓글 입력
-  public void commentReply(FreeBoardCommentVO freeBoardCommentVO) {
-    sqlSession.insert("commentReply", freeBoardCommentVO);
+  public void freeBoardCommentReply(FreeBoardCommentVO freeBoardCommentVO) {
+    sqlSession.insert("freeBoardCommentReply", freeBoardCommentVO);
   }
 
 
