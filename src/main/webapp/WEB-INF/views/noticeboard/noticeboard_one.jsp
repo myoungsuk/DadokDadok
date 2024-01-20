@@ -54,9 +54,11 @@
               margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
               margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
             }
+            .card-text {
+                    white-space: pre-line;
+                }
           </style>
 </head>
-
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -73,10 +75,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Setting</h2>
+                <h2>공지게시판</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>Setting</li>
+                    <li>공지게시판</li>
                 </ol>
             </div>
 
@@ -95,13 +97,13 @@
                         <c:if test="${not empty noticeBoardVO.notice_uuid}">
                             <img src="<c:url value='/upload-dir/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}'/>" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
                         </c:if>
-                        <p class="card-text">${noticeBoardVO.notc_content}</p>
-                        <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary">수정</a>
-                        <!-- Delete button triggering AJAX request -->
-                        <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger">삭제</button>
-                        <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                        <p class="card-text" style="white-space: pre-line;">${noticeBoardVO.notc_content}</p>
+                            <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
+                            <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
+                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
                     </div>
                 </div>
+
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
                     <c:choose>
                         <c:when test="${not empty move.next}">
@@ -171,6 +173,5 @@
             }
         </script>
         </div>
-
 </body>
 </html>

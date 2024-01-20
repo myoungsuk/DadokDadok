@@ -31,7 +31,7 @@ public class NoticeBoardService {
         if (!file.isEmpty()) {
             String fileName = file.getOriginalFilename();
             String uuid = UUID.randomUUID().toString();
-            String filePath = "C:/Users/yuumi/Downloads/apache-tomcat-8.5.96/bin/upload-dir/" + uuid + "_" + fileName;
+            String filePath = "file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" + uuid + "_" + fileName;
 
             File newFile = new File(filePath);
             file.transferTo(newFile);

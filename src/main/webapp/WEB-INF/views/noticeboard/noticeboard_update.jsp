@@ -72,10 +72,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Setting</h2>
+                <h2>공지게시판</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>Setting</li>
+                    <li>공지게시판</li>
                 </ol>
             </div>
 

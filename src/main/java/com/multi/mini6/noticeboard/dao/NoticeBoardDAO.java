@@ -5,7 +5,6 @@ import com.multi.mini6.noticeboard.vo.NoticeBoardVO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;

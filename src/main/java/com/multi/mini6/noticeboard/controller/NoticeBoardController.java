@@ -129,7 +129,7 @@ public class NoticeBoardController {
             if (file != null && !file.isEmpty()) {
                 String fileName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-                Path filePath = Paths.get("C:/Users/yuumi/Downloads/apache-tomcat-8.5.96/bin/upload-dir/" + uuid + "_" + fileName);
+                Path filePath = Paths.get("file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" + uuid + "_" + fileName);
                 Files.write(filePath, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
