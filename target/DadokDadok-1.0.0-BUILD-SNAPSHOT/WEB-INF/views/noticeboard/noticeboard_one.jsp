@@ -54,11 +54,9 @@
               margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
               margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
             }
-            .card-text {
-                    white-space: pre-line;
-                }
           </style>
 </head>
+
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -75,17 +73,17 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>공지게시판</h2>
+                <h2>Setting</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>공지게시판</li>
+                    <li>Setting</li>
                 </ol>
             </div>
 
         </div>
     </section><!-- End Breadcrumbs -->
-    <div class="center">
-        <h2>공지게시판</h2>
+<div class="center">
+    <h2>공지게시판</h2>
         <c:choose>
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">
@@ -97,47 +95,38 @@
                         <c:if test="${not empty noticeBoardVO.notice_uuid}">
                             <img src="<c:url value='/upload-dir/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}'/>" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
                         </c:if>
-                        <p class="card-text" style="white-space: pre-line;">${noticeBoardVO.notc_content}</p>
-                            <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
-                            <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
-                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                        <p class="card-text">${noticeBoardVO.notc_content}</p>
+                        <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary">수정</a>
+                        <!-- Delete button triggering AJAX request -->
+                        <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger">삭제</button>
+                        <a href="noticeboard" class="btn btn-secondary">목록으로</a>
                     </div>
                 </div>
-
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
-                    <c:choose>
-                        <c:when test="${not empty move.next}">
-                            <c:choose>
-                                <c:when test="${move.next ne 0}">
-                                    <button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'">
-                                        <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글
-                                    </button>
-                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black">${move.nexttitle}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-warning mr-3 mb-3" disabled aria-disabled="true">다음글이 없습니다</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                    </c:choose>
-                    <br/>
-                    <c:choose>
-                        <c:when test="${not empty move.last}">
-                            <c:choose>
-                                <c:when test="${move.last ne 0}">
-                                    <button type="button" class="btn btn-info mr-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'">
-                                        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글
-                                    </button>
-                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black">${move.lasttitle}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                    </c:choose>
-                </div>
+                	<c:choose >
+                	<c:when test="${move.next != 9999}">
 
+                	<button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'"> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글</button>
+                		<a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black"> ${move.nexttitle} </a>
+                	</c:when>
+
+                	<c:when test="${move.next == 9999}">
+                	<button type="button" class="btn btn-warning mr-3 mb-3" disabled>다음글이 없습니다</button>
+                	</c:when>
+                	</c:choose>
+                	<br/>
+                	<c:choose>
+                	<c:when test="${move.last != 9999}">
+                	<button type="button" class="btn btn-info mr-3 " onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'"> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글</button>
+                	<a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black"> ${move.lasttitle} </a>
+                	</c:when>
+
+                	<c:when test="${move.last == 9999}">
+                	<button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
+                	</c:when>
+                	</c:choose>
+
+                </div>
             </c:when>
             <c:otherwise>
                 <p>Notice not found.</p>
@@ -146,9 +135,7 @@
         <c:if test="${not empty exception}">
             <p>An error occurred: ${exception.message}</p>
         </c:if>
-    </div>
 </main><!-- End #main -->
-
         <!-- ======= Footer ======= -->
         <jsp:include page="/WEB-INF/views/footer.jsp"/>
         <!-- End Footer -->
@@ -173,5 +160,6 @@
             }
         </script>
         </div>
+
 </body>
 </html>

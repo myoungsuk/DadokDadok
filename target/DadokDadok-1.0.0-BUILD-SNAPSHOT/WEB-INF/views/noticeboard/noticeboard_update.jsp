@@ -72,10 +72,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>공지게시판</h2>
+                <h2>Setting</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>공지게시판</li>
+                    <li>Setting</li>
                 </ol>
             </div>
 
@@ -99,21 +99,16 @@
                 <p>${existingNotice.notice_file_name}</p>
             </div>
         </c:if>
-        <br>
         <div class="form-group">
             <label for="attachment">첨부 파일</label>
             <input type="file" class="form-control-file" id="attachment" name="file">
         </div>
         <br>
-            상단에 고정<input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true">
-                    <input type="hidden" id="pinnedHidden" name="pinned" value="false">
-        <br><br>
         <button type="submit" class="btn btn-info">수정</button>
         <!-- Delete button for deleting the notice -->
         <a href="#" onclick="deleteNotice(${existingNotice.notc_id})" class="btn btn-danger">삭제</a>
         <a href="/noticeboard/noticeboard" class="btn btn-secondary">목록으로</a>
     </form>
-
     </main><!-- End #main -->
                 <!-- ======= Footer ======= -->
                 <jsp:include page="/WEB-INF/views/footer.jsp"/>
@@ -137,16 +132,6 @@
                              }
             });
         }
-    </script>
-    <script>
-        document.getElementById('pinnedCheckbox').addEventListener('change', function() {
-            var hiddenInput = document.getElementById('pinnedHidden');
-            if (this.checked) {
-                hiddenInput.value = 'true'; // Set the value to 'true' when checked
-            } else {
-                hiddenInput.value = 'false'; // Set the value to 'false' when unchecked
-            }
-        });
     </script>
     </div>
 

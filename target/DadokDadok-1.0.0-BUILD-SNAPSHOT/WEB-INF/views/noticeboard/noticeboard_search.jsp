@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -86,10 +84,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>공지게시판</h2>
+                <h2>Setting</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>공지게시판</li>
+                    <li>Setting</li>
                 </ol>
             </div>
 
@@ -98,7 +96,7 @@
 
     <div class="center">
     <h2>검색 결과</h2>
-    <p>검색된 게시물 수: ${searchCount}</p>
+    <br>
     <div class="row">
                 <div class="col">
                     <table class="table">
@@ -115,19 +113,12 @@
             <c:forEach items="${searchResults}" var="result">
                 <tr>
                     <td>${result.notc_id}</td>
-                    <td>
-                        <a href="noticeboard_one?notc_id=${result.notc_id}">
-                            <c:out value="${fn:substring(result.notc_title, 0, 20)}${fn:length(result.notc_title) > 20 ? '...' : ''}" />
-                        </a>
-                    </td>
-                    <td>
-                        ${fn:substring(result.notc_content, 0, 20)}${fn:length(result.notc_content) > 20 ? '...' : ''}
-                    </td>
+                    <td><a href="noticeboard_one?notc_id=${result.notc_id}"><c:out value="${result.notc_title}" /></a></td>
+                    <td>${result.notc_content}</td>
                     <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                     <td>${result.notc_views}</td>
                 </tr>
             </c:forEach>
-
         </tbody>
     </table>
                     <br>
@@ -146,37 +137,16 @@
 
                                     <br>
                                     <ul class="pagination justify-content-center">
-                                        <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
-                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=1&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="First">
-                                                <<
-                                            </a>
-                                        </li>
-                                        <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
-                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.page - 1}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Previous">
-                                                <
-                                            </a>
-                                        </li>
-                                        <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="pageNumber">
-                                                            <li class="page-item${noticeBoardPageVO.page == pageNumber ? ' active' : ''}">
-                                                                <a class="page-link" href="/noticeboard/noticeboard_search?page=${pageNumber}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}">
-                                                                    ${pageNumber}
-                                                                </a>
-                                                            </li>
-                                                        </c:forEach>
-                                        <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
-                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.page + 1}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Next">
-                                                >
-                                            </a>
-                                        </li>
-                                        <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
-                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.totalPages}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Last">
-                                                >>
-                                            </a>
-                                        </li>
+                                        <c:if test="${noticeBoardPageVO.totalPages > 1}">
+                                            <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="pageNumber">
+                                                <li class="page-item${noticeBoardPageVO.page == pageNumber ? ' active' : ''}">
+                                                    <a class="page-link" href="/noticeboard/noticeboard_search?page=${pageNumber}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}">
+                                                        ${pageNumber}
+                                                    </a>
+                                                </li>
+                                            </c:forEach>
+                                        </c:if>
                                     </ul>
-
-
-
                                                    </div>
                                                </div>
                                            </div>

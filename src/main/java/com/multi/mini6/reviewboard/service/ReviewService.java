@@ -50,7 +50,7 @@ ReviewDAO reviewDAO;
 
         return reviewDAO.reviewList(pageVO);
     }
-    public int delete(ReviewVO reviewVO){
+    public int review_delete(ReviewVO reviewVO){
 
         return reviewDAO.reviewDelete(reviewVO);
     }
