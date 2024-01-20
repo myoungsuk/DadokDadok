@@ -102,7 +102,7 @@
             <div class="book-search  d-flex align-items-stretch justify-content-center" style="margin-bottom: 50px;"
                  data-aos="fade-right">
                 <!-- 도서 검색 폼 -->
-                <form id="bookSearchForm" onsubmit="return searchBooks();">
+                <form id="bookSearchForm" onsubmit="return searchBooks($('#searchKeyword').val());">
                     <div class="input-group" style="width: 310%"> <!-- 검색창 크기 조정 -->
                         <input type="text" id="searchKeyword" placeholder="도서 검색" class="form-control">
                         <div class="input-group-append">
