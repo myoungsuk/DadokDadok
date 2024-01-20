@@ -37,6 +37,7 @@
 		<mapper resource="mapper/GuestBookEntrySQL.xml" />
 		<mapper resource="mapper/FreeBoardSQL.xml" />
 		<mapper resource="mapper/LibrarySQL.xml" />
+		<mapper resource="mapper/MainPageSQL.xml" />
 	</mappers>
 </configuration>
 
