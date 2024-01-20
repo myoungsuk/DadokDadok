@@ -78,9 +78,7 @@
         .post-number {
                     color: red; /* Set the text color to red */
                 }
-        .n_info {
-                        text-align: center;
-                    }
+
       </style>
 </head>
 
@@ -111,11 +109,7 @@
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
-        <div class="n_info">
-                <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
-                <div>공지 사항을 준수해 주세요.</div>
-                <div>중요 공지는 상단에 고정되어 있습니다.</div>
-            </div>
+        <h2>공지게시판</h2>
         <p>총 게시물 수: ${count}</p>
 
         <div class="row">
@@ -125,8 +119,8 @@
                         <tr>
                             <th scope="col">글번호</th>
                             <th scope="col">제목</th>
-                            <th scope="col">작성자</th>
                             <th scope="col">작성일</th>
+                            <th scope="col">수정일</th>
                             <th scope="col">조회수</th>
                         </tr>
                     </thead>
@@ -139,8 +133,8 @@
                                         <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
                                     </a>
                                 </td>
-                                <td><c:out value="${noticeboardVO.member_id}" /></td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
                             </tr>
                         </c:forEach>

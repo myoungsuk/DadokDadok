@@ -18,8 +18,6 @@ import java.util.Date;
 public class NoticeBoardVO {
 
     private int notc_id; // 글번호
-    private int member_id; // 회원번호
-    private String nickname; // 닉네임
     private int notc_views; // 조회수
     private String notc_title; // 글제목
     private String notc_content; // 글내용

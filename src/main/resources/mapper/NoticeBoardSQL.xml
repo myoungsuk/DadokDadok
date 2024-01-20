@@ -6,8 +6,8 @@
 
     <insert id="insertNotice" parameterType="NoticeBoardVO">
         <![CDATA[
-    INSERT INTO notice (member_id, notc_title, notc_content, notc_createdAt, notc_updatedAt, notc_views, notice_uuid, notice_file_name, pinned)
-    VALUES (#{member_id}, #{notc_title}, #{notc_content}, #{notc_createdAt}, #{notc_updatedAt}, #{notc_views}, #{notice_uuid}, #{notice_file_name}, #{pinned})
+    INSERT INTO notice (notc_title, notc_content, notc_createdAt, notc_updatedAt, notc_views, notice_uuid, notice_file_name, pinned)
+    VALUES (#{notc_title}, #{notc_content}, #{notc_createdAt}, #{notc_updatedAt}, #{notc_views}, #{notice_uuid}, #{notice_file_name}, #{pinned})
     ]]>
     </insert>
 
@@ -46,7 +46,7 @@
     </select>
 
     <select id="listNotice" resultType="NoticeBoardVO">
-        <!--        select * from notice order by notc_id desc-->
+<!--        select * from notice order by notc_id desc-->
         SELECT *, CASE WHEN pinned = 1 THEN true ELSE false END AS pinned FROM notice ORDER BY notc_id DESC
     </select>
 
@@ -66,20 +66,20 @@
         select count(*) from notice
     </select>
 
-    <!--    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">-->
-    <!--        select * from (-->
-    <!--        select-->
-    <!--        row_number() over (order by notc_id desc) as notc_no,-->
-    <!--        notc_id,-->
-    <!--        notc_title,-->
-    <!--        notc_content,-->
-    <!--        notc_createdAt,-->
-    <!--        notc_updatedAt,-->
-    <!--        notc_views-->
-    <!--        from notice-->
-    <!--        ) row_notice-->
-    <!--        where row_notice.notc_no between #{start} and #{end}-->
-    <!--    </select>-->
+<!--    <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">-->
+<!--        select * from (-->
+<!--        select-->
+<!--        row_number() over (order by notc_id desc) as notc_no,-->
+<!--        notc_id,-->
+<!--        notc_title,-->
+<!--        notc_content,-->
+<!--        notc_createdAt,-->
+<!--        notc_updatedAt,-->
+<!--        notc_views-->
+<!--        from notice-->
+<!--        ) row_notice-->
+<!--        where row_notice.notc_no between #{start} and #{end}-->
+<!--    </select>-->
 
     <select id="getPagedNoticeBoard" parameterType="NoticeBoardPageVO" resultType="NoticeBoardVO">
         <![CDATA[
@@ -90,7 +90,6 @@
             notc_id,
             notc_title,
             notc_content,
-            member_id,
             notc_createdAt,
             notc_updatedAt,
             notc_views
@@ -102,21 +101,21 @@
     </select>
 
 
-    <!--    <select id="moveNoticeBoardPage" parameterType="int" resultType="NoticeBoardVO">-->
-    <!--        SELECT *-->
-    <!--        FROM (-->
-    <!--        SELECT-->
-    <!--        notc_id,-->
-    <!--        LEAD(notc_id, 1, 9999) OVER (ORDER BY notc_id) AS next,-->
-    <!--        LAG(notc_id, 1, 9999) OVER (ORDER BY notc_id) AS last,-->
-    <!--        notc_title,-->
-    <!--        LEAD(notc_title, 1, 'No next title') OVER (ORDER BY notc_id) AS nexttitle,-->
-    <!--        LAG(notc_title, 1, 'No previous title') OVER (ORDER BY notc_id) AS lasttitle-->
-    <!--        FROM notice-->
-    <!--        ORDER BY notc_id DESC-->
-    <!--        ) AS derived_table_alias-->
-    <!--        WHERE notc_id = #{notc_id}-->
-    <!--    </select>-->
+<!--    <select id="moveNoticeBoardPage" parameterType="int" resultType="NoticeBoardVO">-->
+<!--        SELECT *-->
+<!--        FROM (-->
+<!--        SELECT-->
+<!--        notc_id,-->
+<!--        LEAD(notc_id, 1, 9999) OVER (ORDER BY notc_id) AS next,-->
+<!--        LAG(notc_id, 1, 9999) OVER (ORDER BY notc_id) AS last,-->
+<!--        notc_title,-->
+<!--        LEAD(notc_title, 1, 'No next title') OVER (ORDER BY notc_id) AS nexttitle,-->
+<!--        LAG(notc_title, 1, 'No previous title') OVER (ORDER BY notc_id) AS lasttitle-->
+<!--        FROM notice-->
+<!--        ORDER BY notc_id DESC-->
+<!--        ) AS derived_table_alias-->
+<!--        WHERE notc_id = #{notc_id}-->
+<!--    </select>-->
 
     <select id="moveNoticeBoardPage" parameterType="int" resultType="NoticeBoardVO">
         SELECT

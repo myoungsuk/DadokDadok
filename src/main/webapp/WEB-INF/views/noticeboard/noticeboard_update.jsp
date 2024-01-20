@@ -84,16 +84,16 @@
 
 <div class="center">
     <h2>공지 수정</h2>
-    <form id="noticeboardForm" action="/noticeboard/noticeboard_update/${existingNotice.notc_id}" method="post" enctype="multipart/form-data">
+    <form action="/noticeboard/noticeboard_update/${existingNotice.notc_id}" method="post" enctype="multipart/form-data">
         <div class="form-group">
-                <label for="notc_title">제목</label>
-                <input type="text" class="form-control" id="notc_title" name="notc_title" value="${existingNotice.notc_title}" required>
-            </div>
-            <br>
-            <div class="form-group">
-                <label for="notc_content">내용</label>
-                <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required>${existingNotice.notc_content}</textarea>
-            </div>
+            <label for="notc_title">제목</label>
+            <input type="text" class="form-control" id="notc_title" name="notc_title" value="${existingNotice.notc_title}" required>
+        </div>
+        <br>
+        <div class="form-group">
+            <label for="notc_content">내용</label>
+            <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required>${existingNotice.notc_content}</textarea>
+        </div>
         <c:if test="${not empty existingNotice.notice_uuid}">
             <div>
                 <p>${existingNotice.notice_file_name}</p>
@@ -137,17 +137,16 @@
                              }
             });
         }
-        document.getElementById('notc_content').addEventListener('keydown', function(event) {
-                if (event.key === 'Enter' && !event.shiftKey) {
-                    event.preventDefault(); // Prevent the default behavior of Enter key
-                    var content = this.value;
-                    var caretPos = this.selectionStart;
-                    var textBeforeCaret = content.substring(0, caretPos);
-                    var textAfterCaret = content.substring(caretPos);
-                    this.value = textBeforeCaret + '\n' + textAfterCaret; // Insert a newline character
-                    this.setSelectionRange(caretPos + 1, caretPos + 1); // Set the caret position after the inserted newline
-                }
-            });
+    </script>
+    <script>
+        document.getElementById('pinnedCheckbox').addEventListener('change', function() {
+            var hiddenInput = document.getElementById('pinnedHidden');
+            if (this.checked) {
+                hiddenInput.value = 'true'; // Set the value to 'true' when checked
+            } else {
+                hiddenInput.value = 'false'; // Set the value to 'false' when unchecked
+            }
+        });
     </script>
     </div>
 
