@@ -30,6 +30,8 @@ public class NoticeBoardVO {
     private String nexttitle; // 다음글제목
     private String lasttitle; // 이전글제목
 
+    private boolean pinned; // 고정글여부
+
     public String getImageUrl() {
         if (notice_uuid != null && !notice_uuid.isEmpty()) {
             return "/upload-dir/" + notice_uuid + "_" + notice_file_name;
@@ -39,12 +41,10 @@ public class NoticeBoardVO {
     }
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Builder.Default
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date notc_createdAt = new Date(); // 작성일
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    @Builder.Default
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date notc_updatedAt = new Date(); // 수정일
 

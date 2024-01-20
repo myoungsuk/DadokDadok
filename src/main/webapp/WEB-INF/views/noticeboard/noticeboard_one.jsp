@@ -82,8 +82,8 @@
 
         </div>
     </section><!-- End Breadcrumbs -->
-<div class="center">
-    <h2>공지게시판</h2>
+    <div class="center">
+        <h2>공지게시판</h2>
         <c:choose>
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">
@@ -103,30 +103,39 @@
                     </div>
                 </div>
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
-                	<c:choose >
-                	<c:when test="${move.next != 9999}">
-
-                	<button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'"> <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글</button>
-                		<a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black"> ${move.nexttitle} </a>
-                	</c:when>
-
-                	<c:when test="${move.next == 9999}">
-                	<button type="button" class="btn btn-warning mr-3 mb-3" disabled>다음글이 없습니다</button>
-                	</c:when>
-                	</c:choose>
-                	<br/>
-                	<c:choose>
-                	<c:when test="${move.last != 9999}">
-                	<button type="button" class="btn btn-info mr-3 " onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'"> <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글</button>
-                	<a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black"> ${move.lasttitle} </a>
-                	</c:when>
-
-                	<c:when test="${move.last == 9999}">
-                	<button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
-                	</c:when>
-                	</c:choose>
-
+                    <c:choose>
+                        <c:when test="${not empty move.next}">
+                            <c:choose>
+                                <c:when test="${move.next ne 0}">
+                                    <button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'">
+                                        <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글
+                                    </button>
+                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black">${move.nexttitle}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-warning mr-3 mb-3" disabled aria-disabled="true">다음글이 없습니다</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                    </c:choose>
+                    <br/>
+                    <c:choose>
+                        <c:when test="${not empty move.last}">
+                            <c:choose>
+                                <c:when test="${move.last ne 0}">
+                                    <button type="button" class="btn btn-info mr-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'">
+                                        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글
+                                    </button>
+                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black">${move.lasttitle}</a>
+                                </c:when>
+                                <c:otherwise>
+                                    <button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
+                                </c:otherwise>
+                            </c:choose>
+                        </c:when>
+                    </c:choose>
                 </div>
+
             </c:when>
             <c:otherwise>
                 <p>Notice not found.</p>
@@ -135,7 +144,9 @@
         <c:if test="${not empty exception}">
             <p>An error occurred: ${exception.message}</p>
         </c:if>
+    </div>
 </main><!-- End #main -->
+
         <!-- ======= Footer ======= -->
         <jsp:include page="/WEB-INF/views/footer.jsp"/>
         <!-- End Footer -->

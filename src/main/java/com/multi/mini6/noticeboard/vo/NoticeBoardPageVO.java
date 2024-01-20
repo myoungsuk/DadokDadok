@@ -21,13 +21,21 @@ public class NoticeBoardPageVO {
     private String[] typeArr;
     private String searchType; // search type ( title , content , titleContent )
 
+    public NoticeBoardPageVO() {
+        // Default constructor with no arguments
+    }
+
     public NoticeBoardPageVO(int page, int pageSize, int totalItemCount) {
         this.page = page;
         this.pageSize = pageSize > 0 ? pageSize : 10; // Set a default page size of 10 if pageSize is less than or equal to 0
         this.totalItemCount = totalItemCount;
-        this.totalPages = (int) Math.ceil((double) totalItemCount / pageSize); // Calculate the total number of pages
+        this.totalPages = calculateTotalPages(); // Calculate the total number of pages
         calculateOffset(); // Calculate the offset based on the current page and page size
         setStartEnd(); // Set the start and end indices for the current page
+    }
+
+    private int calculateTotalPages() {
+        return (int) Math.ceil((double) totalItemCount / pageSize); // Calculate the total number of pages
     }
 
     public void calculateOffset() {
@@ -48,26 +56,24 @@ public class NoticeBoardPageVO {
         this.end = Math.min(offset + this.pageSize, this.totalItemCount); // Set the end index
     }
 
-    public NoticeBoardPageVO() {
-        this(1, 10); // 아래쪽 전달값 2개 생성자 호출.
+    public int getTotalPages() {
+        // Calculate the total number of pages based on the total item count and page size
+        return (int) Math.ceil((double) totalItemCount / pageSize);
     }
 
-    public NoticeBoardPageVO(int pageNum, int amount) {
-        this.page = pageNum;
-        this.pageSize = amount;
+    public int getStartPage() {
+        int totalPages = getTotalPages();
+        int startPage = Math.max(page - 2, 1); // Start from current page - 2
+        return Math.min(startPage, totalPages - 4); // Ensure start page is within valid range
     }
 
-    public void setType(String type) {
-        this.type = type;
-        this.typeArr = type.split("");
-    }
-
-    public int getOffset() {
-        return (page - 1) * pageSize;
+    public int getEndPage() {
+        int totalPages = getTotalPages();
+        int startPage = getStartPage();
+        return Math.min(startPage + 4, totalPages); // End at startPage + 4 or totalPages, whichever is smaller
     }
 
     public int getLimit() {
-        return pageSize;
+        return pageSize; // Assuming pageSize represents the limit
     }
-
 }
