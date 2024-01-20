@@ -47,7 +47,6 @@ public class NoticeBoardDAO {
 
     public List<NoticeBoardVO> selectNoticeAll(){
         return my.selectList("selectNoticeAll");
-
     }
 
     public int getNoticeBoardCount(){
@@ -75,7 +74,6 @@ public class NoticeBoardDAO {
     }
 
     public List<NoticeBoardVO> getRemainingNotices(NoticeBoardPageVO noticeBoardPageVO) throws Exception {
-        // You may need to calculate the offset based on the page and pageSize parameters
         int offset = (noticeBoardPageVO.getPage() - 1) * noticeBoardPageVO.getPageSize();
         int pageSize = noticeBoardPageVO.getPageSize();
 

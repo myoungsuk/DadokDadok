@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Setting</title>
+    <title>다독다독</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -155,8 +155,6 @@
                                     </a>
                                 </td>
                                 <td>관리자</td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                             </tr>
@@ -173,9 +171,6 @@
                                     <td>관리자</td>
                                     <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                     <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
-                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
