@@ -78,6 +78,9 @@
         .post-number {
                     color: red; /* Set the text color to red */
                 }
+        .n_info {
+                        text-align: center;
+                    }
 
       </style>
 </head>
@@ -98,10 +101,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Setting</h2>
+                <h2>공지게시판</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>Setting</li>
+                    <li>공지게시판</li>
                 </ol>
             </div>
 
@@ -109,7 +112,29 @@
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
-        <h2>공지게시판</h2>
+        <div class="n_info">
+        <br>
+                <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+                <div>공지 사항을 준수해 주세요.</div>
+                <div>중요 공지는 상단에 고정되어 있습니다.</div>
+                <br>
+            </div>
+
+                            <br>
+                            <form action="noticeboard_search" method="get" class="search-form">
+                                <div class="input-group">
+                                    <select id="searchType" name="searchType">
+                                        <option value="title">제목</option>
+                                        <option value="content">내용</option>
+                                        <option value="titleContent">제목+내용</option>
+                                    </select>
+                                    <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+                                    <input type="submit" value="검색" class="btn btn-secondary">
+                                    <a href="noticeboard_write" class="btn btn-primary">새 글 쓰기</a>
+                                </div>
+                            </form>
+                            <br>
+
         <p>총 게시물 수: ${count}</p>
 
         <div class="row">
@@ -119,9 +144,9 @@
                         <tr>
                             <th scope="col">글번호</th>
                             <th scope="col">제목</th>
-                            <th scope="col">작성일</th>
-                            <th scope="col">수정일</th>
+                            <th scope="col">작성자</th>
                             <th scope="col">조회수</th>
+                            <th scope="col">작성일</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -133,9 +158,9 @@
                                         <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
                                     </a>
                                 </td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                <td>관리자</td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
+                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                             </tr>
                         </c:forEach>
                         <c:forEach items="${noticeboard}" var="noticeboardVO">
@@ -147,29 +172,14 @@
                                             <c:out value="${fn:substring(noticeboardVO.notc_title, 0, 20)}${fn:length(noticeboardVO.notc_title) > 20 ? '...' : ''}" />
                                         </a>
                                     </td>
-                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
-                                    <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td>관리자</td>
                                     <td><c:out value="${noticeboardVO.notc_views}" /></td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
                     </tbody>
                 </table>
-
-
-                <br>
-                <form action="noticeboard_search" method="get" class="search-form">
-                    <div class="input-group">
-                        <select id="searchType" name="searchType">
-                            <option value="title">제목</option>
-                            <option value="content">내용</option>
-                            <option value="titleContent">제목+내용</option>
-                        </select>
-                        <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-                        <input type="submit" value="검색" class="btn btn-secondary">
-                        <a href="noticeboard_write" class="btn btn-primary">새 글 쓰기</a>
-                    </div>
-                </form>
                 <br>
                 <ul class="pagination justify-content-center">
                     <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
