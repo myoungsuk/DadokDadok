@@ -6,6 +6,10 @@ import com.multi.mini6.noticeboard.vo.NoticeBoardVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -83,7 +87,7 @@ public class NoticeBoardController {
             if (file != null && !file.isEmpty()) {
                 String fileName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-                Path filePath = Paths.get("file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" + uuid + "_" + fileName);
+                Path filePath = Paths.get("/upload_data/temp/" + uuid + "_" + fileName);
                 Files.write(filePath, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
@@ -128,7 +132,6 @@ public class NoticeBoardController {
     }
 
     @DeleteMapping("/noticeboard_delete/{notc_id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String deleteNotice(@PathVariable("notc_id") int notc_id, RedirectAttributes redirectAttributes) {
         try {
             noticeBoardService.deleteNotice(notc_id);
@@ -160,6 +163,30 @@ public class NoticeBoardController {
         } catch (Exception e) {
             model.addAttribute("error", "An error occurred while processing your request.");
             return "error";
+        }
+    }
+
+    @RequestMapping(value = "/upload_data/temp/{filename:.+}", method = RequestMethod.GET)
+    public ResponseEntity<Resource> getImage(@PathVariable("filename") String filename) {
+        // Construct the file path
+        String filePath = "C:/upload_data/temp/" + filename;
+
+        // Create a FileSystemResource representing the image file
+        Resource fileResource = new FileSystemResource(filePath);
+
+        // Check if the file exists
+        if (fileResource.exists()) {
+            // Serve the file with appropriate content type
+            MediaType mediaType = MediaType.IMAGE_PNG; // Set default content type to PNG
+            if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
+                mediaType = MediaType.IMAGE_JPEG;
+            }
+            return ResponseEntity.ok()
+                    .contentType(mediaType)
+                    .body(fileResource);
+        } else {
+            // Return 404 Not Found if the file does not exist
+            return ResponseEntity.notFound().build();
         }
     }
 

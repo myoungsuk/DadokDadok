@@ -34,11 +34,12 @@ public class NoticeBoardVO {
 
     public String getImageUrl() {
         if (notice_uuid != null && !notice_uuid.isEmpty()) {
-            return "/upload-dir/" + notice_uuid + "_" + notice_file_name;
+            return "/upload_data/temp/" + notice_uuid + "_" + notice_file_name;
         } else {
             return null;
         }
     }
+
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm")
     private Date notc_createdAt = new Date(); // 작성일
