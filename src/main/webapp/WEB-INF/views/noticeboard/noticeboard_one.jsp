@@ -57,6 +57,9 @@
             .card-text {
                     white-space: pre-line;
                 }
+        .n_info {
+                        text-align: center;
+                    }
           </style>
 </head>
 <body>
@@ -73,7 +76,6 @@
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
-
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
@@ -81,11 +83,16 @@
                     <li>공지게시판</li>
                 </ol>
             </div>
-
         </div>
     </section><!-- End Breadcrumbs -->
+
     <div class="center">
-        <h2>공지게시판</h2>
+            <div class="n_info">
+            <br>
+                    <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+                    <div>공지 사항을 준수해 주세요.</div>
+                    <br>
+                </div>
         <c:choose>
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">

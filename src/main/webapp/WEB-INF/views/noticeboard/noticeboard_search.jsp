@@ -102,7 +102,7 @@
     <div class="center">
             <div class="n_info">
             <br>
-                    <p style="font-size: 24px; font-weight: bold;">검색 결과</p>
+                    <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
                     <div>검색된 결과입니다.</div>
                     <div><p>검색된 게시물 수: ${searchCount}</p></div>
                 <br>
@@ -120,8 +120,6 @@
                                     </div>
                                 </form>
                                 <br><br>
-    <h2>검색 결과</h2>
-    <p>검색된 게시물 수: ${searchCount}</p>
     <div class="row">
                 <div class="col">
                     <table class="table">
@@ -146,7 +144,6 @@
                     <td>
                         ${fn:substring(result.notc_content, 0, 20)}${fn:length(result.notc_content) > 20 ? '...' : ''}
                     </td>
-                    <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                     <td>${result.notc_views}</td>
                     <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                 </tr>
