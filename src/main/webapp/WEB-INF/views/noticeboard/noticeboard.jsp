@@ -48,12 +48,18 @@
           color: #333; /* 글씨 색상 */
           /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
         }
-        .center {
-          margin-top: 2%; /* Adjust the top margin as a percentage of the viewport height */
-          margin-bottom: 2%; /* Adjust the bottom margin as a percentage of the viewport height */
-          margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
-          margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
+        .main {
+          display: grid;
+            place-items: center;
+            min-height: 100dvh;
         }
+        .row {
+                  display: flex;
+                    justify-content: center;
+                    margin-left: 20%;
+                    margin-right: 20%;
+                }
+
         .search-form {
             text-align: center; /* Center align the form */
         }
@@ -206,6 +212,7 @@
                         </a>
                     </li>
                 </ul>
+                <br>
             </div>
         </div>
     </div>
