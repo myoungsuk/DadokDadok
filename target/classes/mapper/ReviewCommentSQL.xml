@@ -21,7 +21,7 @@
 		delete from review_comment where cm_id = #{cm_id}
 	</delete>
 
-	<select id="list" parameterType="int"  resultType="reviewcommentVO">
+	<select id="reviewCommentList" parameterType="int"  resultType="reviewcommentVO">
 		select * from review_comment
 		where review_id = #{review_id}
 		order by

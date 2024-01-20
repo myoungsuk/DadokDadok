@@ -14,18 +14,19 @@ public class ReviewCommentDAO {
     @Autowired
     SqlSessionTemplate my;
 
-    public int insert(ReviewCommentVO reviewCommentVO) {
+    public int reivewCommentInsert(ReviewCommentVO reviewCommentVO) {
         return my.insert("review_comment_insert", reviewCommentVO);
     }
 
-    public int update(ReviewCommentVO reviewCommentVO) {
+    public int reviewCommentUpdate(ReviewCommentVO reviewCommentVO) {
         return my.update("review_comment_update", reviewCommentVO);
     }
 
-    public int delete(ReviewCommentVO reviewCommentVO) {
+    public int reviewCommentDelete(ReviewCommentVO reviewCommentVO) {
         return my.delete("review_comment_delete", reviewCommentVO);
     }
-    public List<ReviewCommentVO> list(int reviewCommentVO) {
-        return my.selectList("list",reviewCommentVO);
+
+    public List<ReviewCommentVO> reviewCommentList(int reviewCommentVO) {
+        return my.selectList("reviewCommentList", reviewCommentVO);
     }
-    }
+}

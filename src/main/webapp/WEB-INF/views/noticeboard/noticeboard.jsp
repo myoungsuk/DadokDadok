@@ -81,7 +81,6 @@
         .n_info {
                         text-align: center;
                     }
-
       </style>
 </head>
 
@@ -156,6 +155,8 @@
                                     </a>
                                 </td>
                                 <td>관리자</td>
+                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                 <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                             </tr>
@@ -172,11 +173,16 @@
                                     <td>관리자</td>
                                     <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                     <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><c:out value="${noticeboardVO.notc_views}" /></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
                     </tbody>
                 </table>
+
+
                 <br>
                 <ul class="pagination justify-content-center">
                     <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
