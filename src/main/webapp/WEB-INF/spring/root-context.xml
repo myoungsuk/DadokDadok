@@ -57,7 +57,7 @@
     </bean>
     <tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"/>
 
-<!--    <mybatis-spring:scan base-package="com.multi.mini6"/>-->
+    <mybatis-spring:scan base-package="com.multi.mini6"/>
 
 
     <!-- myBatis의 설정 객체 생성 -->
