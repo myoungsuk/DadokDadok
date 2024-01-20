@@ -173,6 +173,15 @@
             e.preventDefault();
             console.log("submit btn click");
 
+            // 제목, 내용 비어있는지 확인
+            let title = $("input[name='board_title']").val().trim();
+            let content = $("textarea[name='board_content']").val().trim();
+            if(title == "" || content == ""){
+                alert("제목과 내용을 모두 입력해주세요.");
+                e.preventDefault();
+                return false;
+            }
+
             let formObj = $("form");
             let formData = new FormData(formObj[0]);
             let boardId = ${freeBoardVO.board_id};
@@ -238,11 +247,11 @@
                     <input type="hidden" name="board_id" value="${freeBoardVO.board_id}">
                     <div class="in_row">
                           <p>제 목:</p>
-                           <input type="text" name="board_title" value="${freeBoardVO.board_title}">
+                           <input type="text" name="board_title" value="${freeBoardVO.board_title}" maxlength="50">
                     </div>
                     <div class="in_row">
                           <p>내 용:</p>
-                           <textarea name="board_content">${freeBoardVO.board_content}</textarea>
+                           <textarea name="board_content" maxlength="2000">${freeBoardVO.board_content}</textarea>
                    </div>
                     <div class="file_row">
                            <p>파일첨부</p>
