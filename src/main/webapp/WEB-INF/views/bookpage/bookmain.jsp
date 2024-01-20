@@ -201,39 +201,6 @@
 <script src="../../../resources/assets/js/main.js"></script>
 
 <script>
-    // results:[
-    //     {
-    //         result:{
-    //             date: "2024-01-10",
-    //             docs:[
-    //                 {
-    //                     doc: {
-    //                         no:"1",
-    //                         isbn13: "9791188331790",
-    //                         bookname: "코딩을 지탱하는 기술",
-    //                         authors: "김태곤",
-    //                         publisher: "위키북스",
-    //                         publication_year: "2020",
-    //                         class_no: "005.133",
-    //                         class_nm: "컴퓨터프로그램"
-    //                     }
-    //                 },
-    //                 {
-    //                     doc: {
-    //                         no:"2",
-    //                         isbn13: "9791188331790",
-    //                         bookname: "코딩을 지탱하는 기술",
-    //                         authors: "김태곤",
-    //                         publisher: "위키북스",
-    //                         publication_year: "2020",
-    //                         class_no: "005.133",
-    //                         class_nm: "컴퓨터프로그램"
-    //                     }
-    //                 }
-    //             ]
-    //         }
-    //     }
-    // ]
     var authKey = 'c500550c260a842b762bc86dc21ee159406d97cfdc35d10d71726d7a7d998b6b';
 
     function formatDate(date) {

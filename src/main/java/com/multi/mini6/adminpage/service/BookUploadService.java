@@ -6,6 +6,7 @@ import com.multi.mini6.bookpage.vo.BooksLibrariesVO;
 import com.multi.mini6.bookpage.vo.BooksVO;
 import com.multi.mini6.bookpage.vo.LibrariesVO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -23,7 +24,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
-//@Log4j2
+@Log4j2
 public class BookUploadService {
 
     final private SqlSessionFactory sqlSessionFactory;
