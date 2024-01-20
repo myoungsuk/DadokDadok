@@ -63,13 +63,12 @@ public class NoticeBoardController {
     }
 
     @RequestMapping(value = "/noticeboard_write")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String write() throws Exception{
         return "noticeboard/noticeboard_write";
     }
 
     @PostMapping("/noticeboard_insert")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String insertNotice(@RequestParam(value = "file", required = false) MultipartFile file,
                                @RequestParam("notc_title") String notc_title,
                                @RequestParam("notc_content") String notc_content,
@@ -103,7 +102,6 @@ public class NoticeBoardController {
     }
 
     @GetMapping("/noticeboard_update/{notc_id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String showUpdateForm(@PathVariable("notc_id") int notc_id, Model model) {
         NoticeBoardVO existingNotice = noticeBoardService.getNoticeBoardById(notc_id);
 
@@ -113,7 +111,6 @@ public class NoticeBoardController {
     }
 
     @PostMapping("/noticeboard_update/{notc_id}")
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String handleUpdateForm(@PathVariable("notc_id") int notc_id,
                                    @ModelAttribute("existingNotice") NoticeBoardVO existingNotice,
                                    @RequestParam(value = "file", required = false) MultipartFile file,
