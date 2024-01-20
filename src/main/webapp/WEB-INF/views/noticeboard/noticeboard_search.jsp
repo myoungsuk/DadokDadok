@@ -68,6 +68,9 @@
                 margin: 0; /* Remove default margins */
                 vertical-align: middle; /* Align elements vertically */
             }
+        .n_info {
+                        text-align: center;
+                    }
 
           </style>
 </head>
@@ -97,18 +100,36 @@
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
-    <h2>검색 결과</h2>
-    <p>검색된 게시물 수: ${searchCount}</p>
+            <div class="n_info">
+            <br>
+                    <p style="font-size: 24px; font-weight: bold;">검색 결과</p>
+                    <div>검색된 결과입니다.</div>
+                    <div><p>검색된 게시물 수: ${searchCount}</p></div>
+                <br>
+                </div>
+                                <form action="noticeboard_search" method="get" class="search-form">
+                                    <div class="input-group">
+                                        <select id="searchType" name="searchType">
+                                            <option value="title">제목</option>
+                                            <option value="content">내용</option>
+                                            <option value="titleContent">제목+내용</option>
+                                        </select>
+                                        <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+                                        <input type="submit" value="검색" class="btn btn-secondary">
+                                        <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                                    </div>
+                                </form>
+                                <br><br>
     <div class="row">
                 <div class="col">
                     <table class="table">
         <thead>
             <tr>
-                <th scope="col">글번호</th>
+                <th scope="col">NO</th>
                                             <th scope="col">제목</th>
                                             <th scope="col">내용</th>
-                                            <th scope="col">작성일</th>
                                             <th scope="col">조회수</th>
+                                            <th scope="col">작성일</th>
             </tr>
         </thead>
         <tbody>
@@ -123,26 +144,13 @@
                     <td>
                         ${fn:substring(result.notc_content, 0, 20)}${fn:length(result.notc_content) > 20 ? '...' : ''}
                     </td>
-                    <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
                     <td>${result.notc_views}</td>
+                    <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                 </tr>
             </c:forEach>
 
         </tbody>
     </table>
-                    <br>
-                    <form action="noticeboard_search" method="get" class="search-form">
-                                        <div class="input-group">
-                                            <select id="searchType" name="searchType">
-                                                <option value="title">제목</option>
-                                                <option value="content">내용</option>
-                                                <option value="titleContent">제목+내용</option>
-                                            </select>
-                                            <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-                                            <input type="submit" value="검색" class="btn btn-secondary">
-                                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
-                                        </div>
-                                    </form>
 
                                     <br>
                                     <ul class="pagination justify-content-center">

@@ -117,10 +117,9 @@
                 <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
                 <div>공지 사항을 준수해 주세요.</div>
                 <div>중요 공지는 상단에 고정되어 있습니다.</div>
+                <div><p>총 게시물 수: ${count}</p></div>
                 <br>
             </div>
-
-                            <br>
                             <form action="noticeboard_search" method="get" class="search-form">
                                 <div class="input-group">
                                     <select id="searchType" name="searchType">
@@ -133,16 +132,14 @@
                                     <a href="noticeboard_write" class="btn btn-primary">새 글 쓰기</a>
                                 </div>
                             </form>
-                            <br>
-
-        <p>총 게시물 수: ${count}</p>
+                            <br><br>
 
         <div class="row">
             <div class="col">
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col">글번호</th>
+                            <th scope="col">NO</th>
                             <th scope="col">제목</th>
                             <th scope="col">작성자</th>
                             <th scope="col">조회수</th>
@@ -160,7 +157,7 @@
                                 </td>
                                 <td>관리자</td>
                                 <td><c:out value="${noticeboardVO.notc_views}" /></td>
-                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                             </tr>
                         </c:forEach>
                         <c:forEach items="${noticeboard}" var="noticeboardVO">
@@ -174,7 +171,7 @@
                                     </td>
                                     <td>관리자</td>
                                     <td><c:out value="${noticeboardVO.notc_views}" /></td>
-                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                                    <td><fmt:formatDate value="${noticeboardVO.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                                 </tr>
                             </c:if>
                         </c:forEach>
