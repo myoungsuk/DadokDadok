@@ -13,22 +13,22 @@ public class ReviewCommentService {
     ReviewCommentDAO reviewCommentDAO;
 
 
-    public int insert(ReviewCommentVO reviewCommentVO){
+    public int reviewCommentinsert(ReviewCommentVO reviewCommentVO){
 
-        return reviewCommentDAO.insert(reviewCommentVO);
+        return reviewCommentDAO.reivewCommentInsert(reviewCommentVO);
 
 
     }
 
-    public int update(ReviewCommentVO reviewCommentVO){
-        return  reviewCommentDAO.update(reviewCommentVO);
+    public int reviewCommentupdate(ReviewCommentVO reviewCommentVO){
+        return  reviewCommentDAO.reviewCommentUpdate(reviewCommentVO);
     }
 
-   public List<ReviewCommentVO> list(int review_id){
-        return  reviewCommentDAO.list(review_id);
+   public List<ReviewCommentVO> reviewCommentlist(int review_id){
+        return  reviewCommentDAO.reviewCommentList(review_id);
     }
-    public int delete(ReviewCommentVO reviewCommentVO) {
-        return reviewCommentDAO.delete(reviewCommentVO);
+    public int reviewCommentdelete(ReviewCommentVO reviewCommentVO) {
+        return reviewCommentDAO.reviewCommentDelete(reviewCommentVO);
     }
 
 
