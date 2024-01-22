@@ -15,6 +15,10 @@
                     <!-- Licensing information: https://bootstrapmade.com/license/ -->
                     <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/flattern-multipurpose-bootstrap-template/ -->
                     Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+
+                </div>
+                <div>
+                    Database from <a href="https://www.data4library.kr/">도서관 정보나루</a>
                 </div>
             </div>
             <%-- icon 링크

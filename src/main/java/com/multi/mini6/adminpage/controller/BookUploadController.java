@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -19,7 +20,7 @@ public class BookUploadController {
     final private BookUploadService bookUploadService;
 
     // 책 업로드 관리자 페이지
-    // TODO : 관리자만 접근 가능 페이지 권한 설정
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @GetMapping("/BookUploadPage")
     public void bookUploadPage() {
         log.info("bookUploadPage");

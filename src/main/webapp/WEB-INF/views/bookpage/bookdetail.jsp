@@ -83,13 +83,46 @@
                 max-width: 100%;
             }
         }
+
         /* Custom CSS for five items per row */
-        @media (min-width: 992px) { /* lg breakpoint */
+        @media (min-width: 992px) {
+            /* lg breakpoint */
             .col-custom-five {
                 flex: 0 0 auto;
                 width: 20%;
             }
         }
+
+        /*.book-review-write-button .container {*/
+        /*    padding-top: -100px; !* Add more space above the button *!*/
+        /*}*/
+
+        .custom-review-btn {
+            max-width: 300px; /* Set a max-width for the button */
+            padding: 15px 30px; /* Increase padding for a larger button */
+            font-size: 20px; /* Larger font size */
+            font-weight: bold; /* Bold font */
+            border-radius: 25px; /* Rounded corners */
+            background-color: #007bff; /* Adjust the color as needed */
+            color: white;
+            margin-top: -60px; /* Move the button up within the container */
+        }
+
+        .custom-review-btn:hover {
+            background-color: #0056b3; /* Darker shade for hover effect */
+            color: white;
+        }
+
+        .review-link {
+            color: #007bff; /* Link color */
+            text-decoration: none; /* No underline by default */
+        }
+
+        .review-link:hover {
+            text-decoration: underline; /* Underline on hover */
+            color: #0056b3; /* Change color on hover for effect */
+        }
+
     </style>
 </head>
 <body>
@@ -136,26 +169,24 @@
                     <!-- Additional divs for loan information will be added here by the JavaScript -->
                 </div>
             </div>
-            <!-- Total Loan Information -->
-            <div class="card my-3">
-                <div class="card-header">
-                    <h4>Total Loan Information</h4>
-                </div>
-                <div class="card-body">
-                    <p class="card-text"><strong>Ranking:</strong> <span id="totalRanking"></span></p>
-                    <p class="card-text"><strong>Name:</strong> <span id="totalName"></span></p>
-                    <p class="card-text"><strong>Total Loans:</strong> <span id="totalLoanCount"></span></p>
-                </div>
+
+            <div class="card">
+                <ul id="ageSpecificLoanInfo" class="list-group list-group-flush"></ul>
             </div>
+        </div>
+    </section>
+
+    <section id="book-review-write-button" class="book-review-write-button">
+        <div class="container d-flex justify-content-center">
+            <button id="writeReviewBtn" class="btn btn-primary btn-lg btn-block custom-review-btn">도서 후기 작성하러가기</button>
+        </div>
+    </section>
 
 
-            <!-- Age-Specific Loan Information -->
-            <div>
-                <h4>&nbsp;&nbsp;Age-Specific Loan Information</h4>
-                <ul id="ageSpecificLoanInfo" class="list-group"></ul>
-            </div>
-
-
+    <section id="book-reviews" class="book-reviews">
+        <div class="container">
+            <h3>이 책에 대한 리뷰들을 보여드릴게요!</h3>
+            <div id="reviewsList" class="reviews-list"></div>
         </div>
     </section>
 
@@ -211,6 +242,35 @@
     $('#recommendedBooksRow').on('mouseleave', '.card', function () {
         $(this).removeClass('shadow-lg');
     });
+
+    //후기 작성하러가는 버튼
+    $('#writeReviewBtn').on('click', function () {
+        var isbn = window.location.pathname.split('/').pop();
+        window.location.href = '/bookpage/reviewwrite/' + isbn;
+    });
+
+    //후기글 보여주기
+    function fetchAndDisplayReviews(isbn) {
+        $.ajax({
+            url: '/path-to-get-reviews', // Update with actual API URL
+            type: 'GET',
+            data: { isbn: isbn }, // Assuming ISBN is used to fetch reviews
+            success: function(reviews) {
+                if(reviews.length > 0) {
+                    reviews.forEach(function(review) {
+                        $('#reviewsList').append('<p>' + review.content + '</p>'); // Customize as needed
+                    });
+                } else {
+                    $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/path-to-review-writing-page?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
+                }
+            },
+            error: function() {
+                console.log('리뷰를 불러오는 데 실패했습니다.');
+                $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/path-to-review-writing-page?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
+            }
+        });
+    }
+
 
     //상세 정보 페이지의 JavaScript 예시
     // 서버로부터 도서의 상세 정보를 가져오는 함수
@@ -366,22 +426,52 @@
         fetchRecommendedBooks(isbn);
         fetchBookDetails(isbn); // 상세 정보 가져오기
         fetchManyBooksReader(isbn);
+        fetchAndDisplayReviews(isbn);
     });
 
     // After fetching the details, update the HTML elements
     function updateLoanInfo(loanInfo, ageResult) {
-        if (ageResult.ageResult) {
-            ageResult.ageResult.forEach(function (ageInfo) {
-                var ageLoanInfoHtml = '<li class="list-group-item">' +
-                    '<strong>' + ageInfo.age.name + ' 연령대 대출 순위:</strong> ' + ageInfo.age.ranking +
-                    ' <strong>대출 건수:</strong> ' + ageInfo.age.loanCnt +
-                    '</li>';
-                $('#ageSpecificLoanInfo').append(ageLoanInfoHtml);
-            });
+        var container = $('#ageSpecificLoanInfo');
+        container.empty(); // Clear previous content
+
+        if (loanInfo && loanInfo.Total && loanInfo.Total.ranking) {
+            var totalLoanInfoHtml = '<div class="card my-3">' +
+                '<div class="card-header">' +
+                '<h4>Total Loan Information</h4>' +
+                '</div>' +
+                '<div class="card-body">' +
+                '<h5 class="card-title"><strong>전체 순위: </strong>' + loanInfo.Total.ranking + '</h5>' +
+                '<p class="card-text"><strong>구분:</strong> ' + loanInfo.Total.name + '</p>' +
+                '<p class="card-text"><strong>총 대출 건수:</strong> ' + loanInfo.Total.loanCnt + '</p>' +
+                '</div>' +
+                '</div>';
+
+            container.append(totalLoanInfoHtml); // Append the total loan info card
         }
-        $('#totalRanking').text(loanInfo.Total.ranking);
-        $('#totalName').text(loanInfo.Total.name);
-        $('#totalLoanCount').text(loanInfo.Total.loanCnt);
+
+        if (ageResult && ageResult.ageResult && ageResult.ageResult.length > 0) {
+            // Create and append the card header only if there is data
+            // container.before('<div class="card-header">Age-Specific Loan Information</div>');
+
+            // Now loop through the data and create cards
+            ageResult.ageResult.forEach(function (ageInfo) {
+                ageLoanInfoHtml =
+                    '<li class="list-group-item">' +
+                    '<div class="card">' +
+                    '<div class="card-body">' +
+                    '<h5 class="card-title">' + ageInfo.age.name + ' 연령대 대출 순위</h5>' +
+                    '<p class="card-text"><strong>순위:</strong> ' + ageInfo.age.ranking + '</p>' +
+                    '<p class="card-text"><strong>대출 건수:</strong> ' + ageInfo.age.loanCnt + '</p>' +
+                    '</div>' +
+                    '</div>' +
+                    '</li>';
+                container.append(ageLoanInfoHtml);
+            });
+        } else {
+            // If there is no data, remove the card header if it exists
+            container.siblings('.card-header').remove();
+        }
+
     }
 </script>
 </body>
