@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
+<!--<mapper namespace="com.multi.mini6.noticeboard.dao.NoticeBoardDAO">-->
 <mapper namespace="noticeboard">
 
     <insert id="insertNotice" parameterType="NoticeBoardVO">
@@ -143,7 +144,6 @@
             <if test="searchType == 'titleContent'">
                 AND (notc_title LIKE CONCAT('%', #{keyword}, '%') OR notc_content LIKE CONCAT('%', #{keyword}, '%'))
             </if>
-            <!-- Add more conditions as needed -->
         </where>
         ORDER BY notc_id DESC
         LIMIT #{offset}, #{limit}
