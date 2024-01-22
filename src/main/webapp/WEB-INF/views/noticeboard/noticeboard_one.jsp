@@ -60,6 +60,9 @@
         .n_info {
                         text-align: center;
                     }
+                    .button-container {
+                        text-align: right;
+                    }
           </style>
 </head>
 <body>
@@ -97,19 +100,28 @@
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">${noticeBoardVO.notc_title}</h5>
+                        <h4 class="card-title">${noticeBoardVO.notc_title}</h5>
                         <p class="card-subtitle">작성일: <fmt:formatDate value="${noticeBoardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">수정일: <fmt:formatDate value="${noticeBoardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">조회수: ${noticeBoardVO.notc_views}</p>
+                        <div class="button-container">
+                                    <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
+                                    <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
+                                </div>
                         <c:if test="${not empty noticeBoardVO.notice_uuid}">
-                            <img src="<c:url value='/upload-dir/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}'/>" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
+                            <img src="${pageContext.request.contextPath}/upload_data/temp/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
                         </c:if>
+                        <br><br>
                         <p class="card-text" style="white-space: pre-line;">${noticeBoardVO.notc_content}</p>
-                            <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
-                            <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
-                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                        <div style="text-align: center;">
+                        <br>
+                                    <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+
+                                </div>
+                                 <br>
                     </div>
                 </div>
+                <br>
 
                 <div class="my-3 p-3 bg-white rounded shadow-sm">
                     <c:choose>
