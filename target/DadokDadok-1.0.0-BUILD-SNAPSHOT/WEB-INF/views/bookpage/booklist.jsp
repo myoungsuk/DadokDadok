@@ -64,6 +64,30 @@
             transform: scale(1.05); /* 호버 시 카드 확대 */
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* 그림자 효과 추가 */
         }
+
+
+        .book-search .input-group {
+            margin: 30px auto;
+            width: 100%;
+        }
+
+        #bookSearchForm .form-control {
+            border-radius: 20px 0 0 20px;
+            border: 2px solid #ddd;
+        }
+
+        .book-search .btn-primary {
+            border-radius: 0 20px 20px 0;
+            border: 2px solid #ddd;
+            background-color: #5cb85c;
+            color: white;
+        }
+
+        .book-search input.form-control:focus,
+        .book-search .btn-primary:focus {
+            outline: none;
+            box-shadow: none;
+        }
     </style>
 
 </head>
@@ -95,25 +119,28 @@
         </div>
     </section><!-- End Breadcrumbs -->
 
-    <br>
-    <div class="container">
-        <h3 data-aos="fade-up">도서 검색</h3>
-        <div class="row no-gutters text-center">
-            <div class="book-search  d-flex align-items-stretch justify-content-center" style="margin-bottom: 50px;"
-                 data-aos="fade-right">
-                <!-- 도서 검색 폼 -->
-                <form id="bookSearchForm" onsubmit="return searchBooks($('#searchKeyword').val());">
-                    <div class="input-group" style="width: 310%"> <!-- 검색창 크기 조정 -->
-                        <input type="text" id="searchKeyword" placeholder="도서 검색" class="form-control">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary">검색</button>
-                        </div>
+    <section id="about-us" class="about-us">
+        <div class="container">
+            <h3 data-aos="fade-up" class="text-center">도서 검색</h3>
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <div class="book-search" data-aos="fade-right">
+                        <!-- 도서 검색 폼 -->
+                        <form id="bookSearchForm" onsubmit="return searchBooks($('#searchKeyword').val());">
+                            <div class="input-group"> <!-- 검색창 크기 조정 -->
+                                <input type="text" id="searchKeyword" placeholder="도서 검색" class="form-control">
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-primary">검색</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
             </div>
             <hr>
         </div>
-    </div>
+    </section>
+
 
     <section id="book-search-results" class="book-search-results">
         <div class="container">
@@ -153,6 +180,10 @@
         var searchKeyword = urlParams.get('searchKeyword');
         if (searchKeyword) {
             searchBooks(searchKeyword);
+        }
+        // 가져온 키워드를 검색창에 설정합니다.
+        if (searchKeyword) {
+            $('#searchKeyword').val(searchKeyword);
         }
     });
 

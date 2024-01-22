@@ -9,7 +9,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Setting</title>
+    <title>다독다독</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -99,16 +99,21 @@
                 <p>${existingNotice.notice_file_name}</p>
             </div>
         </c:if>
+        <br>
         <div class="form-group">
             <label for="attachment">첨부 파일</label>
             <input type="file" class="form-control-file" id="attachment" name="file">
         </div>
         <br>
+            상단에 고정<input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true">
+                    <input type="hidden" id="pinnedHidden" name="pinned" value="false">
+        <br><br>
         <button type="submit" class="btn btn-info">수정</button>
         <!-- Delete button for deleting the notice -->
         <a href="#" onclick="deleteNotice(${existingNotice.notc_id})" class="btn btn-danger">삭제</a>
         <a href="/noticeboard/noticeboard" class="btn btn-secondary">목록으로</a>
     </form>
+
     </main><!-- End #main -->
                 <!-- ======= Footer ======= -->
                 <jsp:include page="/WEB-INF/views/footer.jsp"/>
