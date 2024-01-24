@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 import javax.inject.Inject;
+import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -67,12 +68,13 @@ public class NoticeBoardController {
     }
 
     @RequestMapping(value = "/noticeboard_write")
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public String write() throws Exception{
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    public String writeNotice() throws Exception {
         return "noticeboard/noticeboard_write";
     }
 
     @PostMapping("/noticeboard_insert")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String insertNotice(@RequestParam(value = "file", required = false) MultipartFile file,
                                @RequestParam("notc_title") String notc_title,
                                @RequestParam("notc_content") String notc_content,
@@ -85,13 +87,15 @@ public class NoticeBoardController {
             noticeBoardVO.setPinned(pinned);
 
             if (file != null && !file.isEmpty()) {
-                String fileName = file.getOriginalFilename();
                 String uuid = UUID.randomUUID().toString();
-                Path filePath = Paths.get("/upload_data/temp/" + uuid + "_" + fileName);
-                Files.write(filePath, file.getBytes());
+
+                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
+
+                Path path = Paths.get(filePath);
+                Files.write(path, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
-                noticeBoardVO.setNotice_file_name(fileName);
+                noticeBoardVO.setNotice_file_name(file.getOriginalFilename());
             }
 
             noticeBoardService.insertNotice(noticeBoardVO);
@@ -102,10 +106,11 @@ public class NoticeBoardController {
             redirectAttributes.addFlashAttribute("errorMessage", "Failed to insert notice");
         }
 
-        return "redirect:noticeboard";
+        return "redirect:/noticeboard/noticeboard";
     }
 
     @GetMapping("/noticeboard_update/{notc_id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String showUpdateForm(@PathVariable("notc_id") int notc_id, Model model) {
         NoticeBoardVO existingNotice = noticeBoardService.getNoticeBoardById(notc_id);
 
@@ -115,14 +120,29 @@ public class NoticeBoardController {
     }
 
     @PostMapping("/noticeboard_update/{notc_id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String handleUpdateForm(@PathVariable("notc_id") int notc_id,
                                    @ModelAttribute("existingNotice") NoticeBoardVO existingNotice,
                                    @RequestParam(value = "file", required = false) MultipartFile file,
                                    @RequestParam(value = "pinnedCheckbox", defaultValue = "false") boolean pinned,
                                    RedirectAttributes redirectAttributes) {
         try {
+            if (file != null && !file.isEmpty()) {
+                String uuid = UUID.randomUUID().toString();
+
+                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
+
+                Path path = Paths.get(filePath);
+                Files.write(path, file.getBytes());
+
+                existingNotice.setNotice_uuid(uuid);
+                existingNotice.setNotice_file_name(file.getOriginalFilename());
+            }
+
             existingNotice.setPinned(pinned);
+
             noticeBoardService.updateNotice(existingNotice, file);
+
             return "redirect:/noticeboard/noticeboard_one?notc_id=" + notc_id;
         } catch (Exception e) {
             e.printStackTrace();
@@ -132,6 +152,7 @@ public class NoticeBoardController {
     }
 
     @DeleteMapping("/noticeboard_delete/{notc_id}")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     public String deleteNotice(@PathVariable("notc_id") int notc_id, RedirectAttributes redirectAttributes) {
         try {
             noticeBoardService.deleteNotice(notc_id);
@@ -163,30 +184,6 @@ public class NoticeBoardController {
         } catch (Exception e) {
             model.addAttribute("error", "An error occurred while processing your request.");
             return "error";
-        }
-    }
-
-    @RequestMapping(value = "/upload_data/temp/{filename:.+}", method = RequestMethod.GET)
-    public ResponseEntity<Resource> getImage(@PathVariable("filename") String filename) {
-        // Construct the file path
-        String filePath = "C:/upload_data/temp/" + filename;
-
-        // Create a FileSystemResource representing the image file
-        Resource fileResource = new FileSystemResource(filePath);
-
-        // Check if the file exists
-        if (fileResource.exists()) {
-            // Serve the file with appropriate content type
-            MediaType mediaType = MediaType.IMAGE_PNG; // Set default content type to PNG
-            if (filename.toLowerCase().endsWith(".jpg") || filename.toLowerCase().endsWith(".jpeg")) {
-                mediaType = MediaType.IMAGE_JPEG;
-            }
-            return ResponseEntity.ok()
-                    .contentType(mediaType)
-                    .body(fileResource);
-        } else {
-            // Return 404 Not Found if the file does not exist
-            return ResponseEntity.notFound().build();
         }
     }
 
