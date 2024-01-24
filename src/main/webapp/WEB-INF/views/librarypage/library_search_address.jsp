@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <html>
 
 <head>
@@ -18,7 +17,7 @@ pageEncoding="UTF-8"%>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
-    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=feb6a3c31b035f2a61bd30ac29509330&libraries=services"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=feb6a3c31b035f2a61bd30ac29509330"></script>
 
     <!-- Favicons -->
     <link href="../../../resources/assets/img/favicon.png" rel="icon">
@@ -42,7 +41,7 @@ pageEncoding="UTF-8"%>
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
-    <!-- 페이징 스크립트 -->
+    <!-- 지역 페이징 스크립트 -->
     <script>
         $(function() {
             $('.pages').click(function(e) {
@@ -51,15 +50,18 @@ pageEncoding="UTF-8"%>
                 //alert(page)
                 if ($(this).text() === '다음 »') {
                     //page = parseInt($('.pages').last().data('page'));
-                    location.href = "library_list3?page=" + page
+                    location.href = "library_search_address?page=" + page + "&&regionSelect=" + '${regionSelect}' + "&&categorySelect=" + '${categorySelect}'
                 }
                 if ($(this).text() === '« 이전') {
-                    location.href = "library_list3?page=" + page
+                    location.href = "library_search_address?page=" + page + "&&regionSelect=" + '${regionSelect}' + "&&categorySelect=" + '${categorySelect}'
                 }
+                console.log('pages.click')
                 $.ajax({
-                    url: "library_list4",
+                    url: "library_search_address2",
                     data: {
-                        page: page //6
+                        page: page, //6
+                        regionSelect : '${regionSelect}',
+                        categorySelect : '${categorySelect}'
                     },
                     success: function(table) {
                         $('#result').html(table);
@@ -69,12 +71,12 @@ pageEncoding="UTF-8"%>
         });
     </script>
 
-    <!-- 이름으로 검색 -->
+<!-- 이름으로 검색 -->
     <script type="text/javascript">
         $(function() {
             $('#search_name').click(function(e) {
                 var page = parseInt($(this).data('page'));
-                //e.preventDefault();
+                e.preventDefault();
                 console.log( $(this).text());
 
                 $.ajax({
@@ -117,26 +119,7 @@ pageEncoding="UTF-8"%>
                 $('body').append(form);
                 form.submit();
             }
-                //var categorySelect3 = $('#categorySelect option:selected').val();
-                //alert(categorySelect3);
-                //검색 결과 서버로 전송
-                //$.ajax({
-                //    url: "library_search_address",
-                //    type: GET,
-                //    data: {
-                //        page: page,
-                //        regionSelect: regionSelect,
-                //        categorySelect: categorySelect
-                //    },
-                //    success: function(table) {
-                //        $('#result').html(table);
-                //        $('#regionSelect').val('${regionSelect}');
-                //        $('#categorySelect').val('${categorySelect}');
-                //        alert(response);
-                //    },
-                //    error: function(error) {
-                //        console.error(error);
-                //    }
+
 
     </script>
 
@@ -516,7 +499,7 @@ pageEncoding="UTF-8"%>
                         </div>
                     </form>
                 </div>
-                <br>
+
                 <div class="container mt-4">
                     <h4>지역으로 찾기</h4>
                     <!-- 지역별 카테고리 검색창 -->
@@ -552,11 +535,9 @@ pageEncoding="UTF-8"%>
                         <button onclick="search_address()" type="button" class="btn btn-primary" >지역으로 검색</button>
                         <br><br>
                         📌 도서관명 또는 도서관 지역으로 정보를 검색할 수 있습니다.<br>
-                        우측의 지도를 통해 사용자와 가장 가까이에 있는 도서관을 확인할 수 있습니다.
-
+                        우측의 지도를 통해 조회 결과 최상단 도서관의 위치를 확인할 수 있습니다.
                 <!-- </form> -->
                 </div>
-
 
             </div>
             <div class="right-panel" id="map">
@@ -567,128 +548,64 @@ pageEncoding="UTF-8"%>
         </div>
     </div>
 
-    <!-- 카카오맵 API. div 보다 아래 위치해야 작동함 -->
+    <!-- 맵을 표시할 영역 -->
     <script>
     var mapContainer = document.getElementById('map'), // 지도를 표시할 div
         mapOption = {
-            center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-            level: 5 // 지도의 확대 레벨
+            center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+            level: 3 // 지도의 확대 레벨
         };
 
-    // 지도를 생성합니다
     var map = new kakao.maps.Map(mapContainer, mapOption);
 
-    // 장소 검색 객체를 생성합니다
-    var ps = new kakao.maps.services.Places();
+    // 마커가 표시될 위치입니다
+    var markerPosition  = new kakao.maps.LatLng(33.450701, 126.570667);
 
-    // 주변 도서관을 검색하는 함수
-    function searchNearbyLibrary(latitude, longitude) {
-        var ps = new kakao.maps.services.Places();
+    // 마커를 생성합니다
+    var marker = new kakao.maps.Marker({
+        position: markerPosition
+    });
 
-        var callback = function(result, status) {
-            if (status === kakao.maps.services.Status.OK) {
-                console.log(result); // 검색 결과 확인
+    // 마커가 지도 위에 표시되도록 설정합니다
+    marker.setMap(map);
 
-                // 여기서 result 배열에 검색된 '도서관' 목록이 있습니다.
-                // 이를 원하는 방식으로 처리하실 수 있습니다.
-            }
-        };
+    //var iwContent = '<div style="padding:5px;">Hello World!</div>', // 인포윈도우에 표출될 내용으로 HTML 문자열이나 document element가 가능합니다
+    //    iwPosition = new kakao.maps.LatLng(33.450701, 126.570667); //인포윈도우 표시 위치입니다
 
-        var keyword = '도서관'; // 검색할 키워드
+    // 인포윈도우를 생성합니다
+    var infowindow = new kakao.maps.InfoWindow({
+        position : markerPosition,
+        content : '<div style="width: 200px; padding:5px;">${list[0].lib_name}</div>', // 기본적으로 첫 번째 도서관의 이름을 출력하도록 설정
+    });
 
-        var options = {
-            location: new kakao.maps.LatLng(latitude, longitude) // 현재 위치 좌표 설정
-        };
 
-        // 키워드로 장소를 검색합니다
-        //ps.keywordSearch(keyword, placesSearchCB, options); // 수정된 부분: 콜백 함수로 placesSearchCB를 사용합니다.
 
-        // 콘솔창에도 출력을 하고 키워드로 장소를 검색하는 코드
-        // 키워드로 장소를 검색합니다
-            ps.keywordSearch(keyword, function(result, status, pagination) {
-                placesSearchCB(result, status, pagination);
-                console.log(result); // 검색된 장소 정보를 콘솔에 출력
-            }, options);
-    }
 
-    // 키워드 검색 완료 시 호출되는 콜백함수 입니다
-    function placesSearchCB (data, status, pagination) {
-        if (status === kakao.maps.services.Status.OK) {
+    // 마커 위에 인포윈도우를 표시합니다. 두번째 파라미터인 marker를 넣어주지 않으면 지도 위에 표시됩니다
+    infowindow.open(map, marker);
 
-            // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-            // LatLngBounds 객체에 좌표를 추가합니다
-            var bounds = new kakao.maps.LatLngBounds();
 
-            for (var i=0; i<data.length; i++) {
-                displayMarker(data[i]);
-                bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-            }
 
-            // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-            map.setBounds(bounds);
-            // 검색 결과를 모두 포함하고 난 후, 확대 레벨을 조정합니다.
-            map.setLevel(5); // 원하는 확대 레벨로 설정, 필요에 따라 지도의 중심도 재조정
+    // 마커 위치를 업데이트하는 함수
+        function updateMarkerPosition() {
+            var latitude = parseFloat(document.getElementById('latitude').innerText);
+            var longitude = parseFloat(document.getElementById('longitude').innerText);
+
+            // 마커 위치 업데이트
+            var markerPosition = new kakao.maps.LatLng(latitude, longitude);
+            marker.setPosition(markerPosition);
+
+            // 지도 중심을 새 마커 위치로 업데이트
+            map.setCenter(markerPosition);
+
+            // 인포윈도우 위치 업데이트
+            infowindow.setPosition(markerPosition);
         }
-    }
 
-    // 중복 함수 제거 후 통합된 displayMarker 함수
-    // 큰 지도보기가 위도, 경도로 찾아지지 않아서 지도의 id로 변경
-    function displayMarker(place, customMessage) {
-        var content = '<div style="padding:5px;font-size:12px;">' + (customMessage || place.place_name) + '<br>' +
-                    '<a href="https://map.kakao.com/link/map/' + place.id + '" style="color:blue" target="_blank">큰지도보기</a>' + ' | ' +
-                    ' <a href="https://map.kakao.com/link/to/' + place.place_name + ',' + place.x + ',' + place.y +
-                    '" style="color:blue" target="_blank">길찾기</a>'
-                    + '</div>';
-        var iwRemoveable = true;
-        // 마커를 생성하고 지도에 표시합니다
-        var marker = new kakao.maps.Marker({
-            map: map,
-            position: new kakao.maps.LatLng(place.y, place.x)
+        // 문서가 로드된 후에 updateMarkerPosition 함수 호출
+        $(document).ready(function() {
+            updateMarkerPosition();
         });
-
-        // 인포윈도우를 생성합니다
-        var infowindow = new kakao.maps.InfoWindow({
-            content: content,
-            removable : iwRemoveable
-        });
-
-        // 마커에 클릭이벤트를 등록합니다
-        kakao.maps.event.addListener(marker, 'click', function() {
-        console.log(place);
-            infowindow.setContent(content); // 정보창 내용 갱신
-            infowindow.open(map, marker);
-        });
-
-        // 지도 중심좌표를 마커 위치로 변경합니다
-        // 사용자 위치를 표시하는 경우에만 중심좌표를 변경하도록 조건을 추가합니다.
-        if (customMessage) {
-            map.setCenter(new kakao.maps.LatLng(place.y, place.x));
-        }
-    }
-
-    // HTML5의 geolocation으로 사용할 수 있는지 확인합니다
-    if (navigator.geolocation) {
-
-        // GeoLocation을 이용해서 접속 위치를 얻어옵니다
-        navigator.geolocation.getCurrentPosition(function(position) {
-
-            var lat = position.coords.latitude, // 위도
-                lon = position.coords.longitude; // 경도
-
-            // 현재 위치를 기준으로 검색하기 위해 검색 함수 호출
-            searchNearbyLibrary(lat, lon);
-          });
-
-    } else { // HTML5의 GeoLocation을 사용할 수 없을 때 기본 위치로 설정합니다
-
-        var defaultLat = 37.566826, // 기본 위도 값
-            defaultLon = 126.9786567; // 기본 경도 값
-
-        // 현재 위치를 기준으로 검색하기 위해 검색 함수 호출
-            var locPosition = new kakao.maps.LatLng(defaultLat, defaultLon);
-            displayMarker({y: defaultLat, x: defaultLon}, "기본 위치입니다."); // 수정된 부분
-    }
-
     </script>
 
 
@@ -713,8 +630,8 @@ pageEncoding="UTF-8"%>
                             <td><a href="library_one?lib_code=${libraryVO.lib_code }">${libraryVO.lib_name }</a></td>
                             <td>${libraryVO.lib_address }</td>
                             <td>${libraryVO.lib_tel }</td>
-                            <td class="hidden-column">${libraryVO.lib_latitude}</td>
-                            <td class="hidden-column">${libraryVO.lib_longitude}</td>
+                            <td class="hidden-column"><span id="latitude">${libraryVO.lib_latitude}</span></td>
+                            <td class="hidden-column"><span id="longitude">${libraryVO.lib_longitude}</span></td>
                         </tr>
                     </c:forEach>
                 </tbody>
@@ -750,29 +667,30 @@ pageEncoding="UTF-8"%>
         </c:if>
     </div>
     <br><br>
-
     <div class="container mt-4" style="display: flex; justify-content: space-between;">
         <sec:authorize access="hasRole('ROLE_ADMIN')"> <!-- 관리자 계정만 볼 수 있음 -->
             <a href="library_admin" id="library_admin" class="btn btn-danger">도서 관리자 페이지</a>
         </sec:authorize>
         <a href="library_list3?page=1" class="btn btn-primary">전체 목록 보기</a>
     </div>
-
     <br><br><br>
 
+
     <!-- 변수 확인용 -->
-    <!-- <div class="container mt-2">
+    <!--<div class="container mt-2">
         <p>전체 도서관 수 : ${count } 개</p>
+        <p>검색 도서관 수 : ${search_count } 개</p>
         <p>현재 페이지: ${page} P</p>
         <p>전체 페이지 수: ${totalPage} P</p>
         <p>시작 페이지: ${startPage} P</p>
         <p>끝 페이지: ${endPage} P</p>
         <br>
-    </div> -->
+    </div>-->
 
     <!-- ======= Footer ======= -->
     <jsp:include page="/WEB-INF/views/footer.jsp"/>
     <!-- End Footer -->
+
 </body>
 
 </html>
