@@ -1,8 +1,5 @@
 package com.multi.mini6.librarypage.vo;
 
-import com.multi.mini6.librarypage.controller.LibraryPageController;
-import com.multi.mini6.librarypage.dao.LibraryPageDAO;
-import com.multi.mini6.librarypage.service.LibraryPageService;
 import lombok.*;
 
 @Getter
@@ -17,6 +14,8 @@ public class LibraryPageVO {
     private int page; // 현재 페이지
     private int pageSize = 10; // 한 페이지에서 보여줄 게시글 수
     private String keyword; // 검색 키워드
+    private String regionSelect; //지역
+    private String categorySelect; //시군구
 
     // 이전에 사용하던 것
     public void setStartEnd() {

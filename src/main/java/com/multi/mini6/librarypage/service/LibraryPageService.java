@@ -13,26 +13,27 @@ public class LibraryPageService {
     @Autowired
     LibraryPageDAO libraryPageDAO;
 
+    // 전체 데이터 개수
     public int count() {
         return libraryPageDAO.count();
     }
 
-    public List<LibraryVO> list(LibraryPageVO libraryPageVO) {
-        return libraryPageDAO.list2(libraryPageVO);
-    }
-
+    // 전체 리스트 조회
     public List<LibraryVO> list3(LibraryPageVO libraryPageVO) {
         return libraryPageDAO.list3(libraryPageVO);
     }
 
-    public List<LibraryVO> list4(LibraryPageVO libraryPageVO) {
-        return libraryPageDAO.list4(libraryPageVO);
-    }
-
+    // 이름으로 검색
     public List<LibraryVO> search_name(LibraryPageVO libraryPageVO) {
         return libraryPageDAO.search_name(libraryPageVO);
     }
 
+    // 지역으로 검색
+    public List<LibraryVO> search_address(LibraryPageVO libraryPageVO) {
+        return libraryPageDAO.search_address(libraryPageVO);
+    }
+
+    // 검색시 결과 개수
     public int search_count(LibraryPageVO libraryPageVO) {
         return libraryPageDAO.search_count(libraryPageVO);
     }
