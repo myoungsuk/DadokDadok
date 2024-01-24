@@ -32,64 +32,66 @@
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
     <style>
     .logo-link {
-          display: flex;
-          align-items: center;
-          text-decoration: none; /* 링크 밑줄 제거 */
-        }
+    display: flex;
+    align-items: center;
+    text-decoration: none; /* 링크 밑줄 제거 */
+    }
 
-        .logo-image {
-          max-width: 300px; /* 로고 이미지 크기 조정 */
-          height: auto; /* 이미지 높이 자동 조절 */
-        }
+    .logo-image {
+    max-width: 300px; /* 로고 이미지 크기 조정 */
+    height: auto; /* 이미지 높이 자동 조절 */
+    }
 
-        .logo-text {
-          font-size: 24px; /* 로고 텍스트 크기 */
-          font-weight: bold; /* 글씨 굵게 */
-          color: #333; /* 글씨 색상 */
-          /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-        }
-        .main {
-          display: grid;
-            place-items: center;
-            min-height: 100dvh;
-        }
-        .row {
-                  display: flex;
-                    justify-content: center;
-                    margin-left: 20%;
-                    margin-right: 20%;
-                }
+    .logo-text {
+    font-size: 24px; /* 로고 텍스트 크기 */
+    font-weight: bold; /* 글씨 굵게 */
+    color: #333; /* 글씨 색상 */
+    /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
+    }
 
-        .search-form {
-            text-align: center; /* Center align the form */
-        }
+    .main {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    }
 
-        .input-group {
-            display: inline-block; /* Display the group as inline-block */
-            vertical-align: middle; /* Align the group vertically */
-        }
+    .row {
+    display: flex;
+    justify-content: center;
+    margin-left: 20%;
+    margin-right: 20%;
+    }
 
-        .input-group select,
-        .input-group input[type="text"],
-        .input-group input[type="submit"] {
-            margin: 0; /* Remove default margins */
-            vertical-align: middle; /* Align elements vertically */
-        }
+    .search-form {
+    text-align: center; /* Center align the form */
+    }
 
-        .pinned-notice {
-                background-color: #f2f2f2; /* Light gray background */
-                font-weight: bold; /* Make text bold */
-            }
+    .input-group {
+    display: inline-block; /* Display the group as inline-block */
+    vertical-align: middle; /* Align the group vertically */
+    }
 
-        .post-number {
-                    color: red; /* Set the text color to red */
-                }
-        .n_info {
-                        text-align: center;
-                    }
-      </style>
+    .input-group select,
+    .input-group input[type="text"],
+    .input-group input[type="submit"] {
+    margin: 0; /* Remove default margins */
+    vertical-align: middle; /* Align elements vertically */
+    }
+
+    .pinned-notice {
+    background-color: #f2f2f2; /* Light gray background */
+    font-weight: bold; /* Make text bold */
+    }
+
+    .post-number {
+    color: red; /* Set the text color to red */
+    }
+
+    .n_info {
+    text-align: center;
+    }
+    </style>
 </head>
-
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -104,7 +106,6 @@
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
-
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
@@ -112,36 +113,36 @@
                     <li>공지게시판</li>
                 </ol>
             </div>
-
         </div>
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
         <div class="n_info">
-        <br>
-                <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
-                <div>공지 사항을 준수해 주세요.</div>
-                <div>중요 공지는 상단에 고정되어 있습니다.</div>
-                <div><p>총 게시물 수: ${count}</p></div>
-                <br>
+        <br><br>
+            <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+            <div>공지 사항을 준수해 주세요.</div>
+            <div>중요 공지는 상단에 고정되어 있습니다.</div>
+            <br>
+        </div>
+        <form action="noticeboard_search" method="get" class="search-form">
+            <div class="input-group">
+                <select id="searchType" name="searchType">
+                    <option value="title">제목</option>
+                    <option value="content">내용</option>
+                    <option value="titleContent">제목+내용</option>
+                </select>
+                <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+                <input type="submit" value="검색" class="btn btn-secondary">
+                <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+                    <a href="noticeboard_write" class="btn btn-primary">새 글 쓰기</a>
+                </c:if>
             </div>
-                            <form action="noticeboard_search" method="get" class="search-form">
-                                <div class="input-group">
-                                    <select id="searchType" name="searchType">
-                                        <option value="title">제목</option>
-                                        <option value="content">내용</option>
-                                        <option value="titleContent">제목+내용</option>
-                                    </select>
-                                    <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-                                    <input type="submit" value="검색" class="btn btn-secondary">
-                                    <a href="noticeboard_write" class="btn btn-primary">새 글 쓰기</a>
-                                </div>
-                            </form>
-                            <br><br>
-
+        </form>
+        <br><br>
         <div class="row">
+        <p>총 게시물 수: ${count}</p>
             <div class="col">
-                <table class="table">
+                <table id="noticeboardTable" class="table">
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
@@ -182,8 +183,6 @@
                         </c:forEach>
                     </tbody>
                 </table>
-
-
                 <br>
                 <ul class="pagination justify-content-center">
                     <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
@@ -220,6 +219,5 @@
 <!-- ======= Footer ======= -->
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 <!-- End Footer -->
-
 </body>
 </html>
