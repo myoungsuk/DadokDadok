@@ -77,7 +77,7 @@ public class LibraryPageController {
     }
 
 
-    @RequestMapping("library_search_name")
+    @RequestMapping("/library_search_name")
     public void search_name(Model model, LibraryPageVO libraryPageVO, @RequestParam(value = "page", required = false, defaultValue = "1") int page){ // start, end
         int count = 0;
         int search_count = 0;
@@ -130,7 +130,7 @@ public class LibraryPageController {
         model.addAttribute("keyword", libraryPageVO.getKeyword()); // 검색어
     }
 
-    @RequestMapping("library_search_name2")
+    @RequestMapping("/library_search_name2")
     public void search_name2(LibraryPageVO libraryPageVO, Model model, @RequestParam("page") int page){ // start, end
         int count = 0;
         String result = "";
@@ -163,7 +163,7 @@ public class LibraryPageController {
         model.addAttribute("keyword", libraryPageVO.getKeyword()); // 검색어
     }
 
-    @RequestMapping("library_search_address")
+    @RequestMapping("/library_search_address")
     public void search_address(Model model, LibraryPageVO libraryPageVO, @RequestParam(value = "page", required = false, defaultValue = "1") int page){ // start, end
         int count = 0;
         int search_count = 0;
@@ -222,7 +222,7 @@ public class LibraryPageController {
         model.addAttribute("categorySelect", libraryPageVO.getCategorySelect()); // 시군구
     }
 
-    @RequestMapping("library_search_address2")
+    @RequestMapping("/library_search_address2")
     public void search_address2(LibraryPageVO libraryPageVO, Model model){ // start, end
         int count = 0;
         String result = "";

@@ -83,8 +83,7 @@ pageEncoding="UTF-8"%>
                 $.ajax({
                     url: "library_search_name",
                     data: {
-                        page: $(this).text(),
-                        keyword: '${keyword}'
+                        "&page=1" + "keyword=" + encodeURIComponent('${keyword}')
                     },
                     success: function(table) {
                         $('#result').html(table);
