@@ -33,7 +33,11 @@
   <link href="${pageContext.request.contextPath}/resources/css/freeboard.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/resources/css/review.css" rel="stylesheet">
+<link href="${pageContext.request.contextPath}/resources/css/notice.css" rel="stylesheet">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
   <!-- =======================================================
   * Template Name: Flattern

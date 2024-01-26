@@ -6,92 +6,7 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-    <title>다독다독</title>
-    <meta content="" name="description">
-    <meta content="" name="keywords">
-
-    <!-- Favicons -->
-    <link href="../../../resources/assets/img/favicon.png" rel="icon">
-    <link href="../../../resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
-    <!-- Vendor CSS Files -->
-    <link href="../../../resources/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/css/style.css" rel="stylesheet">
-    <style>
-    .logo-link {
-    display: flex;
-    align-items: center;
-    text-decoration: none; /* 링크 밑줄 제거 */
-    }
-
-    .logo-image {
-    max-width: 300px; /* 로고 이미지 크기 조정 */
-    height: auto; /* 이미지 높이 자동 조절 */
-    }
-
-    .logo-text {
-    font-size: 24px; /* 로고 텍스트 크기 */
-    font-weight: bold; /* 글씨 굵게 */
-    color: #333; /* 글씨 색상 */
-    /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-    }
-
-    .main {
-    display: grid;
-    place-items: center;
-    min-height: 100dvh;
-    }
-
-    .row {
-    display: flex;
-    justify-content: center;
-    margin-left: 20%;
-    margin-right: 20%;
-    }
-
-    .search-form {
-    text-align: center; /* Center align the form */
-    }
-
-    .input-group {
-    display: inline-block; /* Display the group as inline-block */
-    vertical-align: middle; /* Align the group vertically */
-    }
-
-    .input-group select,
-    .input-group input[type="text"],
-    .input-group input[type="submit"] {
-    margin: 0; /* Remove default margins */
-    vertical-align: middle; /* Align elements vertically */
-    }
-
-    .pinned-notice {
-    background-color: #f2f2f2; /* Light gray background */
-    font-weight: bold; /* Make text bold */
-    }
-
-    .post-number {
-    color: red; /* Set the text color to red */
-    }
-
-    .n_info {
-    text-align: center;
-    }
-    </style>
-</head>
+<jsp:include page="/WEB-INF/views/head.jsp"/>
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -109,23 +24,22 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                     <li><a href="../mainpage/index">Home</a></li>
                     <li>공지게시판</li>
                 </ol>
             </div>
         </div>
     </section><!-- End Breadcrumbs -->
 
-    <div class="center">
+    <div class="center noticeboard">
         <div class="n_info">
-        <br><br>
-            <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+            <p>공지게시판</p>
             <div>공지 사항을 준수해 주세요.</div>
             <div>중요 공지는 상단에 고정되어 있습니다.</div>
             <br>
         </div>
         <form action="noticeboard_search" method="get" class="search-form">
-            <div class="input-group">
+            <div class="input-group n_search">
                 <select id="searchType" name="searchType">
                     <option value="title">제목</option>
                     <option value="content">내용</option>
@@ -142,7 +56,7 @@
         <div class="row">
         <p>총 게시물 수: ${count}</p>
             <div class="col">
-                <table id="noticeboardTable" class="table">
+                <table id="noticeboardTable" class="table n_table">
                     <thead>
                         <tr>
                             <th scope="col">NO</th>
@@ -184,7 +98,7 @@
                     </tbody>
                 </table>
                 <br>
-                <ul class="pagination justify-content-center">
+                <ul class="pagination justify-content-center n_page">
                     <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
                         <a class="page-link" href="noticeboard?page=1&pageSize=10" aria-label="First">
                             &lt;&lt;<span aria-hidden="true"></span>

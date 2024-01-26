@@ -16,11 +16,13 @@
       color: #333; /* 글씨 색상 */
       /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
     }
-    #header .navbar a {  color: #333; font-size: 14px; font-weight: 900; }
+    #topbar a { text-decoration: none; }
+    #header .navbar a {  color: #333; font-size: 14px; font-weight: 900; text-decoration: none; }
     #header .navbar a:hover { color: #0a58ca; }
 
 
     #main { cursor: default; }
+    #main a { text-decoration: none; }
     #hero:has(.book_search) { height: 40vh; }
     .book_search { display: flex; width: 100%; height: 100%; justify-content: center; align-items: center; background: linear-gradient(139deg, rgba(251,135,161,0.3) 0%, rgba(135,182,250,0.3) 74%, rgba(45,110,204,0.3) 100%); }
     .book_search div { display: flex; }
@@ -68,7 +70,7 @@
     .review .portfolio-item .portfolio-info .details-link:hover { color: #0a58ca; }
 
     #footer { background: #f8f6f5; }
-    #footer a { color: #aaa; }
+    #footer a { color: #aaa; text-decoration: none; }
     .main_top { right: 30px; bottom: 30px; background: rgba(45, 110, 204, 0.6); border-radius: 50%; }
     .main_top:hover { background: rgba(45, 110, 204, 1); }
 

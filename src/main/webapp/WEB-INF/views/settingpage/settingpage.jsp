@@ -35,6 +35,8 @@
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
     <!-- =======================================================
     * Template Name: Flattern
     * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -139,7 +141,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Setting</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Setting</li>
                 </ol>
             </div>
