@@ -31,31 +31,40 @@
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
     <style>
     .logo-link {
-          display: flex;
-          align-items: center;
-          text-decoration: none; /* 링크 밑줄 제거 */
-        }
+      display: flex;
+      align-items: center;
+      text-decoration: none; /* 링크 밑줄 제거 */
+    }
 
-        .logo-image {
-          max-width: 300px; /* 로고 이미지 크기 조정 */
-          height: auto; /* 이미지 높이 자동 조절 */
-        }
+    .logo-image {
+      max-width: 300px; /* 로고 이미지 크기 조정 */
+      height: auto; /* 이미지 높이 자동 조절 */
+    }
 
-        .logo-text {
-          font-size: 24px; /* 로고 텍스트 크기 */
-          font-weight: bold; /* 글씨 굵게 */
-          color: #333; /* 글씨 색상 */
-          /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-        }
-            .center {
-              margin-top: 2%; /* Adjust the top margin as a percentage of the viewport height */
-              margin-bottom: 2%; /* Adjust the bottom margin as a percentage of the viewport height */
-              margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
-              margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
-            }
-          </style>
+    .logo-text {
+      font-size: 24px; /* 로고 텍스트 크기 */
+      font-weight: bold; /* 글씨 굵게 */
+      color: #333; /* 글씨 색상 */
+      /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
+    }
+    .main {
+    display: grid;
+    place-items: center;
+    min-height: 100dvh;
+    }
+    .edit {
+    justify-content: center;
+    margin-left: 20%;
+    margin-right: 20%;
+    }
+    .n_info {
+    text-align: center;
+    }
+    .button-container {
+    text-align: right;
+    }
+    </style>
 </head>
-
 <body>
 
 <!-- ======= Top Bar ======= -->
@@ -70,7 +79,6 @@
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
-
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
@@ -78,43 +86,52 @@
                     <li>공지게시판</li>
                 </ol>
             </div>
-
         </div>
     </section><!-- End Breadcrumbs -->
 
 <div class="center">
-    <h2>공지 수정</h2>
-    <form action="/noticeboard/noticeboard_update/${existingNotice.notc_id}" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <label for="notc_title">제목</label>
-            <input type="text" class="form-control" id="notc_title" name="notc_title" value="${existingNotice.notc_title}" required>
-        </div>
-        <br>
-        <div class="form-group">
-            <label for="notc_content">내용</label>
-            <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required>${existingNotice.notc_content}</textarea>
-        </div>
-        <c:if test="${not empty existingNotice.notice_uuid}">
-            <div>
-                <p>${existingNotice.notice_file_name}</p>
-            </div>
-        </c:if>
-        <br>
-        <div class="form-group">
-            <label for="attachment">첨부 파일</label>
-            <input type="file" class="form-control-file" id="attachment" name="file">
-        </div>
-        <br>
-            상단에 고정<input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true">
-                    <input type="hidden" id="pinnedHidden" name="pinned" value="false">
+    <div class="n_info">
         <br><br>
-        <button type="submit" class="btn btn-info">수정</button>
-        <!-- Delete button for deleting the notice -->
-        <a href="#" onclick="deleteNotice(${existingNotice.notc_id})" class="btn btn-danger">삭제</a>
-        <a href="/noticeboard/noticeboard" class="btn btn-secondary">목록으로</a>
-    </form>
-
-    </main><!-- End #main -->
+        <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+        <div>공지 글 수정 화면입니다.</div>
+        <br>
+    </div>
+        <div class="edit">
+        <form action="/noticeboard/noticeboard_update/${existingNotice.notc_id}" method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <label for="notc_title">제목</label>
+                <input type="text" class="form-control" id="notc_title" name="notc_title" value="${existingNotice.notc_title}" required>
+            </div>
+            <br>
+            <div class="form-group">
+                <label for="notc_content">내용</label>
+                <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required>${existingNotice.notc_content}</textarea>
+            </div>
+            <br>
+            <c:if test="${not empty existingNotice.notice_uuid}">
+                <div>
+                    <img src="${pageContext.request.contextPath}/upload_data/temp/${existingNotice.notice_uuid}_${existingNotice.notice_file_name}" alt="${existingNotice.notice_file_name}" class="img-fluid" id="existingImage" style="max-width: 150px; max-height: 150px;">
+                    <p>${existingNotice.notice_file_name}</p>
+                </div>
+            </c:if>
+            <div id="imagePreview"></div>
+            <div class="form-group">
+                <input type="file" class="form-control-file" id="attachment" name="file"><br>
+                <label for="attachment">선택된 파일이 없으면 기존에 첨부된 이미지는 삭제됩니다.</label>
+            </div>
+            <br>
+                상단에 고정 <input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true" ${existingNotice.pinned ? 'checked' : ''}>
+                    <input type="hidden" id="pinnedHidden" name="pinned" value="${existingNotice.pinned}">
+            <br><br>
+            <button type="submit" class="btn btn-info">수정</button>
+            <!-- Delete button for deleting the notice -->
+            <a href="#" onclick="deleteNotice(${existingNotice.notc_id})" class="btn btn-danger">삭제</a>
+            <a href="/noticeboard/noticeboard" class="btn btn-secondary">목록으로</a>
+            <br><br>
+        </form>
+        </div>
+    </div>
+</main><!-- End #main -->
                 <!-- ======= Footer ======= -->
                 <jsp:include page="/WEB-INF/views/footer.jsp"/>
                 <!-- End Footer -->
@@ -147,8 +164,27 @@
                 hiddenInput.value = 'false'; // Set the value to 'false' when unchecked
             }
         });
-    </script>
-    </div>
+        function previewAttachment(event) {
+            var input = event.target;
+            var reader = new FileReader();
 
+            reader.onload = function() {
+                var img = new Image();
+                img.src = reader.result;
+                img.onload = function() {
+                    var canvas = document.createElement('canvas');
+                    var ctx = canvas.getContext('2d');
+                    canvas.width = 150; // Set the width to your desired size
+                    canvas.height = 150; // Set the height to your desired size
+                    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                    document.getElementById('imagePreview').innerHTML = '';
+                    document.getElementById('imagePreview').appendChild(canvas);
+                };
+            };
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    </script>
+</div>
 </body>
 </html>
