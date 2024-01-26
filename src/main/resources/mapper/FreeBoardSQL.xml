@@ -14,25 +14,41 @@
     </insert>
 
 <!--자유게시판 글 등록 - 파일첨부 -->
-    <insert id="freeBoardFileInsert"  parameterType="freeboardAttachVO">
+    <!--<insert id="freeBoardFileInsert"  parameterType="freeboardAttachVO">
         insert into board_attach (board_id, board_uuid, board_file_name, board_file_type)
         values(#{board_id}, #{board_uuid}, #{board_file_name}, #{board_file_type})
+    </insert>-->
+
+    <!-- -자유게시판 글 등록 - s3에 파일업로드 -->
+    <insert id="freeBoardS3Insert" parameterType="freeboardAttachVO">
+        insert into board_attach (board_id, board_file_name)
+        values(#{board_id}, #{board_file_name})
     </insert>
 
-    <!--자유게시판 글 등록 - 첨부파일 삭제 -->
-    <delete id="freeBoardFileDelete">
-        delete from board_attach where board_id = #{board_id}
-    </delete>
-
-    <!--자유게시판 글 등록 - 첨부파일 번호 찾기-->
-    <select id="freeBoardFileID" resultType="freeboardAttachVO">
+    <!-- -자유게시판 글 상세보기 - s3에 있는 파일정보가져오기 -->
+    <select id="freeBoardS3Find" parameterType="int" resultType="freeboardAttachVO">
         select * from board_attach where board_id = #{board_id}
     </select>
 
+    <!-- -자유게시판 글 상세보기 - s3에 있는 파일정보 삭제 -->
+    <select id="freeBoardS3InfoDelete" parameterType="int">
+        delete from board_attach where board_id = #{board_id}
+    </select>
+
+    <!--자유게시판 글 등록 - 첨부파일 삭제 -->
+    <!--<delete id="freeBoardFileDelete">
+        delete from board_attach where board_id = #{board_id}
+    </delete>-->
+
+    <!--자유게시판 글 등록 - 첨부파일 번호 찾기-->
+    <!--<select id="freeBoardFileID" resultType="freeboardAttachVO">
+        select * from board_attach where board_id = #{board_id}
+    </select>-->
+
     <!--자유게시판 글 수정 - 첨부파일 삭제 -->
-    <delete id="freeBoardFileChange">
+    <!--<delete id="freeBoardFileChange">
         delete from board_attach where board_uuid = #{board_uuid}
-    </delete>
+    </delete>-->
 
 
 
@@ -114,7 +130,7 @@
     <insert id="freeBoardCommentInsert" parameterType="freeboardCommentVO">
         insert into board_comment (board_id, cm_content, cm_createdAt, cm_modifiedAt, member_id, cm_class, cm_group)
         select #{board_id}, #{cm_content}, now(), now(), #{member_id}, #{cm_class}, COALESCE(MAX(cm_group), 0) + 1
-        from board_comment where board_id = #{board_id}
+        from board_comment where board_id = #{board_id}eh
     </insert>
 
     <!--댓글 리스트가져오기-->
@@ -140,5 +156,6 @@
         insert into board_comment (board_id, cm_content, cm_createdAt, cm_modifiedAt, member_id, cm_class, cm_group)
         values (#{board_id}, #{cm_content}, now(), now(), #{member_id}, 1, #{cm_group} )
     </insert>
+
 
 </mapper>

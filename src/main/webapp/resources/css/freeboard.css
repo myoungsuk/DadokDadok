@@ -8,9 +8,9 @@ ul, ol {list-style: none;}
 
 /* board_list */
 
-  .search { display: flex; height: 36px; margin: 32px 0;  justify-content: center; }
-  .search  select { padding: 0 10px; cursor: pointer; }
-  .search  input { width: 50%; margin: 0 10px; }
+  .search { display: flex; height: 40px; margin: 32px 0;  justify-content: center; }
+  .search  select { padding: 0 10px; border: 1px solid #aaa; border-radius: 2px; cursor: pointer; }
+  .search  input { width: 50%; margin: 0 10px; padding: 6px 8px; border: 1px solid #aaa; border-radius: 2px;}
   .search  button { width: 36px; height: 36px; padding: 0; background: transparent; border: none;  font-size: 24px;  color: #555; text-align: center;  }
   .search button:hover { color: #0a58ca; }
 
@@ -44,16 +44,18 @@ ul, ol {list-style: none;}
  .bo_title2 .t2_left{}
  .bo_content { margin-bottom: 100px; padding: 0 6px; }
  .file_content .img_file:has(.img_list),
- .file_content .file:has(.file_list) { width: 100%;  margin-bottom: 50px; padding: 20px; background: #f6f6f6; border-radius: 10px; }
- .file_content .img_file { display: flex;  flex-wrap: wrap; text-align: center; }
- .file_content .img_file .img_list span { text-align: center; }
+ .file_content .file:has(.file_list) { width: 100%; overflow: hidden; margin-bottom: 10px; padding: 20px; background: #f6f6f6; border-radius: 10px; }
+ .file_content .img_file { text-align: center; }
+ .file_content .img_file .img_list span { display: block; text-align: center; }
  .file_content .img_file .img_list div { width: 200px; padding: 10px; }
- .file_content .img_file .img_list img { width: 100%; }
+ /*.file_content .img_file .img_list img { width: 100%; }*/
+ .file_content .img_file .img_list img { max-width: 300px; }
  .file_content .file .file_list { display: flex; height: 30px; margin-bottom: 30px; align-items: center; cursor: pointer; }
  .file_content .file .file_list:last-child { margin-bottom: 0; }
  .file_content .file .file_list div { height: 100%; padding: 5px; }
  .file_content .file .file_list img { height: 100%; }
 
+  .comment { padding: 50px 0; }
   .comment > p { font-size: 18px; font-weight: 600 }
   .comment .c_group { min-width: 500px; padding: 0 10px; }
   .comment .c_parent { padding: 10px; border-bottom: 1px solid #ddd;}

@@ -6,170 +6,7 @@
 <head>
 	<jsp:include page="/WEB-INF/views/head.jsp"/>
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
-  <script type="text/javascript">
-    $(document).ready(function(){
-        // 확장자 확인
-        var regex = new RegExp("(.?)\\.(png|jpg|jpeg|gif|pdf|doc|docx|xls|xlsx|ppt|pptx)$");
-        // 파일 크기 제한
-        var maxSize = 5242880; // 5MB
 
-        function checkExtension(fileName, fileSize){
-            // 파일 크기 확인
-            if(fileSize >= maxSize){
-              alert("파일 크기가 5MB 이상입니다.");
-              return false;
-            }
-            // 확장자 확인
-            if (!regex.test(fileName.toLowerCase())) {
-             alert("지원하지 않는 파일 형식입니다.");
-             return false;
-            }
-
-            // 파일 확장자가 허용된 경우
-            return true;
-        }
-
-        // .file_box 복제
-        let cloneFile =  $(".file_box").clone();
-
-        $("input[type='file']").change(function(e) {
-            let maxFile = 5;
-            let formData = new FormData(); //key-value 형태의 데이터 쌍을 저장하는 객체
-            let inputFile = $("input[name='file']");
-            let files = inputFile[0].files; // 선택한 파일 목록 가져옴
-            console.log("files: " + files);
-
-            // 선택한 파일 개수 확인
-            if(files.length > maxFile) {
-                alert("업로드 가능한 최대 파일 개수는 " + maxFile + "개 입니다.");
-                return false; // 추가파일 처리 중단
-            }
-
-            // 파일데이터 폼에 집어넣기
-            for (let i = 0; i < files.length; i++) {
-                if (!checkExtension(files[i].name, files[i].size)) {
-                     return false;
-                }
-                formData.append("file", files[i]);
-            } //for
-            //console.log("----------파일 적재 후 formData 태그------------");
-           // console.log("formData: " + formData);
-
-            $.ajax({
-                url: "/freeboard/uploadAjaxFormAction",
-                processData: false,  // 데이터 변환 방지
-                contentType: false,  // 콘텐츠 타입 설정 방지
-                data: formData,
-                type: "POST",
-                dataType: "json",
-                success: function(result) {
-                   //console.log("result: " + result);
-                   //console.log(JSON.stringify(result, null, 2));
-                   showUploadResult(result); // 업로드 결과 처리 함수
-                },
-                 error: function(jqXHR, textStatus, errorThrown) {
-                      console.log(jqXHR.responseText);
-                      console.error("Error deleting file:", error);
-                 } //error
-              }); //ajax
-        }); //input[type=file] change
-
-
-        // 섬네일
-        function showUploadResult(uploadResultArr){
-            if(!uploadResultArr || uploadResultArr.length == 0 ){
-                return;
-            }
-            let uploadUL = $(".file_preview");
-            let str = "";
-
-            $(uploadResultArr).each(function(i, obj){
-                // 이미지 파일인 경우(png, jpg, jpge, gif)
-                let imgType = ["png", "jpg", "jpeg", "gif"];
-                if(imgType.includes(obj.board_file_type)){
-                    let fileCallPath = "/resources/freeBoardUpload/s_" + obj.board_uuid + "_" + encodeURIComponent(obj.board_file_name);
-                    str += "<span class='preview_box' data-uuid='" + obj.board_uuid + "' data-filename='" + obj.board_file_name + "' data-type='" + obj.board_file_type + "'><div><div class='p_title'>";
-                    str += "<span>" + obj.board_file_name  + "</span>";
-                    str += "<p><button type='button' data-file=\'" + fileCallPath + "\' data-type='image'><i class='fa fa-times'></i></button></p></div>";
-                    str += "<img src=" + fileCallPath + ">";
-                    str += "</div></span>";
-                } else {
-                    var fileCallPath = "/resources/freeBoardUpload/" + obj.board_uuid + "_" + encodeURIComponent(obj.board_file_name);
-                    var FileLink = fileCallPath.replace(new RegExp(/\\/g), "/");
-                    str += "<span class='preview_box' data-uuid='" + obj.board_uuid + "' data-filename='" + obj.board_file_name + "' data-type='" + obj.board_file_type + "'><div><div class='p_title'>";
-                    str += "<span>" + obj.board_file_name  + "</span>";
-                    str += "<p><button type='button' data-file=\'" + fileCallPath + "\' data-type='file'><i class='fa fa-times'></i></button></p></div>";
-                    str += "<img src='/resources/img/attach.png'>";
-                    str += "</div></span>";
-              } // else end
-             }); // uploadResultArr each end
-
-            uploadUL.append(str);
-        } // showUploadResult end
-
-        // 파일삭제
-        $(".file_preview").on("click","button",function(e){
-            let targetFile = $(this).data("file");
-              console.log("targetFile: " + targetFile);
-            let type = $(this).data("type");
-              console.log("type: " + type);
-
-            // 클릭한 x버튼의 부모중 가장 가까운 .preview_box
-            let targetContent = $(this).closest(".preview_box");
-              console.log("targetContent: " + targetContent);
-
-            $.ajax({
-                url: "/freeboard/deleteFile",
-                type: "POST",
-                data: { fileName: targetFile, type: type },
-                success: function (response) {
-                    // 성공적으로 삭제되면 섬네일을 DOM에서 제거
-                    targetContent.remove();
-                }, //success
-                error: function(jqXHR, textStatus, errorThrown) {
-                    console.log(jqXHR.responseText);
-                    console.error("Error deleting file:", error);
-                } //error
-            }); // ajax
-        }); //file_preview onclick(파일삭제버튼) end
-
-
-
-        $("button[type='submit']").on("click", function(e){
-            // 첨부파일 정보 생성 후 submit 버튼 동작을 하기 위해 이벤트 버블링만을 막기
-            //e.preventDefault();
-            e.stopPropagation();
-             console.log("submit btn click");
-
-            // 제목, 내용 비어있는지 확인
-            let title = $("input[name='board_title']").val().trim();
-            let content = $("textarea[name='board_content']").val().trim();
-            if(title == "" || content == ""){
-                alert("제목과 내용을 모두 입력해주세요.");
-                e.preventDefault();
-                return false;
-            }
-
-             let formObj = $("form");
-             let str = "";
-
-              // 파일 하나당 이름, uuid, type 정보를 input에 담기
-              $(".preview_box").each(function(i, obj){
-                  let jobj = $(obj);
-                  //console.dir("jobj dir: " + jobj); // dir: json형태 출력가능
-
-                  str += "<input type='hidden' name='attachList[" + i + "].board_file_name' value='" + jobj.data("filename") + "'>";
-                  str += "<input type='hidden' name='attachList[" + i + "].board_uuid' value='" + jobj.data("uuid") + "'>";
-                  str += "<input type='hidden' name='attachList[" + i + "].board_file_type' value='" + jobj.data("type") + "'>";
-              }); // preview_box each end
-
-              // 추가된 input를 form에 추가 후 데이터 전송
-             formObj.append(str).submit();
-        }); // submit btn onclick end
-
-
-    }); //script
-  </script>
 <body>
   <!-- ======= Top Bar ======= -->
   <jsp:include page="/WEB-INF/views/topbar.jsp"/>
@@ -212,7 +49,9 @@
                           <label for="upload_btn">파일선택</label>
                           <div> 첨부 가능한 파일 개수: 5개, 파일 형식: png, jpg, jpeg, gif, pdf, doc/docx, xls/xlsx, ppt/pptx</div>
                        </div>
-                      <div class="file_preview"> </div>
+                      <div class="file_preview">
+                        <span class="preview_box"></span>
+                      </div>
                    </div>
                 </div>
                 <div class="in_btn">
@@ -226,5 +65,147 @@
   <!-- ======= Footer ======= -->
   <jsp:include page="/WEB-INF/views/footer.jsp"/>
   <!-- End Footer -->
+
+
+  <script type="text/javascript">
+  let selectedFiles  = []; // 업로드를 취소한 파일의 이름을 저장하는 배열
+      $(document).ready(function(){
+          // 확장자 확인
+          var regex = new RegExp("(.?)\\.(png|jpg|jpeg|gif|pdf|doc|docx|xls|xlsx|ppt|pptx)$");
+          // 파일 크기 제한
+          var maxSize = 5242880; // 5MB
+
+          function checkExtension(fileName, fileSize){
+              // 파일 크기 확인
+              if(fileSize >= maxSize){
+                alert("파일 크기가 5MB 이상입니다.");
+                return false;
+              }
+              // 확장자 확인
+              if (!regex.test(fileName.toLowerCase())) {
+               alert("지원하지 않는 파일 형식입니다.");
+               return false;
+              }
+
+              // 파일 확장자가 허용된 경우
+              return true;
+          }
+
+          // .file_box 복제
+          let cloneFile =  $(".file_box").clone();
+
+          // 파일첨부 할 때마다
+          $("input[type='file']").change(function(e) {
+              let maxFile = 5;
+              let formData = new FormData(); //key-value 형태의 데이터 쌍을 저장하는 객체
+              let inputFile = $("input[name='file']");
+              let files = inputFile[0].files; // 선택한 파일 목록 가져옴
+              console.log("files: " + files);
+
+              // 선택한 파일 개수 확인
+              if(files.length > maxFile) {
+                  alert("업로드 가능한 최대 파일 개수는 " + maxFile + "개 입니다.");
+                  return false; // 추가파일 처리 중단
+              }
+
+              // 선택한 파일이 없는 경우 아무 작업도 하지 않고 함수를 종료
+               if(files.length === 0) {
+                      return false;
+                }
+               // 파일 이름 보여주기
+              let fileList = $(".file_preview");
+              fileList.empty(); // 새 파일 이름을 추가하기 전에 목록 지우기
+
+              for (var i=0; i<this.files.length; i++) {
+                  let file = this.files[i];
+
+                  // 파일 이름에 공백이 있는지 확인
+                  if (file.name.includes(' ')) {
+                      alert("파일 이름에 공백을 포함할 수 없습니다.");
+                      return false;  // 파일 업로드 처리 중단
+                  }
+
+                  let listItem = "<div class='preview_box'><div class='p_title'><p>" + file.name + "</p><p><button type='button'><i class='fa fa-times'></i></button></p></div></div>";
+                   fileList.append(listItem);
+              }
+
+              // 파일데이터 폼에 집어넣기
+               for (let i = 0; i < files.length; i++) {
+                     if (!checkExtension(files[i].name, files[i].size)) {
+                           return false;
+                     }
+                     // 모든 파일이 유효한 경우에만 selectedFiles 배열에 추가
+                      selectedFiles.push(files[i]);
+                } //for
+
+          }); //input[type=file] change
+
+
+
+          // 파일삭제
+           $(".file_preview").on("click","button",function(e){
+                  // 파일 이름 가져오기
+                  let fileName = $(this).parent().prev().text();
+
+                  // 선택한 파일 배열에서 해당 파일 제거
+                 selectedFiles = selectedFiles.filter(file => file.name !== fileName);
+
+                  // 화면에서 파일 이름 제거
+                  $(this).closest('.preview_box').remove();
+           }); //file_preview onclick(파일삭제버튼) end
+
+  }); //script
+
+  $("button[type='submit']").on("click", function(e){
+      // 이벤트 버블링 막기
+      e.preventDefault();
+
+      // 제목, 내용 비어있는지 확인
+      let title = $("input[name='board_title']").val().trim();
+      let content = $("textarea[name='board_content']").val().trim();
+      if(title == "" || content == ""){
+          alert("제목과 내용을 모두 입력해주세요.");
+          return false;
+      }
+
+      let fileInput = $('#upload_btn')[0];
+      let formData = new FormData();
+
+      // 첨부파일이 있을 경우에만 파일 관련 처리 수행
+      if(selectedFiles.length > 0){
+            for (let i = 0; i < selectedFiles.length; i++) {
+                   let file = selectedFiles[i];
+                   // 파일 크기가 5MB를 초과하는지 검사
+                   if(file.size > 5 * 1024 * 1024){
+                         alert("파일 크기가 5MB를 초과할 수 없습니다.");
+                          return false;
+                   }
+                   formData.append('file' , file); // 각 파일을 별도로 추가
+            }
+      }
+
+
+      formData.append('board_title', $("input[name='board_title']").val()); // 제목 추가
+      formData.append('board_content', $("textarea[name='board_content']").val()); // 내용 추가
+      formData.append('member_id', $("input[name='member_id']").val());
+
+      $.ajax({
+          type: 'POST',
+          url: '/freeboard/board_insert',
+          data: formData,
+          processData: false,
+          contentType: false,
+          success: function(data) {
+              window.location.href = "/freeboard/board_list";
+          },
+          error: function(error) {
+              alert(JSON.stringify(error));
+          }
+      });
+  }); // submit btn onclick end
+
+
+    </script>
+
 </body>
 </html>

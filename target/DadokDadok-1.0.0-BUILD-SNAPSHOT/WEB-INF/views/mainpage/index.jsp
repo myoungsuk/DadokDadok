@@ -45,19 +45,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=121008">부산광역시립시민도서관</a></p>
+                                        <p>부산광역시 부산진구 월드컵대로 462</p>
+                                        <p>051-810-8200</p>
+                                        <p><a href="https://home.pen.go.kr/siminlib">https://home.pen.go.kr/siminlib</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=50001">국립세종도서관</a></p>
+                                        <p>세종특별자치시 다솜3로 48</p>
+                                        <p>044-900-9114</p>
+                                        <p><a href="http://sejong.nl.go.kr/">http://sejong.nl.go.kr/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
@@ -65,19 +65,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=141010">경기중앙교육도서관</a></p>
+                                        <p>경기도 수원시 장안구 조원로 18</p>
+                                        <p>031-240-4064</p>
+                                        <p><a href="https://lib.goe.go.kr/gg/">https://lib.goe.go.kr/gg/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=141008">경기성남교육도서관</a></p>
+                                        <p>경기도 성남시 수정구 공원로370번길 26</p>
+                                        <p>031-730-3500</p>
+                                        <p><a href="https://lib.goe.go.kr/sn/index.do">https://lib.goe.go.kr/sn/index.do</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
@@ -96,19 +96,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=141004">경기과천교육도서관</a></p>
+                                        <p>경기도 과천시 도서관길 36</p>
+                                        <p>02-3677-0371</p>
+                                        <p><a href="https://lib.goe.go.kr/kwa/">https://lib.goe.go.kr/kwa/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=125003">한밭도서관</a></p>
+                                        <p>대전광역시 중구 서문로 10</p>
+                                        <p>042-270-7420</p>
+                                        <p><a href="https://www.daejeon.go.kr/hanbatlibrary">https://www.daejeon.go.kr/hanbatlibrary</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
@@ -116,19 +116,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=141141">경기평생교육학습관</a></p>
+                                        <p>경기도 수원시 권선구 권중로 55</p>
+                                        <p>031-259-1028</p>
+                                        <p><a href="https://lib.goe.go.kr/gglec/">https://lib.goe.go.kr/gglec/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=111010">서울특별시교육청남산도서관</a></p>
+                                        <p>서울특별시 용산구 소월로 109</p>
+                                        <p>02-754-7338</p>
+                                        <p><a href="http://nslib.sen.go.kr/">http://nslib.sen.go.kr/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
@@ -146,19 +146,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=123001">미추홀도서관</a></p>
+                                        <p>인천광역시 남동구 인주대로776번길 53</p>
+                                        <p>032-462-3900</p>
+                                        <p><a href="https://www.michuhollib.go.kr/">https://www.michuhollib.go.kr/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=141019">광명시하안도서관</a></p>
+                                        <p>경기도 광명시 철망산로 46</p>
+                                        <p>02-2680-2871</p>
+                                        <p><a href="https://gmlib.gm.go.kr/">https://gmlib.gm.go.kr/</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
@@ -166,19 +166,19 @@
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=143015">제천시립도서관</a></p>
+                                        <p>충청북도 제천시 내제로 318</p>
+                                        <p>043-646-2019</p>
+                                        <p><a href="https://www.jecheon.go.kr/jclib/index.do">https://www.jecheon.go.kr/jclib/index.do</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                               <div class="lb_content">
                                    <div class="lb_icon"><i class="fas fa-book-reader"></i></div>
                                    <div class="lb_info">
-                                        <p><a href="#">2.28 도서관</a></p>
-                                        <p>대구광역시 중구 2-28길 9</p>
-                                        <p>053-257-2280</p>
-                                        <p>화~금 09:00~18:00, 토일 09:00~17:00</p>
+                                        <p><a href="/librarypage/library_one?lib_code=126157">부산도서관</a></p>
+                                        <p>부산광역시 사상구 사상로310번길 33</p>
+                                        <p>051-310-5400</p>
+                                        <p><a href="https://library.busan.go.kr">https://library.busan.go.kr</a></p>
                                    </div>
                               </div><%-- end lb_content --%>
                         </div><%-- end lb_row --%>
