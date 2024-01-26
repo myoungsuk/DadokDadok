@@ -32,7 +32,7 @@
 
   <link href="${pageContext.request.contextPath}/resources/css/freeboard.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
-
+<link href="${pageContext.request.contextPath}/resources/css/review.css" rel="stylesheet">
 
 
   <!-- =======================================================

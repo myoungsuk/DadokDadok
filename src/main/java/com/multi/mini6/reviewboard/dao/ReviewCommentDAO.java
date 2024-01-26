@@ -1,4 +1,4 @@
-package com.multi.mini6.reviewboard.dao;
+package com.multi.mini6.reviewboard.mapper;
 
 import com.multi.mini6.reviewboard.vo.ReviewCommentVO;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -25,8 +25,7 @@ public class ReviewCommentDAO {
     public int reviewCommentDelete(ReviewCommentVO reviewCommentVO) {
         return my.delete("review_comment_delete", reviewCommentVO);
     }
-
     public List<ReviewCommentVO> reviewCommentList(int reviewCommentVO) {
-        return my.selectList("reviewCommentList", reviewCommentVO);
+        return my.selectList("reviewCommentList",reviewCommentVO);
     }
 }

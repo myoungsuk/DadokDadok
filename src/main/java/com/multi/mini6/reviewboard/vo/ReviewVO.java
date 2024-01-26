@@ -1,5 +1,7 @@
 package com.multi.mini6.reviewboard.vo;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,11 +10,13 @@ public class ReviewVO {
     private int review_id;
     private int member_id;
 
-    private int book_isbn;
+    private String book_isbn;
 
     private String review_title;
     private String review_content;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date review_createdAt;
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date review_updatedAt;
     private int review_views;
 
@@ -25,7 +29,9 @@ public class ReviewVO {
     private int end;
     private int page;
 
-    private List<ReviewAttachVO> attachVO;
+    private ReviewAttachVO review_attach;
+
+    private List<ReviewAttachVO> attachList;
     public void setStartEnd() {
         start = 1 + (page -1 ) * 10;
 
@@ -36,6 +42,15 @@ public class ReviewVO {
         end = page * 10;
         // 1페이지 * 10 = 10
         // 2페이지 * 10 = 20
+    }
+    private String nickname;
+    public String getNickname() {
+        return nickname;
+    }
+
+    // Setter 메서드
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
     }
     public int getReview_id() {
         return review_id;
@@ -49,10 +64,10 @@ public class ReviewVO {
     public void setMember_id(int member_id) {
         this.member_id = member_id;
     }
-    public int getBook_id() {
+    public String getBook_isbn() {
         return book_isbn;
     }
-    public void setBook_id(int book_isbn) {
+    public void setBook_isbn(String book_isbn) {
         this.book_isbn = book_isbn;
     }
     public String getReview_title() {
@@ -121,28 +136,40 @@ public class ReviewVO {
     public void setPage(int page) {
         this.page = page;
     }
-    public List<ReviewAttachVO> getAttachVO() {
-        return attachVO;
+    public ReviewAttachVO getReview_attach() {
+        return review_attach;
     }
 
-    public void setAttachVO(List<ReviewAttachVO> attachVO) {
-        this.attachVO = attachVO;
+    public void setReview_attach(ReviewAttachVO review_attach) {
+        this.review_attach = review_attach;
+    }
+
+    public List<ReviewAttachVO> getAttachList() {
+        return attachList;
+    }
+    public void setAttachList(List<ReviewAttachVO> attachList) {
+        this.attachList = attachList;
     }
     @Override
     public String toString() {
-        return "ReviewVO [review_id=" + review_id +
+        return "ReviewVO{" +
+                "review_id=" + review_id +
                 ", member_id=" + member_id +
                 ", book_isbn=" + book_isbn +
-                ", review_title=" + review_title +
-                ", review_content=" + review_content +
+                ", review_title='" + review_title + '\'' +
+                ", review_content='" + review_content + '\'' +
+                ", review_createdAt=" + review_createdAt +
+                ", review_updatedAt=" + review_updatedAt +
                 ", review_views=" + review_views +
-                ", keyword=" + keyword +
+                ", keyword='" + keyword + '\'' +
                 ", searchCount=" + searchCount +
-                ", search=" + search +
+                ", search='" + search + '\'' +
                 ", start=" + start +
                 ", end=" + end +
                 ", page=" + page +
-                ", attachVO=" + attachVO + "]";
+                ", review_attach=" + review_attach +
+                ", attachList=" + attachList +
+                ", nickname=" + nickname +
+                '}';
     }
-
 }

@@ -14,7 +14,7 @@
   <div id="result">
               <%
                   //jsp에서 자동 import : 클릭하고 ctrl + shiftl + m
-                  List<ReviewVO> list = (List<ReviewVO>) request.getAttribute("keyword");
+                  List<ReviewVO> list = (List<ReviewVO>) request.getAttribute("list");
               %>
               <div class="container mt-4">
                   <table class="table">
@@ -33,7 +33,7 @@
                               for (ReviewVO review : list) {
                           %>
                           <tr>
-                              <td><%=review.getReview_id()%></td>
+                              <td>1111<%=review.getReview_id()%></td>
 
                               <td><a href="review_one?review_id=<%=review.getReview_id()%>"><%=review.getReview_title()%></a>
                               </td>
