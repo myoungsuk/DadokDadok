@@ -31,6 +31,7 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
 
   <link href="${pageContext.request.contextPath}/resources/css/freeboard.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/css/review.css" rel="stylesheet">
   <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
 
 

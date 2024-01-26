@@ -27,4 +27,115 @@ public class LibraryVO extends LibraryPageVO {
     private int search_count;
     private String search;
 
+    public String getLib_code() {
+        return lib_code;
+    }
+
+    public void setLib_code(String lib_code) {
+        this.lib_code = lib_code;
+    }
+
+    public String getLib_name() {
+        return lib_name;
+    }
+
+    public void setLib_name(String lib_name) {
+        this.lib_name = lib_name;
+    }
+
+    public String getLib_address() {
+        return lib_address;
+    }
+
+    public void setLib_address(String lib_address) {
+        this.lib_address = lib_address;
+    }
+
+    public String getLib_tel() {
+        return lib_tel;
+    }
+
+    public void setLib_tel(String lib_tel) {
+        this.lib_tel = lib_tel;
+    }
+
+    public String getLib_fax() {
+        return lib_fax;
+    }
+
+    public void setLib_fax(String lib_fax) {
+        this.lib_fax = lib_fax;
+    }
+
+    public double getLib_latitude() {
+        return lib_latitude;
+    }
+
+    public void setLib_latitude(double lib_latitude) {
+        this.lib_latitude = lib_latitude;
+    }
+
+    public double getLib_longitude() {
+        return lib_longitude;
+    }
+
+    public void setLib_longitude(double lib_longitude) {
+        this.lib_longitude = lib_longitude;
+    }
+
+    public String getLib_homepage() {
+        return lib_homepage;
+    }
+
+    public void setLib_homepage(String lib_homepage) {
+        this.lib_homepage = lib_homepage;
+    }
+
+    public String getLib_closed() {
+        return lib_closed;
+    }
+
+    public void setLib_closed(String lib_closed) {
+        this.lib_closed = lib_closed;
+    }
+
+    public String getLib_operating_time() {
+        return lib_operating_time;
+    }
+
+    public void setLib_operating_time(String lib_operating_time) {
+        this.lib_operating_time = lib_operating_time;
+    }
+
+    public int getLib_bookcount() {
+        return lib_bookcount;
+    }
+
+    public void setLib_bookcount(int lib_bookcount) {
+        this.lib_bookcount = lib_bookcount;
+    }
+
+    public String getKeyword() {
+        return keyword;
+    }
+
+    public void setKeyword(String keyword) {
+        this.keyword = keyword;
+    }
+
+    public int getSearch_count() {
+        return search_count;
+    }
+
+    public void setSearch_count(int search_count) {
+        this.search_count = search_count;
+    }
+
+    public String getSearch() {
+        return search;
+    }
+
+    public void setSearch(String search) {
+        this.search = search;
+    }
 }
