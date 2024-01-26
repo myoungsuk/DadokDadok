@@ -21,17 +21,17 @@ public class FreeBoardDAO {
   // 자유게시판 게시글 작성
   public int freeBoardInsert(FreeBoardVO freeBoardVO){
     return sqlSession.insert("freeBoardInsert", freeBoardVO);
-  };
+  }
 
   // 자유게시판 게시글 목록 조회
   public List<FreeBoardVO> getFreeBoardList(FreeBoardPageVO freeboardPageVO){
     return sqlSession.selectList("freeBoardList", freeboardPageVO);
-  };
+  }
 
   // 자유게시판 게시글 총 개수 구하기
   public int freeBoardCount(FreeBoardPageVO freeboardPageVO){
     return sqlSession.selectOne("freeBoardCount", freeboardPageVO);
-  };
+  }
 
   //자유게시판  게시글 상세 보기
   public FreeBoardVO freeBoardOne(int board_id) {
