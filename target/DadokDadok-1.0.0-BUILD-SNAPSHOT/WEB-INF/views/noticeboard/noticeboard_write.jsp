@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Setting</title>
+    <title>다독다독</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -68,10 +68,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Setting</h2>
+                <h2>공지게시판</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>Setting</li>
+                    <li>공지게시판</li>
                 </ol>
             </div>
 
@@ -79,23 +79,26 @@
     </section><!-- End Breadcrumbs -->
 <div class="center">
     <h2>공지 등록</h2>
-    <form action="noticeboard_insert" method="post" enctype="multipart/form-data">
+    <form id="noticeboardForm" action="noticeboard_insert" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
         <div class="form-group">
             <label for="notc_title">제목</label>
-            <input type="text" class="form-control" id="notc_title" name="notc_title" placeholder="제목을 입력해주세요.">
+            <input type="text" class="form-control" id="notc_title" name="notc_title" placeholder="제목을 입력하세요." required>
         </div>
         <br>
         <div class="form-group">
             <label for="notc_content">내용</label>
-            <textarea class="form-control" id="notc_content" name="notc_content" rows="10"></textarea>
+            <textarea class="form-control" id="notc_content" name="notc_content" rows="10" required></textarea>
         </div>
         <br>
         <div class="form-group">
-                <label for="file">파일 첨부</label>
-                <input type="file" id="file" name="file">
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary">작성완료</button>
+            <label for="file">파일 첨부: </label>
+            <input type="file" id="file" name="file">
+        </div>
+        <br>
+        상단에 고정<input type="checkbox" id="pinnedCheckbox" name="pinnedCheckbox" value="true">
+        <input type="hidden" id="pinnedHidden" name="pinned" value="false">
+        <br><br>
+        <button type="submit" class="btn btn-primary">등록</button>
         <a href="noticeboard" class="btn btn-secondary">목록으로</a>
     </form>
     </div>
@@ -104,4 +107,14 @@
                 <jsp:include page="/WEB-INF/views/footer.jsp"/>
                 <!-- End Footer -->
 </body>
+<script>
+    document.getElementById('pinnedCheckbox').addEventListener('change', function() {
+        var hiddenInput = document.getElementById('pinnedHidden');
+        if (this.checked) {
+            hiddenInput.value = 'true'; // Set the value to 'true' when checked
+        } else {
+            hiddenInput.value = 'false'; // Set the value to 'false' when unchecked
+        }
+    });
+</script>
 </html>

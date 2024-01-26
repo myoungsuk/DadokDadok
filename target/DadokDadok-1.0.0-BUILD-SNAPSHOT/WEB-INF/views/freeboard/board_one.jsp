@@ -24,7 +24,8 @@
         // console.log("board_id: " + board_id);
         // console.log("board_id_number: " + board_id_number);
 
-         $.getJSON("getAttachList/?board_id=" + board_id_number, function(arr){
+       $.getJSON("getAttachList/?board_id=" + board_id_number).done(function(arr) {
+
            // console.log(board_id);
            // console.dir("arr: " + arr);
            // console.log(JSON.stringify(  arr, null, 2));

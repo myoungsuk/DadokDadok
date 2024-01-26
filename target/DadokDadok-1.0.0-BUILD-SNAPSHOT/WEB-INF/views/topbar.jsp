@@ -16,6 +16,10 @@
             <sec:authorize access="isAuthenticated()">
                 <i class="bi bi-unlock d-flex align-items-center ms-2"><a href="/loginpage/customLogout">Logout</a></i>
             </sec:authorize>
+            <sec:authorize access="hasRole('ROLE_ADMIN')">
+                <i class="bi bi-gear d-flex align-items-center ms-3"><a href="/adminpage/BookUploadPage">관리자 페이지</a></i>
+            </sec:authorize>
+
         </div>
         <div class="social-links d-none d-md-flex align-items-center">
             <sec:authorize access="isAuthenticated()">

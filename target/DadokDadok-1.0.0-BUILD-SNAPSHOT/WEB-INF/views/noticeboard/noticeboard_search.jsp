@@ -1,13 +1,15 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
         <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-        <title>Setting</title>
+        <title>다독다독</title>
         <meta content="" name="description">
         <meta content="" name="keywords">
 
@@ -66,6 +68,9 @@
                 margin: 0; /* Remove default margins */
                 vertical-align: middle; /* Align elements vertically */
             }
+        .n_info {
+                        text-align: center;
+                    }
 
           </style>
 </head>
@@ -84,10 +89,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Setting</h2>
+                <h2>공지게시판</h2>
                 <ol>
                     <li><a href="../mainpage/index.jsp">Home</a></li>
-                    <li>Setting</li>
+                    <li>공지게시판</li>
                 </ol>
             </div>
 
@@ -95,58 +100,91 @@
     </section><!-- End Breadcrumbs -->
 
     <div class="center">
-    <h2>검색 결과</h2>
-    <br>
+            <div class="n_info">
+            <br>
+                    <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+                    <div>검색된 결과입니다.</div>
+                    <div><p>검색된 게시물 수: ${searchCount}</p></div>
+                <br>
+                </div>
+                                <form action="noticeboard_search" method="get" class="search-form">
+                                    <div class="input-group">
+                                        <select id="searchType" name="searchType">
+                                            <option value="title">제목</option>
+                                            <option value="content">내용</option>
+                                            <option value="titleContent">제목+내용</option>
+                                        </select>
+                                        <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
+                                        <input type="submit" value="검색" class="btn btn-secondary">
+                                        <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                                    </div>
+                                </form>
+                                <br><br>
     <div class="row">
                 <div class="col">
                     <table class="table">
         <thead>
             <tr>
-                <th scope="col">글번호</th>
+                <th scope="col">NO</th>
                                             <th scope="col">제목</th>
                                             <th scope="col">내용</th>
-                                            <th scope="col">작성일</th>
                                             <th scope="col">조회수</th>
+                                            <th scope="col">작성일</th>
             </tr>
         </thead>
         <tbody>
             <c:forEach items="${searchResults}" var="result">
                 <tr>
                     <td>${result.notc_id}</td>
-                    <td><a href="noticeboard_one?notc_id=${result.notc_id}"><c:out value="${result.notc_title}" /></a></td>
-                    <td>${result.notc_content}</td>
-                    <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></td>
+                    <td>
+                        <a href="noticeboard_one?notc_id=${result.notc_id}">
+                            <c:out value="${fn:substring(result.notc_title, 0, 20)}${fn:length(result.notc_title) > 20 ? '...' : ''}" />
+                        </a>
+                    </td>
+                    <td>
+                        ${fn:substring(result.notc_content, 0, 20)}${fn:length(result.notc_content) > 20 ? '...' : ''}
+                    </td>
                     <td>${result.notc_views}</td>
+                    <td><fmt:formatDate value="${result.notc_createdAt}" pattern="yyyy-MM-dd"/></td>
                 </tr>
             </c:forEach>
+
         </tbody>
     </table>
-                    <br>
-                    <form action="noticeboard_search" method="get" class="search-form">
-                                        <div class="input-group">
-                                            <select id="searchType" name="searchType">
-                                                <option value="title">제목</option>
-                                                <option value="content">내용</option>
-                                                <option value="titleContent">제목+내용</option>
-                                            </select>
-                                            <input type="text" id="keyword" name="keyword" placeholder="검색어 입력">
-                                            <input type="submit" value="검색" class="btn btn-secondary">
-                                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
-                                        </div>
-                                    </form>
 
                                     <br>
                                     <ul class="pagination justify-content-center">
-                                        <c:if test="${noticeBoardPageVO.totalPages > 1}">
-                                            <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="pageNumber">
-                                                <li class="page-item${noticeBoardPageVO.page == pageNumber ? ' active' : ''}">
-                                                    <a class="page-link" href="/noticeboard/noticeboard_search?page=${pageNumber}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}">
-                                                        ${pageNumber}
-                                                    </a>
-                                                </li>
-                                            </c:forEach>
-                                        </c:if>
+                                        <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
+                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=1&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="First">
+                                                <<
+                                            </a>
+                                        </li>
+                                        <li class="page-item${noticeBoardPageVO.page == 1 ? ' disabled' : ''}">
+                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.page - 1}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Previous">
+                                                <
+                                            </a>
+                                        </li>
+                                        <c:forEach begin="1" end="${noticeBoardPageVO.totalPages}" var="pageNumber">
+                                                            <li class="page-item${noticeBoardPageVO.page == pageNumber ? ' active' : ''}">
+                                                                <a class="page-link" href="/noticeboard/noticeboard_search?page=${pageNumber}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}">
+                                                                    ${pageNumber}
+                                                                </a>
+                                                            </li>
+                                                        </c:forEach>
+                                        <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
+                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.page + 1}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Next">
+                                                >
+                                            </a>
+                                        </li>
+                                        <li class="page-item${noticeBoardPageVO.page == noticeBoardPageVO.totalPages ? ' disabled' : ''}">
+                                            <a class="page-link" href="/noticeboard/noticeboard_search?page=${noticeBoardPageVO.totalPages}&pageSize=${noticeBoardPageVO.pageSize}&searchType=${searchType}&keyword=${keyword}" aria-label="Last">
+                                                >>
+                                            </a>
+                                        </li>
                                     </ul>
+
+
+
                                                    </div>
                                                </div>
                                            </div>

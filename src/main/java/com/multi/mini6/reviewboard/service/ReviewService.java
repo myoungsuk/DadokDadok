@@ -19,8 +19,8 @@ public class ReviewService {
 ReviewDAO reviewDAO;
 
     @Transactional
-    public int insert(ReviewVO reviewVO){
-        int result = reviewDAO.insert(reviewVO);
+    public int reviewInsert(ReviewVO reviewVO){
+        int result = reviewDAO.reviewInsert(reviewVO);
 
         if(reviewVO.getAttachVO() == null || reviewVO.getAttachVO().size() <= 0){
             return result;
@@ -28,43 +28,43 @@ ReviewDAO reviewDAO;
 
         reviewVO.getAttachVO().forEach(attach -> {
             attach.setReview_id(reviewVO.getReview_id()); // 첨부파일에 게시글 ID 설정
-            reviewDAO.fileInsert(attach);
+            reviewDAO.attachInsert(attach);
         });
 
         return result;
     }
 
     public void review_insert(ReviewVO reviewVO){
-         reviewDAO.insert(reviewVO);
+         reviewDAO.reviewInsert(reviewVO);
     }
 
     public int review_update(ReviewVO reviewVO){
-        return  reviewDAO.update(reviewVO);
+        return  reviewDAO.reviewUpdate(reviewVO);
 
+    }
+//    public int review_delete(ReviewVO reviewVO){
+//
+//        return reviewDAO.reviewDelete(reviewVO);
+//    }
+    public List<ReviewVO> review_list3(PageVo pageVO){
+
+        return reviewDAO.reviewList(pageVO);
     }
     public int review_delete(ReviewVO reviewVO){
 
-        return reviewDAO.delete(reviewVO);
-    }
-    public List<ReviewVO> review_list3(PageVo pageVO){
-
-        return reviewDAO.list(pageVO);
-    }
-    public int delete(ReviewVO reviewVO){
-
-        return reviewDAO.delete(reviewVO);
+        return reviewDAO.reviewDelete(reviewVO);
     }
 
-    public ReviewVO one(ReviewVO reviewVO) throws Exception {
+    public ReviewVO review_one(ReviewVO reviewVO) throws Exception {
 
-        return reviewDAO.one(reviewVO);
+        return reviewDAO.getReviewOne(reviewVO);
     }
-    public int count() {
-        return reviewDAO.count();
+    public int review_count() {
+        return reviewDAO.reviewCount();
     }
 
-    public List<ReviewVO> search(PageVo pageVo) {
-        return reviewDAO.search(pageVo);
+    public List<ReviewVO> review_search(PageVo pageVo) {
+        return reviewDAO.reviewSearch(pageVo);
     }
 
     public int searchCount(PageVo pageVo) {
@@ -76,11 +76,11 @@ ReviewDAO reviewDAO;
     }
 
     public void file_insert(ReviewAttachVO reviewAttachVO) {
-        reviewDAO.fileInsert(reviewAttachVO);
+        reviewDAO.attachInsert(reviewAttachVO);
     }
     // 게시글 상세보기 - 첨부파일조회
     public List<ReviewAttachVO> getAttachList(int review_id){
-        return reviewDAO.findByBoardId(review_id);
+        return reviewDAO.reviewFileID(review_id);
     }
 
     // 게시글 삭제시 첨부파일 삭제
@@ -91,7 +91,7 @@ ReviewDAO reviewDAO;
     public void Fileupdate(int boardId, List<ReviewAttachVO> fileList) {
 
         // 데이터베이스에서 현재 board_id에 해당하는 첨부 파일 목록을 조회
-        List<ReviewAttachVO> fileInfo = reviewDAO.findByBoardId(boardId);
+        List<ReviewAttachVO> fileInfo = reviewDAO.reviewFileID(boardId);
 
         if (fileList != null) {
             // fileList의 UUID 목록을 생성
@@ -103,7 +103,7 @@ ReviewDAO reviewDAO;
             // 데이터베이스에 있는 파일 중 fileList에 없는 파일을 삭제
             for (ReviewAttachVO existingFile : fileInfo) {
                 if (!fileUuid.contains(existingFile.getReview_uuid())) {
-                    reviewDAO.fileChange(existingFile.getReview_uuid());
+                    reviewDAO.reviewFileChange(existingFile.getReview_uuid());
                 }
             }
         }
@@ -117,7 +117,7 @@ ReviewDAO reviewDAO;
                 }
             }
             if (!exists) {
-                reviewDAO.fileInsert(file);
+                reviewDAO.attachInsert(file);
             }
         }
     }

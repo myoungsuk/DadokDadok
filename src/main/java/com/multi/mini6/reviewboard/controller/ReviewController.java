@@ -1,6 +1,5 @@
 package com.multi.mini6.reviewboard.controller;
 
-
 import net.coobird.thumbnailator.Thumbnailator;
 import com.multi.mini6.reviewboard.vo.PageVo;
 import com.multi.mini6.reviewboard.vo.ReviewAttachVO;
@@ -27,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import javax.servlet.ServletContext;
+
 @Controller
 @RequestMapping("/reviewboard")
 @Slf4j
@@ -52,11 +52,11 @@ public class ReviewController {
     }
 
     @PostMapping("/review_insert")
-    public String insert(ReviewVO reviewVO, @RequestParam(value = "file", required = false) MultipartFile file, Model model) {
+    public String reviwe_insert(ReviewVO reviewVO, @RequestParam(value = "file", required = false) MultipartFile file, Model model) {
 
         reviewService.review_insert(reviewVO);
 
-        return "forward:/reviewboard/review_list3?page=1";
+        return "redirect:/reviewboard/review_list3?page=1";
     }
 
     private String getFileType(File file, ReviewAttachVO reviewAttachVO) {
@@ -140,7 +140,7 @@ public class ReviewController {
 
 
     @RequestMapping("/review_update")
-    public String update(ReviewVO reviewVO, Model model) {
+    public String review_update(ReviewVO reviewVO, Model model) {
         int result = reviewService.review_update(reviewVO);
         System.out.println("result"+ result);
         model.addAttribute("review_update", result);
@@ -158,13 +158,13 @@ public class ReviewController {
     }
 
     @RequestMapping("/review_list3")
-    public void list(PageVo pageVO, Model model) {
+    public void review_list(PageVo pageVO, Model model) {
         pageVO.setStartEnd();//start, end계산해주는 메서드
         System.out.println("===> " + pageVO);
         List<ReviewVO> list = reviewService.review_list3(pageVO);
         //전체 페이지수 구하기
         System.out.println(list);
-        int count = reviewService.count(); //전체게시물 수
+        int count = reviewService.review_count(); //전체게시물 수
         System.out.println("전체 게시물수>> " + count);
         int pages = count / 10;
         if (count % 10 != 0) {
@@ -180,7 +180,7 @@ public class ReviewController {
 
 
     @RequestMapping("/review_delete_move")
-    public String delete2() {
+    public String rewview_delete1() {
         // BbsDAO dao = new BbsDAO();
 
         return "reviewboard/review_delete";
@@ -188,9 +188,9 @@ public class ReviewController {
 
 
     @RequestMapping("/review_delete")
-    public String delete2(ReviewVO reviewVO, Model model) {
+    public String review_delete(ReviewVO reviewVO, Model model) {
         // BbsDAO dao = new BbsDAO();
-        int result = reviewService.delete(reviewVO);
+        int result = reviewService.review_delete(reviewVO);
 
         model.addAttribute("result", result);
 
@@ -230,11 +230,11 @@ public class ReviewController {
         return new ResponseEntity<String>("deleted", HttpStatus.OK);
     }
     @RequestMapping("/review_one")
-    public void one(ReviewVO reviewVO, Model model) throws Exception {
+    public void review_one(ReviewVO reviewVO, Model model) throws Exception {
         // BbsDAO dao = new BbsDAO();
         System.out.println(reviewVO);
-        ReviewVO reviewVO2 = reviewService.one(reviewVO);
-        List<ReviewCommentVO> list = reviewCommentService.list(reviewVO.getReview_id());
+        ReviewVO reviewVO2 = reviewService.review_one(reviewVO);
+        List<ReviewCommentVO> list = reviewCommentService.reviewCommentlist(reviewVO.getReview_id());
         System.out.println(reviewVO.getReview_id());
         reviewService.increaseViews(reviewVO.getReview_id());
         model.addAttribute("reviewVO", reviewVO2);
@@ -257,12 +257,12 @@ public class ReviewController {
         reviewVO.setKeyword(keyword);
 
         if (keyword != null && !keyword.isEmpty()) {
-            list = reviewService.search(pageVO);
+            list = reviewService.review_search(pageVO);
             count = reviewService.searchCount(pageVO);
 
         } else {
             list = reviewService.review_list3(pageVO);
-            count = reviewService.count();
+            count = reviewService.review_count();
         }
 
         // 전체 게시물 수 및 페이지 계산
@@ -298,12 +298,12 @@ public class ReviewController {
         reviewVO.setKeyword(keyword);
 
         if (keyword != null && !keyword.isEmpty()) {
-            list = reviewService.search(pageVO);
+            list = reviewService.review_search(pageVO);
             count = reviewService.searchCount(pageVO);
 
         } else {
             list = reviewService.review_list3(pageVO);
-            count = reviewService.count();
+            count = reviewService.review_count();
 
         }
 

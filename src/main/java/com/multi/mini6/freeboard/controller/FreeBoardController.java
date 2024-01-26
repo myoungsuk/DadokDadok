@@ -12,6 +12,7 @@ import java.security.Principal;
 import java.util.*;
 
 
+import com.multi.mini6.loginpage.vo.CustomUser;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -173,6 +175,8 @@ public class FreeBoardController {
     }
     return new ResponseEntity<String>("deleted", HttpStatus.OK);
   }
+
+  //게시글 리스트
 @GetMapping("/board_list")
   public String list(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                      @RequestParam(value = "searchType", defaultValue ="") String searchType,
@@ -214,7 +218,7 @@ public class FreeBoardController {
     // 시작, 마지막 페이지 수 가져오기
     freeboardPageVO.setStartEnd();
     // 현재페이지에서 보여줄 글 목록
-    List<FreeBoardVO> list = freeBoardService.list(freeboardPageVO);
+    List<FreeBoardVO> list = freeBoardService.freeBoardList(freeboardPageVO);
 
     // totalPage = (전체 게시물 수 + 한 페이지에서 보여줄 게시글 수 - 1)  / 한 페이지에서 보여줄 게시글 수
     // 정수 나눗셈 결과: 정수 반환, 소수부분 버림
@@ -233,11 +237,12 @@ public class FreeBoardController {
 
   // 자유게시판 글 상세보기
   @RequestMapping("/board_one")
-  public String one(@RequestParam("board_id")  int board_id, FreeBoardPageVO freeboardPageVO,Model model,
+  public String one(FreeBoardVO freeBoardVO, FreeBoardPageVO freeboardPageVO,Model model,
                     @RequestParam(value = "page", defaultValue = "1") int page,
                     @RequestParam(value = "searchType", defaultValue ="") String searchType,
-                    @RequestParam(value = "keyword", defaultValue ="" ) String keyword, Principal principal
+                    @RequestParam(value = "keyword", defaultValue ="" ) String keyword, Principal principal, Authentication authentication
                     ) throws Exception {
+
     // 새로고침시로그인 풀리는 경우 로그인페이지로 이동
      if (principal == null) {
        return "redirect:/loginpage/customLogin";
@@ -246,18 +251,29 @@ public class FreeBoardController {
     // 현재 페이지 설정
     freeboardPageVO.setPage(page);
 
-    // 게시글 클릭시 조회수 증가
-    freeBoardService.viewsCount(board_id);
-
-    // 이전글, 다음글
-    FreeBoardVO previousPost = freeBoardService.getPreviousPost(board_id);
-    FreeBoardVO nextPost = freeBoardService.getNextPost(board_id);
+    // 현재 로그인한 member_id
+    CustomUser customUser = (CustomUser) authentication.getPrincipal();
+   int userId =  customUser.getMember().getMember_id();
+    freeBoardVO.setMember_id(userId);
 
     // 게시글 정보
-    FreeBoardVO result = freeBoardService.freeBoardOne(board_id);
+    FreeBoardVO result = freeBoardService.freeBoardOne(freeBoardVO.getBoard_id());
+
+    // 현재 로그인한 사용자가 게시글 작성자가 아닌 경우에만 조회수 증가
+    if(userId != result.getMember_id()) {
+      freeBoardService.viewsCount(freeBoardVO);
+    }
+
+    // 이전글, 다음글
+    FreeBoardVO previousPost = freeBoardService.getPreviousPost(freeBoardVO.getBoard_id());
+    FreeBoardVO nextPost = freeBoardService.getNextPost(freeBoardVO.getBoard_id());
+
+    // 게시글 내용 엔터처리
+    String contentEnter = result.getBoard_content().replace("\r\n","<br>");
+    result.setBoard_content(contentEnter);
 
     // 해당 게시글의 댓글 목록 가져오기
-    Map<Integer, List<FreeBoardCommentVO>> groupedComments = freeBoardService.findList(board_id);
+    Map<Integer, List<FreeBoardCommentVO>> groupedComments = freeBoardService.findList(freeBoardVO.getBoard_id());
 
     model.addAttribute("result", result);
     model.addAttribute("previousPost", previousPost);
@@ -280,7 +296,6 @@ public class FreeBoardController {
     List<FreeBoardAttachVO> attachList = freeBoardService.getAttachList(board_id);
     //log.info("getAttachList response: {}" , attachList);
     //log.info("freeBoardService.getAttachList(board_id); {} ", freeBoardService.getAttachList(board_id));
-
     return new ResponseEntity<>(attachList, HttpStatus.OK);
 
   }

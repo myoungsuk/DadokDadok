@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Slf4j
@@ -35,6 +36,13 @@ public class ProfileController {
         model.addAttribute("member", member); // 뷰에 사용자 정보 전달
     }
 
-
+    //회원 본인 게시글 가져오기
+    //TODO : 회원 본인 게시글 가져오기 작업
+    @PreAuthorize("hasAnyRole('ROLE_MEMBER', 'ROLE_ADMIN')")
+    @GetMapping("/myboard")
+    @ResponseBody
+    public void myboard() {
+        log.info("myboard");
+    }
 
 }
