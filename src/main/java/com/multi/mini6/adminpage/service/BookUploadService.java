@@ -21,6 +21,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -30,34 +31,10 @@ public class BookUploadService {
     final private SqlSessionFactory sqlSessionFactory;
     final private BookUploadDAO bookUploadDAO;
 
-    // 중복되지 않은 ISBN 저장
-    Set<String> existingIsbnsHS = new HashSet<>();
-    Set<String> existingIsbnLibCodeCombination = new HashSet<>();
 
-    public void batchInsertBooks(List<BooksVO> booksToSave) {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
-            for (BooksVO book : booksToSave) {
-                if (!existingIsbnsHS.contains(book.getIsbn())) {
-                    sqlSession.insert("insertBooks", book);
-                }
-            }
-            sqlSession.commit();
-        }
-    }
-
-    public void batchInsertOrUpdateBooksLibraries(List<BooksLibrariesVO> booksLibraryToSave, int libCode) {
-        try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
-            for (BooksLibrariesVO booksLibrary : booksLibraryToSave) {
-                String isbnLibCodeKey = booksLibrary.getIsbn() + "-" + booksLibrary.getLib_code();
-                if (existingIsbnLibCodeCombination.contains(isbnLibCodeKey)) {
-                    sqlSession.update("updateBooksLibraries", booksLibrary);
-                } else {
-                    sqlSession.insert("insertBooksLibraries", booksLibrary);
-                }
-            }
-            sqlSession.commit();
-        }
-    }
+    HashSet<String> isbnSetForDuplicationCheck = new HashSet<>();
+    List<BooksVO> uniqueBooksList = new ArrayList<>();
+    HashSet<String> uniqueIsbnLibCode = new HashSet<>();
 
     //첨부파일 데이터를 위해 도서관 정보 가져오기
     public List<LibrariesVO> searchLibrary(String searchKeyword) {
@@ -80,6 +57,26 @@ public class BookUploadService {
         return counts;
     }
 
+    public void batchInsertOrUpdateBooksLibraries(List<BooksLibrariesVO> booksLibraryToSave, int libCode) {
+        // 배치 처리 준비
+        try (SqlSession sqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH)) {
+            for (BooksLibrariesVO booksLibrary : booksLibraryToSave) {
+                String isbnLibCodeKey = booksLibrary.getIsbn() + "-" + libCode;
+
+                // 새로운 데이터인 경우 삽입, 기존 데이터인 경우 업데이트
+                if (bookUploadDAO.existsByIsbnAndLibCode(booksLibrary.getIsbn(), libCode) == 0) {
+                    sqlSession.insert("insertBooksLibraries", booksLibrary);
+                } else {
+                    sqlSession.update("updateBooksLibraries", booksLibrary);
+                }
+            }
+            sqlSession.commit();
+        } catch (Exception e) {
+            // 예외 처리 로직
+            e.printStackTrace();
+        }
+
+    }
 
     @Transactional
     public void importBooksFromCSV(MultipartFile file, int libCode) {
@@ -94,7 +91,6 @@ public class BookUploadService {
             reader.readLine(); // 첫 번째 줄은 헤더이므로 건너뜁니다.
             List<BooksVO> booksToSave = new ArrayList<>();
             List<BooksLibrariesVO> booksLibraryToSave = new ArrayList<>();
-
             while ((line = reader.readLine()) != null) {
                 String[] values = line.split(",(?=(?:[^\"]*\"[^\"]*\")*[^\"]*$)", -1);
                 // CSV 데이터 처리 로직
@@ -109,14 +105,29 @@ public class BookUploadService {
                 booksVO.setSubject_classification_number(removeQuotes(values[9]));
                 booksToSave.add(booksVO);
 
+                //isbn
+                String isbn = removeQuotes(values[5]);
+                //numberOfCopies
+                String numberOfCopies = removeQuotes(values[10]);
+                //numberOfLoans
+                String numberOfLoans = removeQuotes(values[11]);
+
+                String isbnLibCodeKey = isbn + "-" + libCode;
+                // 중복되지 않은 ISBN과 도서관 코드 조합만 리스트에 추가
                 // 변동성이 있는데이터는 BooksLibrary 테이블에 저장하고 업데이트 하도록 처리
                 // BooksLibraryVO 객체 생성
-                BooksLibrariesVO booksLibraryVO = new BooksLibrariesVO();
-                booksLibraryVO.setLib_code(libCode);
-                booksLibraryVO.setIsbn(removeQuotes(values[5]));
-                booksLibraryVO.setNumberOfCopies(removeQuotes(values[10]));
-                booksLibraryVO.setNumberOfLoans(removeQuotes(values[11]));
-                booksLibraryToSave.add(booksLibraryVO);
+                if (!uniqueIsbnLibCode.contains(isbnLibCodeKey)) {
+                    uniqueIsbnLibCode.add(isbnLibCodeKey);
+
+                    BooksLibrariesVO booksLibrariesVO = new BooksLibrariesVO();
+                    booksLibrariesVO.setLib_code(libCode);
+                    booksLibrariesVO.setIsbn(isbn);
+                    booksLibrariesVO.setNumberOfCopies(numberOfCopies);
+                    booksLibrariesVO.setNumberOfLoans(numberOfLoans);
+
+                    booksLibraryToSave.add(booksLibrariesVO);
+                }
+
             }
 
             /*
@@ -126,26 +137,39 @@ public class BookUploadService {
              하지만  많은 양의 데이터를 메모리에 유지해야댐
              */
 
-            // 중복된 ISBN을 HashSet에 저장
+
             for (BooksVO book : booksToSave) {
-                if (bookUploadDAO.existsByIsbn(book.getIsbn()) > 0) {
-                    existingIsbnsHS.add(book.getIsbn());
+                // 이미 isbnSetForDuplicationCheck에 존재하는 경우, 중복으로 간주
+                if (!isbnSetForDuplicationCheck.add(book.getIsbn())) {
+                    // 중복된 ISBN 처리 로직
+                    // 중복된 데이터를 무시합니다.
+                    continue;
                 }
-            }
-            //중복된 ISBN-LibCode 조합 확인 및 저장
-            for (BooksLibrariesVO booksLibrary : booksLibraryToSave) {
-                String isbnLibCodeKey = booksLibrary.getIsbn() + "-" + libCode;
-                if (bookUploadDAO.existsByIsbnAndLibCode(booksLibrary.getIsbn(), libCode) > 0) {
-                    existingIsbnLibCodeCombination.add(isbnLibCodeKey);
-                }
+                uniqueBooksList.add(book);
             }
 
-            // 배치 삽입을 위한 별도 메서드 호출
-            batchInsertBooks(booksToSave);
+            // 데이터베이스에 존재하는 ISBN 조회
+            List<String> existingIsbnsInDb = bookUploadDAO.findExistingIsbns(new ArrayList<>(isbnSetForDuplicationCheck));
+            // 데이터베이스에 존재하는 ISBN을 HashSet에서 제거
+            isbnSetForDuplicationCheck.removeAll(existingIsbnsInDb);
+
+
+            // HashSet에 남아 있는 ISBN들은 데이터베이스에 없는 새로운 ISBN입니다.
+            List<BooksVO> newBooks = uniqueBooksList.stream()
+                    .filter(book -> isbnSetForDuplicationCheck.contains(book.getIsbn()))
+                    .collect(Collectors.toList());
+
+
+            // 벌크 인서트를 사용하여 새로운 책 데이터를 데이터베이스에 삽입
+            if (!newBooks.isEmpty()) {
+                bookUploadDAO.bulkInsertBooks(newBooks);
+            }
+
+            // 배치 처리 준비
             batchInsertOrUpdateBooksLibraries(booksLibraryToSave, libCode);
 
-        }
-        catch (IOException e) {
+
+        } catch (IOException e) {
             System.out.println("예외 발생: " + e);
             throw new RuntimeException("CSV 파일 처리 중 오류가 발생했습니다.", e);
         }
@@ -166,10 +190,8 @@ public class BookUploadService {
         return value.replace("\"", "").trim();
     }
 
-
     @Transactional
     public void importBooksFromExcel(MultipartFile file, int libCode) {
-
         long startTime = System.nanoTime();
 
         if (file == null || file.isEmpty()) {
@@ -206,7 +228,7 @@ public class BookUploadService {
                 String subjectClassificationNumber = row.getCell(9).getStringCellValue();
                 String numberOfCopies = row.getCell(10).getStringCellValue();
                 String numberOfLoans = row.getCell(11).getStringCellValue();
-//                    String registrationDate = row.getCell(12).getStringCellValue();
+                String registrationDate = row.getCell(12).getStringCellValue();
 
 
                 // 추출한 정보를 바탕으로 BooksVO 객체를 생성합니다.
@@ -221,38 +243,59 @@ public class BookUploadService {
                 booksVO.setVolume(volume);
                 booksVO.setSubject_classification_number(subjectClassificationNumber);
 
-                BooksLibrariesVO booksLibrariesVO = new BooksLibrariesVO();
-                booksLibrariesVO.setLib_code(libCode);
-                booksLibrariesVO.setIsbn(isbn);
-                booksLibrariesVO.setNumberOfCopies(numberOfCopies);
-                booksLibrariesVO.setNumberOfLoans(numberOfLoans);
 
+
+
+                String isbnLibCodeKey = isbn + "-" + libCode;
+                // 중복되지 않은 ISBN과 도서관 코드 조합만 리스트에 추가
+                if (!uniqueIsbnLibCode.contains(isbnLibCodeKey)) {
+                    uniqueIsbnLibCode.add(isbnLibCodeKey);
+
+                    BooksLibrariesVO booksLibrariesVO = new BooksLibrariesVO();
+                    booksLibrariesVO.setLib_code(libCode);
+                    booksLibrariesVO.setIsbn(isbn);
+                    booksLibrariesVO.setNumberOfCopies(numberOfCopies);
+                    booksLibrariesVO.setNumberOfLoans(numberOfLoans);
+
+                    booksLibraryToSave.add(booksLibrariesVO);
+                }
 
                 // 생성한 BooksVO 객체를 저장할 목록에 추가합니다.
                 booksToSave.add(booksVO);
-                booksLibraryToSave.add(booksLibrariesVO);
+
             }
 
 
-            // 중복된 ISBN을 HashSet에 저장
+
             for (BooksVO book : booksToSave) {
-                if (bookUploadDAO.existsByIsbn(book.getIsbn()) > 0) {
-                    existingIsbnsHS.add(book.getIsbn());
+                // 이미 isbnSetForDuplicationCheck에 존재하는 경우, 중복으로 간주
+                if (!isbnSetForDuplicationCheck.add(book.getIsbn())) {
+                    // 중복된 ISBN 처리 로직
+                    // 중복된 데이터를 무시합니다.
+                    continue;
                 }
-            }
-            //중복된 ISBN-LibCode 조합 확인 및 저장
-            for (BooksLibrariesVO booksLibrary : booksLibraryToSave) {
-                String isbnLibCodeKey = booksLibrary.getIsbn() + "-" + libCode;
-                if (bookUploadDAO.existsByIsbnAndLibCode(booksLibrary.getIsbn(), libCode) > 0) {
-                    existingIsbnLibCodeCombination.add(isbnLibCodeKey);
-                }
+                uniqueBooksList.add(book);
             }
 
-            // 배치 삽입을 위한 별도 메서드 호출
-            batchInsertBooks(booksToSave);
+            // 데이터베이스에 존재하는 ISBN 조회
+            List<String> existingIsbnsInDb = bookUploadDAO.findExistingIsbns(new ArrayList<>(isbnSetForDuplicationCheck));
+            // 데이터베이스에 존재하는 ISBN을 HashSet에서 제거
+            isbnSetForDuplicationCheck.removeAll(existingIsbnsInDb);
+
+
+            // HashSet에 남아 있는 ISBN들은 데이터베이스에 없는 새로운 ISBN입니다.
+            List<BooksVO> newBooks = uniqueBooksList.stream()
+                    .filter(book -> isbnSetForDuplicationCheck.contains(book.getIsbn()))
+                    .collect(Collectors.toList());
+
+
+            // 벌크 인서트를 사용하여 새로운 책 데이터를 데이터베이스에 삽입
+            if (!newBooks.isEmpty()) {
+                bookUploadDAO.bulkInsertBooks(newBooks);
+            }
+            // 배치 처리 준비
             batchInsertOrUpdateBooksLibraries(booksLibraryToSave, libCode);
 
-            // 사용한 리소스를 해제합니다.
             workbook.close();
 
         } catch (IOException e) {
@@ -270,6 +313,4 @@ public class BookUploadService {
         long endTime = System.nanoTime();
         System.out.println("-------------실행 시간---------------: " + (endTime - startTime) / 1000000000.0 + "초");
     }
-
-
 }

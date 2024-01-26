@@ -39,6 +39,15 @@ public class BookUploadDAO {
 
 
 
+
+    public List<String> findExistingIsbns(List<String> isbns) {
+        return sqlSession.selectList("findExistingIsbns", isbns);
+    }
+    //책 정보 벌크 인서트
+    public void bulkInsertBooks(List<BooksVO> booksList) {
+        sqlSession.insert("bulkInsertBooks", booksList);
+    }
+
     //책과도서관 정보 업데이트
     public void updateBooksLibraries(BooksLibrariesVO booksLibrariesVO) {
         sqlSession.update("updateBooksLibraries", booksLibrariesVO);

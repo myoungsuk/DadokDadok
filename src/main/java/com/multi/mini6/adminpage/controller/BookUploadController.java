@@ -1,6 +1,5 @@
 package com.multi.mini6.adminpage.controller;
 
-
 import com.multi.mini6.adminpage.service.BookUploadService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -17,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RequestMapping("/adminpage")
 public class BookUploadController {
 
-    final private BookUploadService bookUploadService;
+    private final BookUploadService bookUploadService;
 
     // 책 업로드 관리자 페이지
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
