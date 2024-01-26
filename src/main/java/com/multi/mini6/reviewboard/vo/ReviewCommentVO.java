@@ -55,6 +55,7 @@ public class ReviewCommentVO {
         this.cm_modiefiedAt = cm_modiefiedAt;
     }
 
+    public int auth;
     public String getNickname() {
         return nickname;
     }
@@ -63,10 +64,18 @@ public class ReviewCommentVO {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
+    public int getAuth() {
+        return this.auth;
+    }
+
+    // setter
+    public void setAuth(int auth) {
+        this.auth = auth;
+    }
     public String toString() {
         return "ReviewVO [cm_id=" + cm_id + ", review_id=" + review_id + ", member_id=" + member_id + ", book_id="
                 + book_id + ", cm_content=" + cm_content + ", cm_createAt=" + cm_createAt + ", cm_modiefiedAt="
-                + cm_modiefiedAt + ", nickname=" + nickname + "]";
+                + cm_modiefiedAt + ", nickname=" + nickname + ", auth=" + auth + "]";
     }
 
 

@@ -288,9 +288,10 @@ public class ReviewController {
     public void review_one(ReviewVO reviewVO, Model model) throws Exception {
         // BbsDAO dao = new BbsDAO();
         System.out.println(reviewVO);
+        System.out.println("review_one==============================================================================================");
         ReviewVO reviewVO2 = reviewService.review_one(reviewVO);
         List<ReviewCommentVO> list = reviewCommentService.reviewCommentlist(reviewVO.getReview_id());
-        System.out.println(reviewVO.getReview_id());
+        System.out.println("review_one : " + list.size());
         reviewService.increaseViews(reviewVO.getReview_id());
         model.addAttribute("reviewVO", reviewVO2);
         model.addAttribute("list", list);
