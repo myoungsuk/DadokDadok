@@ -188,7 +188,7 @@ public class LibraryPageController {
         List<LibraryVO> list = null;
 
 
-        if (libraryPageVO.getRegionSelect() != null && !libraryPageVO.getRegionSelect().isEmpty()){
+        if (libraryPageVO.getRegionSelect() != null && libraryPageVO.getCategorySelect() != null){
             list = libraryPageService.search_address(libraryPageVO);
             //count = libraryPageService.count(); 동적 쿼리
             //count = libraryPageService.search_count(libraryPageVO);

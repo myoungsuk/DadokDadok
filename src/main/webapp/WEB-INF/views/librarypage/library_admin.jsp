@@ -112,15 +112,16 @@ pageEncoding="UTF-8"%>
     <!-- End Breadcrumbs -->
 
     <div class="container">
-
-
+    <br><br><br>
+    <h5>도서관 관리자 페이지</h5>
+    <br>
     <button type="button" class="btn btn-primary">
         <a href="library_insert" style="color: white; text-decoration: none;">
             도서관 정보 DB에 삽입
         </a>
     </button>
     <br><br><br>
-    <button type="button" class="btn btn-primary">
+    <!-- <button type="button" class="btn btn-primary">
         <a href="library_delete" style="color: white; text-decoration: none;">
             도서관 정보 테이블 전체 삭제
         </a>
@@ -130,7 +131,7 @@ pageEncoding="UTF-8"%>
         <a href="library_update" style="color: white; text-decoration: none;">
             도서관 정보 테이블 업데이트
         </a>
-    </button>
+    </button> -->
     <br><br><br>
 
 
