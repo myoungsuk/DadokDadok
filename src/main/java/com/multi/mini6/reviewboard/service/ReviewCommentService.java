@@ -1,7 +1,7 @@
 package com.multi.mini6.reviewboard.service;
 
 import com.multi.mini6.reviewboard.vo.ReviewCommentVO;
-import com.multi.mini6.reviewboard.mapper.ReviewCommentDAO;
+import com.multi.mini6.reviewboard.dao.ReviewCommentDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
