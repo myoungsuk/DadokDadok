@@ -1,18 +1,15 @@
 package com.multi.mini6.bookpage.controller;
 
 
-import com.multi.mini6.bookpage.domain.BookVO;
-import com.multi.mini6.bookpage.domain.PageVO;
 import com.multi.mini6.bookpage.service.BookService;
+import com.multi.mini6.bookpage.vo.BookVO;
+import com.multi.mini6.bookpage.vo.PageVO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,7 +17,7 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("bookpage/book")
+@RequestMapping("/bookpage")
 public class BookController {
 
     private final BookService bookService;
@@ -97,38 +94,38 @@ public class BookController {
         return ResponseEntity.ok(bookDtoList);
     }
 
-//    @PostMapping("/addBook")
-//    @ResponseBody
-//    public ResponseEntity<String> addBook(BookVO bookDto) {
-//        int result = bookDAO.addBook(bookDto);
-//        if (result == 1) {
-//            return ResponseEntity.ok("success");
-//        } else {
-//            return ResponseEntity.badRequest().body("fail");
-//        }
-//    }
-//
-//    @PostMapping("/updateBook")
-//    @ResponseBody
-//    public ResponseEntity<String> updateBook(BookVO bookDto) {
-//        int result = bookDAO.updateBook(bookDto);
-//        if (result == 1) {
-//            return ResponseEntity.ok("success");
-//        } else {
-//            return ResponseEntity.badRequest().body("fail");
-//        }
-//    }
-//
-//    @PostMapping("/deleteBook")
-//    @ResponseBody
-//    public ResponseEntity<String> deleteBook(String bookISBN) {
-//        int result = bookDAO.deleteBook(bookISBN);
-//        if (result == 1) {
-//            return ResponseEntity.ok("success");
-//        } else {
-//            return ResponseEntity.badRequest().body("fail");
-//        }
-//    }
+    @PostMapping("/addBook")
+    @ResponseBody
+    public ResponseEntity<String> addBook(BookVO bookDto) {
+        int result = bookService.addBook(bookDto);
+        if (result == 1) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.badRequest().body("fail");
+        }
+    }
+
+    @PostMapping("/updateBook")
+    @ResponseBody
+    public ResponseEntity<String> updateBook(BookVO bookDto) {
+        int result = bookService.updateBook(bookDto);
+        if (result == 1) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.badRequest().body("fail");
+        }
+    }
+
+    @PostMapping("/deleteBook")
+    @ResponseBody
+    public ResponseEntity<String> deleteBook(String bookISBN) {
+        int result = bookService.deleteBook(bookISBN);
+        if (result == 1) {
+            return ResponseEntity.ok("success");
+        } else {
+            return ResponseEntity.badRequest().body("fail");
+        }
+    }
 
 
 

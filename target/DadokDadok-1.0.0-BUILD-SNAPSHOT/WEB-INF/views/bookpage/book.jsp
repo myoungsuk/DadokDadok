@@ -1,4 +1,4 @@
-<%@ page import="com.multi.mini6.bookpage.domain.BookVO" %>
+<%@ page import="com.multi.mini6.bookpage.vo.BookVO" %>
 <%@ page import="java.util.List" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
