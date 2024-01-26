@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.multi.mini6.mainpage.dao.MainPageDAO">
+
+    <!--자유게시판에서 글 최신순 5개 가져오기 -->
+    <select id="freeBoardListFive" resultType="freeBoardVO">
+        select board.*, member.nickname as nickname from board
+        inner join member on board.member_id = member.member_id
+        order by board.board_createdAt desc limit 5
+    </select>
+
+
+</mapper>

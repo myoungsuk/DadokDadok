@@ -11,23 +11,17 @@ import java.net.URLDecoder;
 import java.security.Principal;
 import java.util.*;
 
-
+import com.multi.mini6.loginpage.vo.CustomUser;
 import lombok.extern.slf4j.Slf4j;
-import net.coobird.thumbnailator.Thumbnailator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 @Controller
@@ -38,143 +32,59 @@ public class FreeBoardController {
   @Autowired
   private FreeBoardService freeBoardService;
 
-  @Autowired
-  ServletContext servletContext;
-
+  //자유게시판 글 작성페이지로이동
   @GetMapping("/board_insert")
   public void getInsert() {
   }
 
-  // 자유게시판 글작성
+  // 자유게시판 게시글 등록 + 첨부파일 등록(s3)
   @PostMapping("/board_insert")
-  public String insert(FreeBoardVO freeBoardVO){
-
-    freeBoardService.insert(freeBoardVO);
-    log.info("freeBoardVO board_title {}", freeBoardVO.getBoard_title());
-
-    // 데이터 수집되었는지 확인
-    if(freeBoardVO.getAttachList() != null) {
-        freeBoardVO.getAttachList().forEach(attach -> log.info("attach: {}", attach));
-    }
-
-    return "redirect:/freeboard/board_list"; // 글작성 후 board_list로 이동
-  }
-
-  // 파일첨부 - 확장자 확인
-  private String getFileType(File file, FreeBoardAttachVO attachVO) {
-
-    String fileName = file.getName();
-    String fileType = "";
-
-    int dotIndex = fileName.lastIndexOf('.');
-    if (dotIndex > 0) {
-      fileType = fileName.substring(dotIndex + 1).toLowerCase();
-    }
-
-    // 파일 타입을 FreeBoardAttachVO 객체에 저장
-    attachVO.setBoard_file_type(fileType);
-
-    return fileType;
-
-
-  }
-
-  // 파일업로드
-  @PostMapping(value="/uploadAjaxFormAction", produces=MediaType.APPLICATION_JSON_VALUE)
   @ResponseBody
-  public ResponseEntity<List<FreeBoardAttachVO>> uploadFormPost(@RequestParam("file") MultipartFile[] files, HttpServletRequest request) {
+  public ResponseEntity<?> freeBoardInsertS3(@RequestParam("file") MultipartFile[] files,
+                                             @ModelAttribute FreeBoardVO freeBoardVO,
+                                             FreeBoardAttachVO freeBoardAttachVO) {
 
-    List<FreeBoardAttachVO> list = new ArrayList<>();
+    //  게시글 등록
+    freeBoardService.freeBoardInsert(freeBoardVO);
+    int board_id = freeBoardVO.getBoard_id();
+    List<String> uploadedFiles = new ArrayList<>();
+    boolean isUploadFailed = false;
 
-    String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/freeBoardUpload");
-    //log.info("uploadFolder: " + uploadFolder);
-
-    File uploadPath = new File(uploadFolder);
-
-    if (!uploadPath.exists()) {
-      uploadPath.mkdirs(); // 디렉토리가 없으면 생성
-    }
-
-    for (MultipartFile multipartFile : files) {
-
-      FreeBoardAttachVO attachVO = new FreeBoardAttachVO();
-      String uploadFileName = multipartFile.getOriginalFilename();
-
-      uploadFileName = uploadFileName.substring(uploadFileName.lastIndexOf("\\") + 1);
-      attachVO.setBoard_file_name(uploadFileName);
-
-      // UUID 이용해 고유한 이름 적용
-      UUID uuid = UUID.randomUUID();
-      uploadFileName = uuid.toString() + "_" + uploadFileName;
+    for (MultipartFile file : files) {
+      // 파일 크기가 5MB를 초과하는지 확인
+      final long maxFileSize = 5 * 1024 * 1024; // 5MB
+      if (file.getSize() > maxFileSize) {
+        isUploadFailed = true;
+        break;
+      }
 
       try {
-        File saveFile = new File(uploadPath, uploadFileName);
-        multipartFile.transferTo(saveFile);
+        // 파일 업로드
+        String res = freeBoardService.freeBoardInsertS3(file, board_id, freeBoardAttachVO);
 
-        attachVO.setBoard_uuid(uuid.toString());
-
-        // 파일 타입
-        String fileType = getFileType(saveFile, attachVO);
-        // 섬네일 생성
-        if (fileType.equals("png") || fileType.equals("jpg") || fileType.equals("jpeg") || fileType.equals("gif")) { // 이미지 파일인지 확인
-          File thumbnailFile = new File(uploadPath, "s_" + uploadFileName);
-          try (FileOutputStream thumbnail = new FileOutputStream(thumbnailFile);
-               FileInputStream fis = new FileInputStream(saveFile)) {  // FileInputStream 추가
-                Thumbnailator.createThumbnail(fis, thumbnail, 100, 100);
-                  // 이미지 파일을 사용한 후에 해당 파일 스트림을 닫기
-                  // Files.deleteIfExists(saveFile.toPath());
-          }catch (Exception e) {
-            e.printStackTrace();
-          }
-
-        }
-        list.add(attachVO);
-      } catch (Exception e) {
-        e.printStackTrace();
-      } // try
-    } // for
-
-    // JSON형태로 변환된 list를 반환
-    return new ResponseEntity<>(list, HttpStatus.OK);
-  }
-
-
-  // 게시글 작성시 첨부파일삭제
-  @PostMapping("/deleteFile")
-  @ResponseBody
-  public ResponseEntity<String> deleteFile(@RequestParam String fileName,@RequestParam String type, HttpServletRequest request) {
-    String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/freeBoardUpload");
-
-    String folder = servletContext.getRealPath("/resources/freeBoardUpload");
-    File file;
-    try {
-      fileName = fileName.replace("/resources/freeBoardUpload/", "");
-      file = new File(folder, URLDecoder.decode(fileName, "UTF-8"));
-
-      file.delete();
-
-      // 이미지 파일인 경우 원본도 삭제
-      if (type.equals("image")) {
-        String largeFileName = file.getAbsolutePath().replace("s_", "");
-
-        file = new File(largeFileName);
-
-        file.delete();
-
-        // 삭제 실패시 파일 이름 출력
-        if(!file.delete()){
-          log.info("Failed to delete " + file);
+        if (res == null || res.isEmpty()) {
+          isUploadFailed = true;
+          break;
         }
 
+        uploadedFiles.add(res);
+      } catch (IOException e) {
+        isUploadFailed = true;
+        break;
       }
-    } catch (UnsupportedEncodingException e){
-      e.printStackTrace();
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<String>("deleted", HttpStatus.OK);
+
+    if (isUploadFailed) {
+      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 업로드 중 오류가 발생했습니다.");
+    } else {
+      return ResponseEntity.ok().body("파일 업로드 성공: " + String.join(", ", uploadedFiles));
+    }
+
   }
+
+  //자유게시판 글 리스트
 @GetMapping("/board_list")
-  public String list(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
+  public String freeBoardList(@RequestParam(value = "page", required = false, defaultValue = "1") int page,
                      @RequestParam(value = "searchType", defaultValue ="") String searchType,
                      @RequestParam(value = "keyword", defaultValue ="" ) String keyword,
                      Model model, FreeBoardPageVO freeboardPageVO, HttpSession session ) {
@@ -214,7 +124,7 @@ public class FreeBoardController {
     // 시작, 마지막 페이지 수 가져오기
     freeboardPageVO.setStartEnd();
     // 현재페이지에서 보여줄 글 목록
-    List<FreeBoardVO> list = freeBoardService.list(freeboardPageVO);
+    List<FreeBoardVO> list = freeBoardService.freeBoardList(freeboardPageVO);
 
     // totalPage = (전체 게시물 수 + 한 페이지에서 보여줄 게시글 수 - 1)  / 한 페이지에서 보여줄 게시글 수
     // 정수 나눗셈 결과: 정수 반환, 소수부분 버림
@@ -233,11 +143,12 @@ public class FreeBoardController {
 
   // 자유게시판 글 상세보기
   @RequestMapping("/board_one")
-  public String one(@RequestParam("board_id")  int board_id, FreeBoardPageVO freeboardPageVO,Model model,
+  public String one(FreeBoardVO freeBoardVO, FreeBoardPageVO freeboardPageVO,Model model,
                     @RequestParam(value = "page", defaultValue = "1") int page,
                     @RequestParam(value = "searchType", defaultValue ="") String searchType,
-                    @RequestParam(value = "keyword", defaultValue ="" ) String keyword, Principal principal
+                    @RequestParam(value = "keyword", defaultValue ="" ) String keyword, Principal principal, Authentication authentication
                     ) throws Exception {
+
     // 새로고침시로그인 풀리는 경우 로그인페이지로 이동
      if (principal == null) {
        return "redirect:/loginpage/customLogin";
@@ -246,18 +157,48 @@ public class FreeBoardController {
     // 현재 페이지 설정
     freeboardPageVO.setPage(page);
 
-    // 게시글 클릭시 조회수 증가
-    freeBoardService.viewsCount(board_id);
-
-    // 이전글, 다음글
-    FreeBoardVO previousPost = freeBoardService.getPreviousPost(board_id);
-    FreeBoardVO nextPost = freeBoardService.getNextPost(board_id);
+    // 현재 로그인한 member_id
+    CustomUser customUser = (CustomUser) authentication.getPrincipal();
+   int userId =  customUser.getMember().getMember_id();
+    freeBoardVO.setMember_id(userId);
 
     // 게시글 정보
-    FreeBoardVO result = freeBoardService.freeBoardOne(board_id);
+    FreeBoardVO result = freeBoardService.freeBoardOne(freeBoardVO.getBoard_id());
+
+    // 현재 로그인한 사용자가 게시글 작성자가 아닌 경우에만 조회수 증가
+    if(userId != result.getMember_id()) {
+      freeBoardService.viewsCount(freeBoardVO);
+    }
+
+    // s3 파일 정보 가져오기
+    List<String> s3FileUrlList = freeBoardService.getS3FileList(freeBoardVO.getBoard_id());
+    List<String> s3FileNames = new ArrayList<>();
+    List<String> s3FileTypes = new ArrayList<>();
+    log.info("s3FileUrlList {}", s3FileUrlList);
+
+      for (String url : s3FileUrlList) {
+        String encodedFileName = url.substring(url.lastIndexOf("_") + 1, url.lastIndexOf("."));
+        String s3FileType = url.substring(url.lastIndexOf(".") + 1);
+
+        // URL 인코딩된 파일 이름을 디코딩
+        String s3FileName = URLDecoder.decode(encodedFileName, "UTF-8");
+
+        s3FileNames.add(s3FileName);
+        s3FileTypes.add(s3FileType);
+        log.info("s3FileNames {}", s3FileNames);
+        log.info("s3FileTypes {}", s3FileTypes);
+      }
+
+    // 이전글, 다음글
+    FreeBoardVO previousPost = freeBoardService.getPreviousPost(freeBoardVO.getBoard_id());
+    FreeBoardVO nextPost = freeBoardService.getNextPost(freeBoardVO.getBoard_id());
+
+    // 게시글 내용 엔터처리
+    String contentEnter = result.getBoard_content().replace("\r\n","<br>");
+    result.setBoard_content(contentEnter);
 
     // 해당 게시글의 댓글 목록 가져오기
-    Map<Integer, List<FreeBoardCommentVO>> groupedComments = freeBoardService.findList(board_id);
+    Map<Integer, List<FreeBoardCommentVO>> groupedComments = freeBoardService.findList(freeBoardVO.getBoard_id());
 
     model.addAttribute("result", result);
     model.addAttribute("previousPost", previousPost);
@@ -266,158 +207,120 @@ public class FreeBoardController {
     model.addAttribute("keyword", keyword);
     model.addAttribute("searchType", searchType);
     model.addAttribute("groupedComments", groupedComments); // 댓글리스트
-
-  log.info("groupedComments {}", groupedComments);
+    model.addAttribute("s3FileUrlList", s3FileUrlList); // 파일첨부 url
+    model.addAttribute("s3FileNames", s3FileNames); // 파일이름
+    model.addAttribute("s3FileTypes", s3FileTypes); // 파일타입
 
     return "/freeboard/board_one";
   }
 
+ // 자유게시판 수정페이지로 이동
+@GetMapping("/board_update")
+public String freeBoardUpdate(@RequestParam("board_id") int board_id, Model model, FreeBoardAttachVO freeBoardAttachVO) {
+  // 게시글 정보 조회
+  FreeBoardVO freeBoardVO = freeBoardService.freeBoardOne(board_id);
 
-  //게시글 상세보기 - 첨부파일조회
-  @GetMapping(value = "/getAttachList", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-  @ResponseBody
-  public ResponseEntity<List<FreeBoardAttachVO>> getAttachList(@RequestParam("board_id") int board_id){
-    List<FreeBoardAttachVO> attachList = freeBoardService.getAttachList(board_id);
-    //log.info("getAttachList response: {}" , attachList);
-    //log.info("freeBoardService.getAttachList(board_id); {} ", freeBoardService.getAttachList(board_id));
+  // 첨부파일 정보 조회
+  List<FreeBoardAttachVO> FileList = freeBoardService.freeBoardFileList(board_id);
 
-    return new ResponseEntity<>(attachList, HttpStatus.OK);
-
-  }
-
-// 게시글 상세보기 - 파일다운로드
-  @GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-  public ResponseEntity<Resource> downloadFile(String fileName, HttpServletRequest request){
-   // log.info("fileName file: {}", fileName);
-
-    String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/freeBoardUpload/");
-
-    FileSystemResource resource = new FileSystemResource(uploadFolder +fileName );
-
-    //log.info("resource:{} " , resource);
-
-    String resourceName = resource.getFilename();
-
-    HttpHeaders headers = new HttpHeaders();
-    try{
-      headers.add("Content-Disposition", "attacgment; filename=" + new String(resourceName.getBytes("UTF-8"), "ISO-8859-1"));
-    } catch (UnsupportedEncodingException e) {
-      e.printStackTrace();
+  // 파일이름을 _ 이후의 문자열로 변경
+  List<String> modifiedNames = new ArrayList<>();
+  for (FreeBoardAttachVO file : FileList) {
+    String fileName = file.getBoard_file_name();
+    int index = fileName.indexOf("_");
+    if (index > -1) {
+      modifiedNames.add(fileName.substring(index + 1));
+    } else {
+      modifiedNames.add(fileName);
     }
-
-
-    return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
   }
+  model.addAttribute("freeBoardVO", freeBoardVO);
+  model.addAttribute("FileList", FileList);
+  model.addAttribute("modifiedNames", modifiedNames);
 
+  return "freeboard/board_update";
+}
 
-  // 게시글+첨부파일 삭제
-  @PostMapping("/fileDelete")
-  @ResponseBody
-  public ResponseEntity<String> fileDelete ( HttpServletRequest request, @RequestBody ArrayList<FreeBoardAttachVO> fileList ){
-      // 삭제 순서: 파일DB삭제  ->  실제 파일 삭제  -> 게시글 삭제
+  // 자유게시판 게시글 수정
+  @PostMapping("/board_update")
+  public String freeBoardUpdate(@RequestParam("board_id") int board_id,
+                                @RequestParam("board_title") String board_title,
+                                @RequestParam("board_content") String board_content,
+                                @RequestParam(value="file", required=false) MultipartFile[] files, FreeBoardAttachVO freeBoardAttachVO) {
 
-      String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/freeBoardUpload/");
-      //log.info("file Delete uploadFolder: {}", uploadFolder);
+    // 게시글 정보 조회
+    FreeBoardVO freeBoardVO = freeBoardService.freeBoardOne(board_id);
 
-      try {
-           // 첨부파일 개수 만큼 실행
-           for (FreeBoardAttachVO attach : fileList) {
+    // 게시글 정보 갱신
+    freeBoardVO.setBoard_title(board_title);
+    freeBoardVO.setBoard_content(board_content);
+    freeBoardService.freeBoardUpdate(freeBoardVO);
 
-              // 파일DB삭제
-              freeBoardService.fileDelete(attach.getBoard_id());
-
-              String filePath = uploadFolder + attach.getBoard_uuid() + "_" + URLDecoder.decode(attach.getBoard_file_name(), "UTF-8");
-              File file = new File(filePath);
-
-              // 파일삭제
-              file.delete();
-              //log.info("file: {}", file);
-
-              String fileType = attach.getBoard_file_type();
-            // log.info("fileType:{} ", fileType);
-
-             // 이미지 파일인 경우 썸네일도 같이 삭제
-              if(fileType.equals("png") || fileType.equals("jpg") || fileType.equals("jpge") || fileType.equals("gif") ) {
-                String imgFilePath = uploadFolder + "s_" + attach.getBoard_uuid() + "_" + URLDecoder.decode(attach.getBoard_file_name(), "UTF-8");
-                file = new File(imgFilePath);
-                log.info("imgFilePath: " + imgFilePath);
-
-                file.delete();
-              }
-
-
-              //게시글 삭제
-              freeBoardService.delete(attach.getBoard_id());
-           }
-
-      } catch (UnsupportedEncodingException e) {
-          e.printStackTrace();
-          // 인코딩 문제가 발생한 경우 적절한 HTTP 상태 코드와 함께 에러 응답을 반환
-          return ResponseEntity.badRequest().body("Failed to decode file names");
+    // 새 첨부파일이 있을 경우에만 기존 첨부파일 삭제 및 파일 관련 처리 수행
+    if (files != null && files.length > 0 && !files[0].isEmpty()) {
+      // 기존 첨부파일 삭제
+      List<FreeBoardAttachVO> s3FileList = freeBoardService.freeBoardFileList(board_id);
+      if(!s3FileList.isEmpty()) {
+        for(FreeBoardAttachVO s3FileUrl : s3FileList) {
+          // S3에서 파일 삭제
+          freeBoardService.freeBoardDeleteS3(s3FileUrl.getBoard_file_name());
+        }
+        // DB에서 파일 정보 삭제
+        freeBoardService.freeBoardFileDelete(board_id);
       }
 
-     // 모든 파일 처리 후 성공 응답 반환
-     return new ResponseEntity<String>("deleted", HttpStatus.OK);
-  }
+      // 새 첨부파일 업로드
+      boolean isUploadFailed = false;
+      List<String> uploadedFiles = new ArrayList<>();
+      for (MultipartFile file : files) {
+        // 파일 크기가 5MB를 초과하는지 확인
+        final long maxFileSize = 5 * 1024 * 1024; // 5MB
+        if (file.getSize() > maxFileSize) {
+          isUploadFailed = true;
+          break;
+        }
 
-  // 게시글 삭제
-  @PostMapping(value = "/board_delete")
-  public ResponseEntity<String> delete( int board_id) {
-    freeBoardService.delete(board_id);
-    return new ResponseEntity<String>("Board deleted successfully", HttpStatus.OK);
-  }
+        try {
+          // 파일 업로드
+          String s3FileName = freeBoardService.freeBoardInsertS3(file, board_id, freeBoardAttachVO);
+          if (s3FileName == null || s3FileName.isEmpty()) {
+            isUploadFailed = true;
+            break;
+          }
 
-  // 게시글 수정페이지로 이동
-  @GetMapping("/board_update")
-  public String update(@RequestParam("board_id") int board_id, Model model) {
-    FreeBoardVO freeBoardVO = freeBoardService.freeBoardOne(board_id);
-    model.addAttribute("freeBoardVO", freeBoardVO);
-    return "freeboard/board_update";
-  }
+          uploadedFiles.add(s3FileName);
+        } catch (IOException e) {
+          isUploadFailed = true;
+          break;
+        }
+      }
+    }
 
-  // 게시글 수정
-  @PutMapping(value = "/board_update", consumes = "multipart/form-data")
-  public ResponseEntity<?> update(@ModelAttribute FreeBoardVO freeBoardVO) {
-    // 게시글 업데이트 로직 실행
-    freeBoardService.update(freeBoardVO);
-
-    // 첨부 파일 업데이트 로직 실행
-    freeBoardService.Fileupdate(freeBoardVO.getBoard_id(), freeBoardVO.getAttachList());
-   //log.info("freeBoardVO.getBoard_id() _{} ", freeBoardVO.getBoard_id());
-   //log.info("freeBoardVO.getAttachList() _{} ", freeBoardVO.getAttachList());
-
-   // log.info("update freeBoardVO : " + freeBoardVO);
-    return ResponseEntity.ok(freeBoardVO.getBoard_id());
+    return "redirect:/freeboard/board_list";
   }
 
 
-
-
-  // 댓글 입력
+  // 자유게시판 댓글 입력
 @PostMapping("/comment_insert")
-  public @ResponseBody Map<Integer, List<FreeBoardCommentVO>> commentInsert(
-          @RequestBody FreeBoardCommentVO freeBoardCommentVO) {
-          //log.info("댓글 등록 - freeBoardCommentVO의 :{} " , freeBoardCommentVO);
-
+  public @ResponseBody Map<Integer, List<FreeBoardCommentVO>> commentInsert(@RequestBody FreeBoardCommentVO freeBoardCommentVO) {
           // 댓글 등록
           freeBoardService.commentInsert(freeBoardCommentVO);
 
         // 해당 게시글의 댓글 목록 가져오기
         Map<Integer, List<FreeBoardCommentVO>> groupedComments = freeBoardService.findList(freeBoardCommentVO.getBoard_id());
-        //log.info("댓글 등록 - groupedComments :{} " , groupedComments);
 
       // Jackson 라이브러리가 자동으로 Map의 Integer 키를 JSON 객체의 문자열 키로 변환
         return groupedComments;
   }
 
-  // 댓글수정
+  // 자유게시판 댓글수정
   @PutMapping("/comment_update")
   public ResponseEntity<String> commentUpdate(@RequestBody  FreeBoardCommentVO freeBoardCommentVO){
     freeBoardService.commentUpdate(freeBoardCommentVO);
     return new ResponseEntity<>("댓글 수정 성공", HttpStatus.OK);
 
   }
-  // 댓글삭제
+  // 자유게시판 댓글삭제
   @PostMapping("/comment_delete")
   @ResponseBody
   public ResponseEntity<String> commentDelete(@RequestParam("bocm_id")  int bocm_id) {
@@ -428,7 +331,7 @@ public class FreeBoardController {
         return new ResponseEntity<>("댓글 삭제 실패", HttpStatus.INTERNAL_SERVER_ERROR);
       }
   }
-    // 대댓글 입력
+    // 자유게시판 대댓글 입력
     @PostMapping("/comment_reply")
      public ResponseEntity<String> commentReply(@RequestBody FreeBoardCommentVO freeBoardCommentVO){
       try {
@@ -442,16 +345,38 @@ public class FreeBoardController {
 
 
 
+  //자유게시판 게시글 삭제 + s3 파일 삭제
+@PostMapping("/board_delete")
+@ResponseBody
+public Map<String, Object> freeBoardDelete(int board_id) {
 
+  Map<String, Object> result = new HashMap<>();
 
+  try {
+    // db에 저장된 파일 리스트 가져오기
+    List<FreeBoardAttachVO> s3FileList = freeBoardService.freeBoardFileList(board_id);
 
+    log.info("s3FileList {}", s3FileList);
+    // 파일이 있는 경우 s3파일 + DB삭제
+    if(!s3FileList.isEmpty()) {
+        for(FreeBoardAttachVO s3FileUrl : s3FileList) {
+          // s3삭제
+            freeBoardService.freeBoardDeleteS3(s3FileUrl.getBoard_file_name());
+            log.info("s3FileUrl {}", s3FileUrl);
+        }
+        // db삭제
+        freeBoardService.freeBoardFileDelete(board_id);
+    }
 
+    // 게시글 삭제
+    freeBoardService.freeBoardDelete(board_id);
 
-
-
-
-
-
+    result.put("success", true);
+  } catch(Exception e) {
+    result.put("success", false);
+  }
+  return result;
+}
 
 
 }

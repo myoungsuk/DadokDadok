@@ -1,16 +1,16 @@
 ul, ol {list-style: none;}
 .freeboard textarea, .freeboard input { outline: none; }
 .freeboard textarea { resize: none; }
-.freeboard { padding: 0 30px; }
+.freeboard { max-width: 1000px; margin: 0 auto; padding: 0 30px; }
 .freeboard .b_info { margin: 50px 0; text-align: center; }
 .freeboard .b_info p { font-size: 24px; font-weight: 600; }
 .freeboard a { color: #121F37; }
 
 /* board_list */
 
-  .search { display: flex; height: 36px; margin: 32px 0;  justify-content: center; }
-  .search  select { padding: 0 10px; cursor: pointer; }
-  .search  input { width: 50%; margin: 0 10px; }
+  .search { display: flex; height: 40px; margin: 32px 0;  justify-content: center; }
+  .search  select { padding: 0 10px; border: 1px solid #aaa; border-radius: 2px; cursor: pointer; }
+  .search  input { width: 50%; margin: 0 10px; padding: 6px 8px; border: 1px solid #aaa; border-radius: 2px;}
   .search  button { width: 36px; height: 36px; padding: 0; background: transparent; border: none;  font-size: 24px;  color: #555; text-align: center;  }
   .search button:hover { color: #0a58ca; }
 
@@ -18,8 +18,8 @@ ul, ol {list-style: none;}
   .insert_btn a { display: inline-block; padding: 10px 20px; background: #0a58ca; border: 1px solid #0a58ca; color: #fff;  border-radius: 5px; }
 
   .b_list table { width: 100%; text-align: center; }
-  .b_list table tr { height: 40px;  border-bottom: 1px solid #999; }
-  .b_list table thead tr:nth-child(1) { height: 52px; border-top: 2px solid #4d4643; background: #fafafa; font-weight: 600; }
+  .b_list table tr { height: 40px;  border-bottom: 1px solid #dfdfdf; }
+  .b_list table thead tr:nth-child(1) { height: 52px; border-top: 2px solid #999; background: #fafafa; font-weight: 600; }
   .b_list table tr > td:nth-child(1) { width: 80px; }
   .b_list table tr > td:nth-child(2) { width: 200px; font-weight:600; }
   .b_list table tr > td:nth-child(3) { width: 100px; }
@@ -38,32 +38,34 @@ ul, ol {list-style: none;}
  .bo_btn_box .update_btn { margin: 0 10px; }
  .bo_title { padding: 26px 0; border: 1px solid #999; border-right: none; border-left: none; }
  .bo_title p { padding: 0 6px; margin: 0;font-size: 28px; font-weight: 900; }
- .bo_title2 { display: flex; margin: 10px 0 80px; justify-content: space-between; }
+ .bo_title2 { display: flex; margin: 10px 0 80px; justify-content: space-between; flex-wrap: wrap; }
  .bo_title2 >div > span > span:nth-child(1) { margin-right: 6px; font-weight: 600; }
  .bo_title2 >div > span > span:nth-child(2) { margin-right: 12px; }
  .bo_title2 .t2_left{}
  .bo_content { margin-bottom: 100px; padding: 0 6px; }
  .file_content .img_file:has(.img_list),
- .file_content .file:has(.file_list) { width: 100%;  margin-bottom: 50px; padding: 20px; background: #f6f6f6; border-radius: 10px; }
- .file_content .img_file { display: flex;  flex-wrap: wrap; text-align: center; }
- .file_content .img_file .img_list span { text-align: center; }
+ .file_content .file:has(.file_list) { width: 100%; overflow: hidden; margin-bottom: 10px; padding: 20px; background: #f6f6f6; border-radius: 10px; }
+ .file_content .img_file { text-align: center; }
+ .file_content .img_file .img_list span { display: block; text-align: center; }
  .file_content .img_file .img_list div { width: 200px; padding: 10px; }
- .file_content .img_file .img_list img { width: 100%; }
+ /*.file_content .img_file .img_list img { width: 100%; }*/
+ .file_content .img_file .img_list img { max-width: 300px; }
  .file_content .file .file_list { display: flex; height: 30px; margin-bottom: 30px; align-items: center; cursor: pointer; }
  .file_content .file .file_list:last-child { margin-bottom: 0; }
  .file_content .file .file_list div { height: 100%; padding: 5px; }
  .file_content .file .file_list img { height: 100%; }
 
+  .comment { padding: 50px 0; }
   .comment > p { font-size: 18px; font-weight: 600 }
-  .comment .c_group { padding: 0 10px; }
+  .comment .c_group { min-width: 500px; padding: 0 10px; }
   .comment .c_parent { padding: 10px; border-bottom: 1px solid #ddd;}
   .comment div.c_group:nth-of-type(1) .c_parent { border-top: 1px solid #ddd; }
   .comment .c_child { display: flex; padding: 10px; border-bottom: 1px solid #ddd; }
   .comment .c_child > div i { display: block; width: 36px; height: 36px; line-height: 36px; font-size: 16px; color: #084298; transform: rotate(90deg); }
   .comment .c_child > div:nth-child(1) { width: 36px; padding-top: 7px; }
   .comment .c_child > div:nth-child(2){ width: calc(100% - 36px); }
-  .comment  .c_title { display: flex; justify-content: space-between; align-items: baseline;}
-  .comment  .c_title div { display: flex; }
+  .comment  .c_title { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; }
+  .comment  .c_title div { display: flex; flex-wrap: wrap; }
   .comment  .c_title .title_info p:nth-child(1) { margin-right: 12px; color: #0a58ca; font-weight: 600; }
   .comment  .c_title .title_btn button{ margin-right: 10px; padding: 2px 10px; background: transparent; border: 1px solid  transparent; color: #888; border-radius: 3px; font-size: 12px;  }
   .comment  .c_title .title_btn button:hover { border-color: #0a58ca; color: #0a58ca;  }
@@ -100,7 +102,7 @@ ul, ol {list-style: none;}
   .insert_form .file_row  .file_box { width: calc(100% - 80px); }
   .insert_form .in_row textarea { height: 600px; }
   .insert_form .file_row { display: flex; }
-  .insert_form .file_row .file_box .file_info { display: flex; height: 50px; align-items: center;}
+  .insert_form .file_row .file_box .file_info { display: flex; height: 50px; margin-bottom: 10px; align-items: center; flex-wrap: wrap; }
   .insert_form .file_row .file_box .file_info input {display: none; }
   .insert_form .file_row .file_box .file_info label { padding: 6px 10px; margin-right: 10px; border: 1px solid #0a58ca; color: #0a58ca;  border-radius: 3px; cursor: pointer; }
   .insert_form .file_row .file_box .file_preview { width: 100%; min-height: 200px; max-height: 400px; overflow-y: auto; padding: 20px; border: 1px solid #999; }
@@ -113,3 +115,10 @@ ul, ol {list-style: none;}
   .insert_form .in_btn { display: flex; margin: 50px auto; justify-content: center; }
   .insert_form .in_btn button, .insert_form .in_btn a { padding: 10px 30px; background: transparent; border: 1px solid #0a58ca; color: #0a58ca; border-radius: 5px; }
   .insert_form .in_btn button { margin-right: 10px; background: #0a58ca; color: #fafafa; }
+
+
+/* 반응형 */
+    @media (max-width: 768px){
+         .freeboard:has(.insert_form) { padding: 0 20px; }
+         .insert_form .file_row .file_box .file_info { height: auto; }
+    }
