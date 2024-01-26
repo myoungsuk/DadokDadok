@@ -1,4 +1,4 @@
-package com.multi.mini6.reviewboard.mapper;
+package com.multi.mini6.reviewboard.dao;
 
 import com.multi.mini6.reviewboard.vo.ReviewCommentVO;
 import org.mybatis.spring.SqlSessionTemplate;
