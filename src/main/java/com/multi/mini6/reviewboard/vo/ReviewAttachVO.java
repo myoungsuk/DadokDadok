@@ -10,14 +10,21 @@ public class ReviewAttachVO {
 
     private String review_file_type;
 
-    private byte[] review_file_data;
+
+
+
+
 
     public int getReview_attach_id() {
+
         return review_attach_id;
     }
+
+
     public void setReview_attach_id(int review_attach_id) {
         this.review_attach_id = review_attach_id;
     }
+
     public int getReview_id() {
         return review_id;
     }
@@ -43,12 +50,9 @@ public class ReviewAttachVO {
         this.review_file_type = review_file_type;
     }
 
-    public byte[] getReview_file_data() {
-        return review_file_data;
-    }
-    public void setReview_file_data(byte[] review_file_data) {
-        this.review_file_data = review_file_data;
-    }
+
+
+
     @Override
     public String toString() {
         return "ReviewVO [review_attach_id=" + review_attach_id +
@@ -56,7 +60,7 @@ public class ReviewAttachVO {
                 ", review_uuid=" + review_uuid +
                 ", review_file_name=" + review_file_name +
                 ", review_file_type=" + review_file_type +
-                ", review_file_data=" + Arrays.toString(review_file_data) + "]";
+                "]";
     }
 }
 

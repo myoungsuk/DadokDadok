@@ -10,6 +10,8 @@ public class ReviewCommentVO {
     private String cm_content;
     private Date cm_createAt;
     private Date cm_modiefiedAt;
+
+    private String nickname;
     public int getCm_id() {
         return cm_id;
     }
@@ -52,11 +54,19 @@ public class ReviewCommentVO {
     public void setCm_modiefiedAt(Date cm_modiefiedAt) {
         this.cm_modiefiedAt = cm_modiefiedAt;
     }
-    @Override
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    // Setter 메서드
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
     public String toString() {
         return "ReviewVO [cm_id=" + cm_id + ", review_id=" + review_id + ", member_id=" + member_id + ", book_id="
                 + book_id + ", cm_content=" + cm_content + ", cm_createAt=" + cm_createAt + ", cm_modiefiedAt="
-                + cm_modiefiedAt + "]";
+                + cm_modiefiedAt + ", nickname=" + nickname + "]";
     }
 
 

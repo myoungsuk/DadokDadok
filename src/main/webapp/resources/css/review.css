@@ -1,0 +1,20 @@
+/*게시글 리스트 */
+.review_table tr th:nth-child(1),.review_table tr td:nth-child(1) { width: 25%; }
+.review_table tr th:nth-child(2),.review_table tr td:nth-child(2) { width: 15%; }
+.review_table tr th:nth-child(3),.review_table tr td:nth-child(3) { width: 40%; }
+.review_table tr th:nth-child(4),.review_table tr td:nth-child(4) { width: 14%; }
+.review_table tr th:nth-child(5),.review_table tr td:nth-child(5) { width: 6%; }
+.review_table tr th { text-align: center;}
+.review_table thead tr { line-height: 80px; }
+.review_table tbody tr { max-height: 100px; }
+.review_table tr td:nth-child(2),.review_table tr td:nth-child(4),
+.review_table tr td:nth-child(5) { line-height: 200px; text-align: center; }
+.review_table tbody tr td div { height: 200px; overflow: hidden; }
+
+/* 게시글 상세보기 */
+.rv_title { display: flex; justify-content: space-between;}
+.rv_title p { margin-right: 10px;}
+.rv_title p:last-child { margin-right: 0;}
+.rv_content { display: flex; }
+.rv_content .file_content { width: 60%; }
+.rv_content .text-right { width: 50%; }
