@@ -21,6 +21,6 @@
     <select id="reviewBoardListTen" resultType="reviewVO">
         select *
         from review
-        order by review_createdAt desc limit 10;
+        order by review_createdAt desc limit 20;
     </select>
 </mapper>
