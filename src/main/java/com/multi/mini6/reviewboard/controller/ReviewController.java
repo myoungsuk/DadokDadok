@@ -325,7 +325,9 @@ public class ReviewController {
         ReviewVO reviewVO2 = reviewService.review_one(reviewVO);
         List<ReviewCommentVO> list = reviewCommentService.reviewCommentlist(reviewVO.getReview_id());
         System.out.println("review_one : " + list.size());
+
         reviewService.increaseViews(reviewVO.getReview_id());
+
         model.addAttribute("reviewVO", reviewVO2);
         model.addAttribute("list", list);
         model.addAttribute("reviewCommentVO", reviewCommentVO);

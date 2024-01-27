@@ -110,22 +110,21 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-lg-4">
-                    <%--            <img src="../resources/assets/img/profile.png" class="img-fluid" alt="Profile">--%>
-                        <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
-                        <c:set var="defaultImagePath"
-                               value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
-                        <c:set var="imagePath" value="${member.userImg}"/>
-                        <c:set var="relativePath" value="${fn:replace(imagePath, dbPath, '')}"/>
-                        <c:choose>
-                            <c:when test="${not empty imagePath}">
-                                <!-- 사용자가 이미지를 업로드한 경우 -->
-                                <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"
-                                     class="img-fluid rounded-image" alt="Profile">
-                            </c:when>
-                            <c:otherwise>
-                                <!-- 기본 이미지 표시 -->
-                                <img src="${defaultImagePath}" class="img-fluid rounded-image" alt="Profile">
-                            </c:otherwise>
+                    <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
+                    <c:set var="defaultImagePath"
+                           value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
+                    <c:set var="imagePath" value="${member.userImg}"/>
+                    <c:set var="relativePath" value="${fn:replace(imagePath, dbPath, '')}"/>
+                    <c:choose>
+                        <c:when test="${not empty imagePath}">
+                            <!-- 사용자가 이미지를 업로드한 경우 -->
+                            <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"
+                                 class="img-fluid rounded-image" alt="Profile">
+                        </c:when>
+                        <c:otherwise>
+                            <!-- 기본 이미지 표시 -->
+                            <img src="${defaultImagePath}" class="img-fluid rounded-image" alt="Profile">
+                        </c:otherwise>
                     </c:choose>
                 </div>
                 <div class="col-lg-8 pt-4 pt-lg-0 content">
@@ -149,160 +148,9 @@
                 <div class="col-lg-8 entries">
 
                     <article class="entry">
-
-                        <div class="entry-img">
-                            <img src="../resources/assets/img/blog/blog-1.jpg" alt="" class="img-fluid">
-                        </div>
-
-                        <h2 class="entry-title">
-                            <a href="blog-single.jsp">Dolorum optio tempore voluptas dignissimos cumque fuga qui
-                                quibusdam quia</a>
-                        </h2>
-
-                        <div class="entry-meta">
-                            <ul>
-                                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
-                                        href="blog-single.jsp">John Doe</a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
-                                        href="blog-single.jsp">
-                                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                                </a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a
-                                        href="blog-single.jsp">12 Comments</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="entry-content">
-                            <p>
-                                Similique neque nam consequuntur ad non maxime aliquam quas. Quibusdam animi
-                                praesentium. Aliquam et laboriosam eius aut nostrum quidem aliquid dicta.
-                                Et eveniet enim. Qui velit est ea dolorem doloremque deleniti aperiam unde soluta. Est
-                                cum et quod quos aut ut et sit sunt. Voluptate porro consequatur assumenda perferendis
-                                dolore.
-                            </p>
-                            <div class="read-more">
-                                <a href="blog-single.jsp">Read More</a>
-                            </div>
-                        </div>
-
+                        <div id="reviewContent"></div>
                     </article><!-- End blog entry -->
 
-                    <article class="entry">
-
-                        <div class="entry-img">
-                            <img src="../resources/assets/img/blog/blog-2.jpg" alt="" class="img-fluid">
-                        </div>
-
-                        <h2 class="entry-title">
-                            <a href="blog-single.jsp">Nisi magni odit consequatur autem nulla dolorem</a>
-                        </h2>
-
-                        <div class="entry-meta">
-                            <ul>
-                                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
-                                        href="blog-single.jsp">John Doe</a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
-                                        href="blog-single.jsp">
-                                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                                </a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a
-                                        href="blog-single.jsp">12 Comments</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="entry-content">
-                            <p>
-                                Incidunt voluptate sit temporibus aperiam. Quia vitae aut sint ullam quis illum
-                                voluptatum et. Quo libero rerum voluptatem pariatur nam.
-                                Ad impedit qui officiis est in non aliquid veniam laborum. Id ipsum qui aut. Sit aliquam
-                                et quia molestias laboriosam. Tempora nam odit omnis eum corrupti qui aliquid excepturi
-                                molestiae. Facilis et sint quos sed voluptas. Maxime sed tempore enim omnis non alias
-                                odio quos distinctio.
-                            </p>
-                            <div class="read-more">
-                                <a href="blog-single.jsp">Read More</a>
-                            </div>
-                        </div>
-
-                    </article><!-- End blog entry -->
-
-                    <article class="entry">
-
-                        <div class="entry-img">
-                            <img src="../resources/assets/img/blog/blog-3.jpg" alt="" class="img-fluid">
-                        </div>
-
-                        <h2 class="entry-title">
-                            <a href="blog-single.jsp">Possimus soluta ut id suscipit ea ut. In quo quia et soluta libero
-                                sit sint.</a>
-                        </h2>
-
-                        <div class="entry-meta">
-                            <ul>
-                                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
-                                        href="blog-single.jsp">John Doe</a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
-                                        href="blog-single.jsp">
-                                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                                </a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a
-                                        href="blog-single.jsp">12 Comments</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="entry-content">
-                            <p>
-                                Aut iste neque ut illum qui perspiciatis similique recusandae non. Fugit autem dolorem
-                                labore omnis et. Eum temporibus fugiat voluptate enim tenetur sunt omnis.
-                                Doloremque est saepe laborum aut. Ipsa cupiditate ex harum at recusandae nesciunt. Ut
-                                dolores velit.
-                            </p>
-                            <div class="read-more">
-                                <a href="blog-single.jsp">Read More</a>
-                            </div>
-                        </div>
-
-                    </article><!-- End blog entry -->
-
-                    <article class="entry">
-
-                        <div class="entry-img">
-                            <img src="../resources/assets/img/blog/blog-4.jpg" alt="" class="img-fluid">
-                        </div>
-
-                        <h2 class="entry-title">
-                            <a href="blog-single.jsp">Non rem rerum nam cum quo minus. Dolor distinctio deleniti
-                                explicabo eius exercitationem.</a>
-                        </h2>
-
-                        <div class="entry-meta">
-                            <ul>
-                                <li class="d-flex align-items-center"><i class="bi bi-person"></i> <a
-                                        href="blog-single.jsp">John Doe</a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <a
-                                        href="blog-single.jsp">
-                                    <time datetime="2020-01-01">Jan 1, 2020</time>
-                                </a></li>
-                                <li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a
-                                        href="blog-single.jsp">12 Comments</a></li>
-                            </ul>
-                        </div>
-
-                        <div class="entry-content">
-                            <p>
-                                Aspernatur rerum perferendis et sint. Voluptates cupiditate voluptas atque quae. Rem
-                                veritatis rerum enim et autem. Saepe atque cum eligendi eaque iste omnis a qui.
-                                Quia sed sunt. Ea asperiores expedita et et delectus voluptates rerum. Id saepe ut
-                                itaque quod qui voluptas nobis porro rerum. Quam quia nesciunt qui aut est non omnis.
-                                Inventore occaecati et quaerat magni itaque nam voluptas. Voluptatem ducimus sint id
-                                earum ut nesciunt sed corrupti nemo.
-                            </p>
-                            <div class="read-more">
-                                <a href="blog-single.jsp">Read More</a>
-                            </div>
-                        </div>
-
-                    </article><!-- End blog entry -->
 
                     <div class="blog-pagination">
                         <ul class="justify-content-center">
@@ -318,13 +166,13 @@
 
                     <div class="sidebar">
 
-                        <h3 class="sidebar-title">Search</h3>
-                        <div class="sidebar-item search-form">
-                            <form action="">
-                                <input type="text">
-                                <button type="submit"><i class="bi bi-search"></i></button>
-                            </form>
-                        </div><!-- End sidebar search form-->
+                        <%--                        <h3 class="sidebar-title">Search</h3>--%>
+                        <%--                        <div class="sidebar-item search-form">--%>
+                        <%--                            <form action="">--%>
+                        <%--                                <input type="text">--%>
+                        <%--                                <button type="submit"><i class="bi bi-search"></i></button>--%>
+                        <%--                            </form>--%>
+                        <%--                        </div><!-- End sidebar search form-->--%>
 
                         <a href="/profilepage/GuestBookPage/guestbookDetail" class="guestbook-link">
                             <h3 class="sidebar-title">Guestbook</h3>
@@ -347,68 +195,68 @@
                         </div><!-- End guestbook entries -->
 
 
-                        <h3 class="sidebar-title">Categories</h3>
-                        <div class="sidebar-item categories">
-                            <ul>
-                                <li><a href="#">General <span>(25)</span></a></li>
-                                <li><a href="#">Lifestyle <span>(12)</span></a></li>
-                                <li><a href="#">Travel <span>(5)</span></a></li>
-                                <li><a href="#">Design <span>(22)</span></a></li>
-                                <li><a href="#">Creative <span>(8)</span></a></li>
-                                <li><a href="#">Educaion <span>(14)</span></a></li>
-                            </ul>
-                        </div><!-- End sidebar categories-->
+                        <%--                        <h3 class="sidebar-title">Categories</h3>--%>
+                        <%--                        <div class="sidebar-item categories">--%>
+                        <%--                            <ul>--%>
+                        <%--                                <li><a href="#">General <span>(25)</span></a></li>--%>
+                        <%--                                <li><a href="#">Lifestyle <span>(12)</span></a></li>--%>
+                        <%--                                <li><a href="#">Travel <span>(5)</span></a></li>--%>
+                        <%--                                <li><a href="#">Design <span>(22)</span></a></li>--%>
+                        <%--                                <li><a href="#">Creative <span>(8)</span></a></li>--%>
+                        <%--                                <li><a href="#">Educaion <span>(14)</span></a></li>--%>
+                        <%--                            </ul>--%>
+                        <%--                        </div><!-- End sidebar categories-->--%>
 
-                        <h3 class="sidebar-title">Recent Posts</h3>
-                        <div class="sidebar-item recent-posts">
-                            <div class="post-item clearfix">
-                                <img src="../resources/assets/img/blog/blog-recent-1.jpg" alt="">
-                                <h4><a href="blog-single.jsp">Nihil blanditiis at in nihil autem</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
+                        <%--                        <h3 class="sidebar-title">Recent Posts</h3>--%>
+                        <%--                        <div class="sidebar-item recent-posts">--%>
+                        <%--                            <div class="post-item clearfix">--%>
+                        <%--                                <img src="../resources/assets/img/blog/blog-recent-1.jpg" alt="">--%>
+                        <%--                                <h4><a href="blog-single.jsp">Nihil blanditiis at in nihil autem</a></h4>--%>
+                        <%--                                <time datetime="2020-01-01">Jan 1, 2020</time>--%>
+                        <%--                            </div>--%>
 
-                            <div class="post-item clearfix">
-                                <img src="../resources/assets/img/blog/blog-recent-2.jpg" alt="">
-                                <h4><a href="blog-single.jsp">Quidem autem et impedit</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
+                        <%--                            <div class="post-item clearfix">--%>
+                        <%--                                <img src="../resources/assets/img/blog/blog-recent-2.jpg" alt="">--%>
+                        <%--                                <h4><a href="blog-single.jsp">Quidem autem et impedit</a></h4>--%>
+                        <%--                                <time datetime="2020-01-01">Jan 1, 2020</time>--%>
+                        <%--                            </div>--%>
 
-                            <div class="post-item clearfix">
-                                <img src="../resources/assets/img/blog/blog-recent-3.jpg" alt="">
-                                <h4><a href="blog-single.jsp">Id quia et et ut maxime similique occaecati ut</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
+                        <%--                            <div class="post-item clearfix">--%>
+                        <%--                                <img src="../resources/assets/img/blog/blog-recent-3.jpg" alt="">--%>
+                        <%--                                <h4><a href="blog-single.jsp">Id quia et et ut maxime similique occaecati ut</a></h4>--%>
+                        <%--                                <time datetime="2020-01-01">Jan 1, 2020</time>--%>
+                        <%--                            </div>--%>
 
-                            <div class="post-item clearfix">
-                                <img src="../resources/assets/img/blog/blog-recent-4.jpg" alt="">
-                                <h4><a href="blog-single.jsp">Laborum corporis quo dara net para</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
+                        <%--                            <div class="post-item clearfix">--%>
+                        <%--                                <img src="../resources/assets/img/blog/blog-recent-4.jpg" alt="">--%>
+                        <%--                                <h4><a href="blog-single.jsp">Laborum corporis quo dara net para</a></h4>--%>
+                        <%--                                <time datetime="2020-01-01">Jan 1, 2020</time>--%>
+                        <%--                            </div>--%>
 
-                            <div class="post-item clearfix">
-                                <img src="../resources/assets/img/blog/blog-recent-5.jpg" alt="">
-                                <h4><a href="blog-single.jsp">Et dolores corrupti quae illo quod dolor</a></h4>
-                                <time datetime="2020-01-01">Jan 1, 2020</time>
-                            </div>
+                        <%--                            <div class="post-item clearfix">--%>
+                        <%--                                <img src="../resources/assets/img/blog/blog-recent-5.jpg" alt="">--%>
+                        <%--                                <h4><a href="blog-single.jsp">Et dolores corrupti quae illo quod dolor</a></h4>--%>
+                        <%--                                <time datetime="2020-01-01">Jan 1, 2020</time>--%>
+                        <%--                            </div>--%>
 
-                        </div><!-- End sidebar recent posts-->
+                        <%--                        </div><!-- End sidebar recent posts-->--%>
 
-                        <h3 class="sidebar-title">Tags</h3>
-                        <div class="sidebar-item tags">
-                            <ul>
-                                <li><a href="#">App</a></li>
-                                <li><a href="#">IT</a></li>
-                                <li><a href="#">Business</a></li>
-                                <li><a href="#">Mac</a></li>
-                                <li><a href="#">Design</a></li>
-                                <li><a href="#">Office</a></li>
-                                <li><a href="#">Creative</a></li>
-                                <li><a href="#">Studio</a></li>
-                                <li><a href="#">Smart</a></li>
-                                <li><a href="#">Tips</a></li>
-                                <li><a href="#">Marketing</a></li>
-                            </ul>
-                        </div><!-- End sidebar tags-->
+                        <%--                        <h3 class="sidebar-title">Tags</h3>--%>
+                        <%--                        <div class="sidebar-item tags">--%>
+                        <%--                            <ul>--%>
+                        <%--                                <li><a href="#">App</a></li>--%>
+                        <%--                                <li><a href="#">IT</a></li>--%>
+                        <%--                                <li><a href="#">Business</a></li>--%>
+                        <%--                                <li><a href="#">Mac</a></li>--%>
+                        <%--                                <li><a href="#">Design</a></li>--%>
+                        <%--                                <li><a href="#">Office</a></li>--%>
+                        <%--                                <li><a href="#">Creative</a></li>--%>
+                        <%--                                <li><a href="#">Studio</a></li>--%>
+                        <%--                                <li><a href="#">Smart</a></li>--%>
+                        <%--                                <li><a href="#">Tips</a></li>--%>
+                        <%--                                <li><a href="#">Marketing</a></li>--%>
+                        <%--                            </ul>--%>
+                        <%--                        </div><!-- End sidebar tags-->--%>
 
                     </div><!-- End sidebar -->
 
@@ -486,6 +334,55 @@
             });
         });
     });
+</script>
+
+<script>
+
+
+    function loadReviewData() {
+        $.ajax({
+            url: '/profilepage/review-list-by-id', // API 경로
+            type: 'GET',
+            success: function(data) {
+                let reviewContentHtml = '';
+                data.forEach(review => {
+                    var reviewDate = new Date(review.review_createdAt).toLocaleDateString();
+                    var reviewLink = '/reviewboard/review_one?review_id=' + review.review_id;
+                    reviewContentHtml +=
+
+                        '<article class="entry">' +
+                        '<h2 class="entry-title">' +
+                        '<a href=' + reviewLink + '>' + review.review_title + '</a>' +
+                        '</h2>' +
+                        '<div class="entry-meta">' +
+                        '<ul>' +
+                        '<li class="d-flex align-items-center"><i class="bi bi-person"></i> <a href="profile.jsp?memberId=' + review.member_id + '">' + review.nickname + '</a></li>' +
+                        '<li class="d-flex align-items-center"><i class="bi bi-clock"></i>' + reviewDate + '</li>' +
+                        '<li class="d-flex align-items-center"><i class="bi bi-chat-dots"></i> <a href="blog-single.jsp?reviewId=' + review.review_id + '">' + review.review_views + ' Views</a></li>' +
+                        '</ul>' +
+                        '</div>' +
+                        '<div class="entry-content">' +
+                        '<p>' + review.review_content.substring(0, 50) + '...</p>' +
+                        '<div class="read-more">' +
+                        '<a href=' + reviewLink + '>Read More</a>' +
+                        '</div>' +
+                        '</div>' +
+                        '</article>';
+                });
+                $('#reviewContent').html(reviewContentHtml);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('Error loading review data:', textStatus, errorThrown);
+                // 에러 처리 로직
+            }
+        });
+    }
+
+    // 사용 예시: 페이지 로드 시 해당 함수를 호출합니다.
+    $(document).ready(function () {
+        loadReviewData();
+    });
+
 </script>
 
 </body>

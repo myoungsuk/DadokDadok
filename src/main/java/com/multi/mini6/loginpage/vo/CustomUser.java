@@ -35,6 +35,10 @@ public class CustomUser extends User {
         this.nickname = vo.getNickname();
     }
 
+    public int getMemberId() {
+        return member.getMember_id(); // MemberVO 클래스의 getMember_id 메서드를 호출
+    }
+
     // 필요한 경우, MemberVO의 추가적인 정보를 CustomUser에서 사용하기 위한 메소드를 추가할 수 있습니다.
     // 예: 회원의 고유 ID, 이름 등
 

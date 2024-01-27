@@ -27,4 +27,6 @@ public class MainPageService {
   public List<ReviewVO> getReviewList(ReviewVO reviewVO) {
     return mainPageDAO.reviewListTen(reviewVO);
   }
+
+
 }
