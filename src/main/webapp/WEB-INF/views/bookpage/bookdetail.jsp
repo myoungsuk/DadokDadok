@@ -125,6 +125,22 @@
             color: #0056b3; /* Change color on hover for effect */
         }
 
+        .review-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .review-title-link {
+            font-weight: bold;
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .review-title-link:hover {
+            text-decoration: underline;
+        }
+
     </style>
 </head>
 <body>
@@ -246,32 +262,42 @@
     });
 
     //후기 작성하러가는 버튼
-    $('#writeReviewBtn').on('click', function () {
-        var isbn = window.location.pathname.split('/').pop();
-        window.location.href = '/bookpage/reviewwrite/' + isbn;
+    document.getElementById('writeReviewBtn').addEventListener('click', function() {
+        var url = window.location.href;
+        var isbn = url.substring(url.lastIndexOf('/') + 1); // URL의 마지막 부분에서 ISBN 추출
+        window.location.href = '/reviewboard/review_insert_move?isbn=' + isbn;
     });
 
-    //후기글 보여주기
+
+
     function fetchAndDisplayReviews(isbn) {
         $.ajax({
-            url: '/path-to-get-reviews', // Update with actual API URL
+            url: '/reviewboard/review_list/' + isbn, // 수정된 API URL
             type: 'GET',
-            data: { isbn: isbn }, // Assuming ISBN is used to fetch reviews
             success: function(reviews) {
                 if(reviews.length > 0) {
                     reviews.forEach(function(review) {
-                        $('#reviewsList').append('<p>' + review.content + '</p>'); // Customize as needed
+                        var reviewLink = '/reviewboard/review_one?review_id=' + review.review_id;
+                        var reviewDate = new Date(review.review_updatedAt).toISOString().split('T')[0]; // ISO 형식으로 변환 후 날짜 부분만 추출
+                        $('#reviewsList').append(
+                            '<div class="review-item">' +
+                            '<a href="' + reviewLink + '" class="review-title-link">' + review.review_title + '</a>' +
+                            '<div class="review-date float-right">' + reviewDate + '</div>' + // 오른쪽 끝에 날짜 표시
+                            '</div>'
+                        );
                     });
+
                 } else {
-                    $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/path-to-review-writing-page?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
+                    $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/reviewboard/review_insert_move?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
                 }
             },
             error: function() {
                 console.log('리뷰를 불러오는 데 실패했습니다.');
-                $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/path-to-review-writing-page?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
+                $('#reviewsList').html('<p>아직 후기가 없습니다. <a href="/reviewboard/review_insert_move?isbn=' + isbn + '" class="review-link">당신이 이 책의 첫번째 후기작성자가 되주세요!</a></p>');
             }
         });
     }
+
 
 
     //상세 정보 페이지의 JavaScript 예시

@@ -22,6 +22,10 @@ public class ReviewService {
     @Autowired
     ReviewDAO reviewDAO;
 
+    //도서 후기 isbn 으로 가져옴
+    public List<ReviewVO> getReviewsByIsbn(String isbn) {
+        return reviewDAO.getReviewsByIsbn(isbn);
+    }
     @Transactional
     public int insert(ReviewVO reviewVO){
         System.out.println("1111" + reviewVO);

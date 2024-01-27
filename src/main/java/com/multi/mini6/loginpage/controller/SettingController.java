@@ -3,8 +3,10 @@ package com.multi.mini6.loginpage.controller;
 import com.multi.mini6.loginpage.service.MemberService;
 import com.multi.mini6.loginpage.vo.CustomUser;
 import com.multi.mini6.loginpage.vo.MemberVO;
+import com.multi.mini6.loginpage.vo.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -83,5 +85,20 @@ public class SettingController {
         SecurityContextHolder.clearContext();
 
         return "redirect:/mainpage/index";
+    }
+
+    @PostMapping("/change-password")
+    @ResponseBody
+    public ResponseEntity<?> changePassword(Principal principal,
+                                            @RequestBody PasswordChangeDTO dto) {
+        String email = principal.getName(); // Get email from the currently logged-in user
+        boolean success = memberService.changePassword(email, dto);
+
+        if (success) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().body("Password change failed.");
+        }
+
     }
 }

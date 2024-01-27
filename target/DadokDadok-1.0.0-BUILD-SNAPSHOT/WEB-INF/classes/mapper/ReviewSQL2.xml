@@ -58,6 +58,16 @@
 		where r2.review_no BETWEEN #{start} and #{end}
 
 	</select>
+
+	<!-- isbn 기반 도서후기 리스트 -->
+	<select id="reviewListByIsbn" resultType="reviewVO">
+		select *
+		from review
+		where book_isbn = #{isbn} -- ISBN에 맞는 리뷰만 필터링
+		order by review_updatedAt desc
+	</select>
+
+
 	<select id="reviewSearch" parameterType="pageVO2" resultType="reviewVO">
 
 		select *

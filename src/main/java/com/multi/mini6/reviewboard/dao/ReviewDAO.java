@@ -81,4 +81,10 @@ public class ReviewDAO {
 
         return my.selectList("selectReviewAttach", pageVO);
     }
+
+    //후기 정보 isbn으로 가져옴
+    public List<ReviewVO> getReviewsByIsbn(String isbn) {
+        return my.selectList("reviewListByIsbn", isbn);
+    }
+
 }

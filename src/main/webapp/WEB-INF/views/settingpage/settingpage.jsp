@@ -249,6 +249,9 @@
                                            value="${member.address}" readonly data-toggle="tooltip" data-placement="top"
                                            title="변경할 수 없는 사안입니다">
                                 </div>
+<%--                                <div class="form-group">--%>
+<%--                                    <input class="form-control" style="top: 5px;" placeholder="도로명 주소" name="address" id="addr2" type="text" readonly="readonly"/>--%>
+<%--                                </div>--%>
                                 <div class="form-group">
                                     <input class="form-control" placeholder="상세주소" name="detail_address" id="addr3"
                                            type="text" value="${member.detail_address}"/>
@@ -402,6 +405,13 @@
                 // 우편번호와 주소 정보 입력 필드에 값 설정
                 $('#addr1').val(data.zonecode);
                 $('#addr2').val(fullRoadAddr); // addr2는 상세 주소를 입력받는 필드의 ID
+
+                // 우편번호와 주소 정보를 해당 필드에 넣습니다.
+                document.getElementById('addr1').value = data.zonecode; // 우편번호 (5자리)
+                document.getElementById('address').value = data.roadAddress; // 도로명 주소
+
+                // 커서를 상세주소 필드로 이동합니다.
+                document.getElementById('addr3').focus();
             }
         }).open();
     }

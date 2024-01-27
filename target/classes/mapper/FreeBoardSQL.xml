@@ -56,7 +56,7 @@
     <select id="freeBoardList" resultType="freeboardVO" parameterType="freeboardPageVO">
         SELECT boardList2.*, member.nickname
         FROM (
-        SELECT board.*, ROW_NUMBER() OVER (ORDER BY board.board_id DESC) as free_board_no
+        SELECT board.*, ROW_NUMBER() OVER (ORDER BY board.board_createdAt DESC) as free_board_no
         FROM board
         WHERE board.member_id IN (
         SELECT member_id FROM member

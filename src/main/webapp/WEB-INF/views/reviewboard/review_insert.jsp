@@ -232,8 +232,27 @@ session.setAttribute("member_id", "1");
                              <a href="${pageContext.request.contextPath}/reviewboard/review_list3?page=1" class="btn btn-secondary">취소</a>
                          </div>
        </form>
+</div>
 </main>
-   <!-- jQuery 추가 -->
+  <script>
+      window.onload = function() {
+          // URL에서 쿼리 파라미터를 파싱하는 함수
+          function getQueryParam(param) {
+              var searchParams = new URLSearchParams(window.location.search);
+              return searchParams.get(param);
+          }
+
+          // URL에서 'isbn' 쿼리 파라미터 값을 가져옵니다.
+          var isbn = getQueryParam('isbn');
+
+          // ISBN 값을 입력 필드에 설정합니다.
+          if(isbn) {
+              document.getElementById('book_isbn').value = isbn;
+          }
+      };
+  </script>
+
+  <!-- jQuery 추가 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <!-- Bootstrap JS 추가 -->
    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>

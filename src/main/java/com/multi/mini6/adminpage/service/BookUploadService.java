@@ -164,7 +164,6 @@ public class BookUploadService {
             if (!newBooks.isEmpty()) {
                 bookUploadDAO.bulkInsertBooks(newBooks);
             }
-
             // 배치 처리 준비
             batchInsertOrUpdateBooksLibraries(booksLibraryToSave, libCode);
 

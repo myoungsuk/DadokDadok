@@ -226,7 +226,7 @@
             </tr>
             <tr>
                 <td><strong>홈페이지</strong></td>
-                <td><a href="${bag.lib_homepage}">${bag.lib_homepage}</a></td>
+                <td><a href="${bag.lib_homepage}" target="_blank">${bag.lib_homepage}</a></td>
             </tr>
             <tr>
                 <td><strong>휴관일</strong></td>
