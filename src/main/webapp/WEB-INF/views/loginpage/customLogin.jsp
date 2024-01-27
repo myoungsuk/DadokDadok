@@ -43,6 +43,8 @@
     <!-- Template Main CSS File -->
     <link href="../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
     <style>
         .logo-link {
             display: flex;

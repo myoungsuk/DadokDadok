@@ -12,37 +12,9 @@ session.setAttribute("user", "1");
 %>
 <!DOCTYPE html>
 <html>
-<head>
-<!-- Bootstrap CSS 추가 -->
-<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-<meta charset="UTF-8">
-<title>Insert title here</title>
- <!-- Favicons -->
-    <link href="../../../resources/assets/img/favicon.png" rel="icon">
-    <link href="../../../resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
-
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
-
-    <!-- Vendor CSS Files -->
-    <link href="../../../resources/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-    <!-- Template Main CSS File -->
-    <link href="../../../resources/assets/css/style.css" rel="stylesheet">
-<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <jsp:include page="/WEB-INF/views/head.jsp"/>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-<!-- Bootstrap JS (optional) -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 
@@ -270,57 +242,8 @@ function deleteBoard(review_id) {
 
 </script>
 
+<body>
 
-    <style>
-
-     .logo-link {
-                display: flex;
-                align-items: center;
-                text-decoration: none; /* 링크 밑줄 제거 */
-            }
-
-            .logo-image {
-                max-width: 300px; /* 로고 이미지 크기 조정 */
-                height: auto; /* 이미지 높이 자동 조절 */
-            }
-
-            .logo-text {
-                font-size: 24px; /* 로고 텍스트 크기 */
-                font-weight: bold; /* 글씨 굵게 */
-                color: #333; /* 글씨 색상 */
-                /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-            }
-
-.title-section {
-    text-align: center;
-    margin-top: 50px; /* 제목과 상단 간격 조정 */
-}
-
-    .edit-delete-buttons {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        /* 추가적인 스타일링이 필요하다면 여기에 작성하세요. */
-    }
-    .content-section {
-        width: 60%;
-        float: left;
-        padding-right: 20px; /* 이미지와 내용 사이 간격 조정 */
-    }
-
-    .image-section {
-        width: 30%;
-        float: left;
-    }
-
-    .edit-delete-buttons {
-        position: fixed;
-        top: 20px;
-        right: 20px;
-        /* 추가적인 스타일링이 필요하다면 여기에 작성하세요. */
-    }
-    </style>
-</head>
 
   <!-- ======= Top Bar ======= -->
   <jsp:include page="/WEB-INF/views/topbar.jsp"/>
@@ -329,6 +252,7 @@ function deleteBoard(review_id) {
   <%-- header --%>
   <jsp:include page="/WEB-INF/views/header.jsp"/>
 
+<main id="main">
  <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
@@ -336,27 +260,27 @@ function deleteBoard(review_id) {
             <div class="d-flex justify-content-between align-items-center">
                 <h2>상세페이지</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Setting</li>
                 </ol>
             </div>
 
         </div>
     </section><!-- End Breadcrumbs -->
-<body>
-<div class="container">
+<div class="reviewboard">
+<div class="container rv_btn">
     <div class="row">
         <div class="col-md-6"></div> <!-- 왼쪽 여백을 만들기 위한 빈 칼럼 -->
         <div class="col-md-6 d-flex justify-content-end"> <!-- 오른쪽 상단 맨 끝으로 버튼 배치 -->
          <sec:authorize access="isAuthenticated()">
-             <a href="review_update_move?review_id=${reviewVO.review_id}" class="btn btn-primary mr-2">글 수정하기</a>
+             <a href="review_update_move?review_id=${reviewVO.review_id}" class="btn btn-primary mr-2 update_btn">글 수정하기</a>
              <button type="button" onclick="reviewDelete(${reviewVO.review_id})" id="deleteBtn" class="btn btn-primary">삭제</button>
          </sec:authorize>
         </div>
     </div>
 </div>
 <div>
-<div class="container mt-4">
+<div class="container rv_inner">
     <div class="title-section">
         <h2>${reviewVO.review_title}</h2>
     </div>
@@ -367,33 +291,26 @@ function deleteBoard(review_id) {
     <p>조회수: ${reviewVO.review_views}</p>
  </div>
 
-<div class="rv_content" style="padding-bottom: 30px;">
-           <div class="file_content">
-           <div class="img_file_container" style="max-width: 100%; max-height: 200px;">
-                                         <!-- Your file image content goes here -->
-                                         <div class="img_file" style="width: 100%; height: 100%; background-size: cover; background-position: center; background-repeat: no-repeat;">
-                                             <!-- Move your image content here -->
-                                         </div>
-                                     </div>
-                                     <div class="file"></div>
-           </div>
-           <div class="text-right" style="width: 60%;"> <!-- Adjust the width as needed -->
-               <div style="margin: 0 auto; max-width: 600px;">
+<div class="rv_content">
+           <div class="rv_file">
+                   <div class="img_file">
+                         <!-- Move your image content here -->
+                  </div>
+            </div>
+
+           <div class="text-right"> <!-- Adjust the width as needed -->
+               <div>
                    <p>${reviewVO.review_content}</p>
                </div>
            </div>
        </div>
 
-       <div class="input-group mb-3" style="margin-top: 30px;">
+       <div class="input-group rv_cm">
             <input id="review" type="text" class="form-control" placeholder="댓글입력">
             <div class="input-group-append">
                 <button id="b1" class="btn btn-primary" type="button">댓글 달기</button>
-
             </div>
-
-
-        </div>
-        <hr class="mt-4 mb-4">
+       </div>
          <!-- 댓글 목록 -->
          <div id="result">
              <%
@@ -414,7 +331,7 @@ function deleteBoard(review_id) {
                  <c:if test="${cm_content.member_id eq loggedInMemberId}">
                             <div class="title_btn">
                                <button class='btn btn-primary btn-sm btn-edit' id="btn_<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글수정</button>
-                               <button class='btn btn-danger btn-sm btn-delete' id="btn_d<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글삭제</but
+                               <button class='btn btn-danger btn-sm btn-delete' id="btn_d<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글삭제</button>
                             </div>
                         </c:if>
                 </sec:authorize>
@@ -424,8 +341,8 @@ function deleteBoard(review_id) {
              <% } %>
          </div>
 </div>
-
-
+</div>
+</main>
 <!-- ======= Footer ======= -->
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 <!-- End Footer -->

@@ -27,6 +27,8 @@
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
     <style>
         .logo-link {
             display: flex;
@@ -143,7 +145,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Book</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Book</li>
                 </ol>
             </div>

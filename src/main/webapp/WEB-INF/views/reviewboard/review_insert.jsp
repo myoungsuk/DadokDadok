@@ -6,31 +6,7 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-.bo_btn_box { display: flex; margin-bottom: 50px; justify-content: flex-end;}
- .bo_btn_box a,  .bo_btn_box button { display: block; padding: 8px 24px;  background: #0a58ca; border: 1px solid #0a58ca; border-radius: 5px; color: #fff; }
- .bo_btn_box .update_btn { margin: 0 10px; }
- .bo_title { padding: 26px 0; border: 1px solid #999; border-right: none; border-left: none; }
- .bo_title p { padding: 0 6px; margin: 0;font-size: 28px; font-weight: 900; }
- .bo_title2 { display: flex; margin: 10px 0 80px; justify-content: space-between; }
- .bo_title2 >div > span > span:nth-child(1) { margin-right: 6px; font-weight: 600; }
- .bo_title2 >div > span > span:nth-child(2) { margin-right: 12px; }
- .bo_title2 .t2_left{}
- .bo_content { margin-bottom: 100px; padding: 0 6px; }
- .file_content .img_file:has(.img_list),
- .file_content .file:has(.file_list) { width: 100%;  margin-bottom: 50px; padding: 20px; background: #f6f6f6; border-radius: 10px; }
- .file_content .img_file { display: flex;  flex-wrap: wrap; text-align: center; }
- .file_content .img_file .img_list span { text-align: center; }
- .file_content .img_file .img_list div { width: 200px; padding: 10px; }
- .file_content .img_file .img_list img { width: 100%; }
- .file_content .file .file_list { display: flex; height: 30px; margin-bottom: 30px; align-items: center; cursor: pointer; }
- .file_content .file .file_list:last-child { margin-bottom: 0; }
- .file_content .file .file_list div { height: 100%; padding: 5px; }
- .file_content .file .file_list img { height: 100%; }
- </style>
-<!-- font awesome css -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
+<jsp:include page="/WEB-INF/views/head.jsp"/>
 	<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
   <script type="text/javascript">
 
@@ -197,6 +173,7 @@
   <%-- header --%>
   <jsp:include page="/WEB-INF/views/header.jsp"/>
 
+  <main id="main" >
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
@@ -204,77 +181,18 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Setting</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Setting</li>
                 </ol>
             </div>
 
         </div>
     </section><!-- End Breadcrumbs -->
-  <main class="reviewboard">
-  <meta charset="UTF-8">
-   <html lang="ko">
-   <head>
-       <meta charset="UTF-8">
-       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-       <title>게시글 작성 페이지</title>
-        <!-- Favicons -->
-           <link href="../../../resources/assets/img/favicon.png" rel="icon">
-           <link href="../../../resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
-           <!-- Google Fonts -->
-           <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-                 rel="stylesheet">
-
-           <!-- Vendor CSS Files -->
-           <link href="../../../resources/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/aos/aos.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-           <link href="../../../resources/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-           <!-- Template Main CSS File -->
-           <link href="../../../resources/assets/css/style.css" rel="stylesheet">
-       <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-       <style>
-
-               .logo-link {
-                   display: flex;
-                   align-items: center;
-                   text-decoration: none; /* 링크 밑줄 제거 */
-               }
-
-               .logo-image {
-                   max-width: 300px; /* 로고 이미지 크기 조정 */
-                   height: auto; /* 이미지 높이 자동 조절 */
-               }
-
-               .logo-text {
-                   font-size: 24px; /* 로고 텍스트 크기 */
-                   font-weight: bold; /* 글씨 굵게 */
-                   color: #333; /* 글씨 색상 */
-                   /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-               }
-           .row {
-               display: flex;
-               align-items: center;
-               margin-bottom: 20px;
-           }
-
-           .row img {
-               max-width: 200px;
-               margin-right: 20px;
-           }
-       </style>
-   </head>
-   <body>
 <%
 session.setAttribute("member_id", "1");
 %>
-
-   <div class="container mt-4">
+   <div class="container mt-4 reviewboard rv_insert" >
        <form action="/reviewboard/review_insert" method="post" enctype="multipart/form-data" class="insert_form">
            <div class="form-group">
                <label for="review_title">게시글 제목:</label>
@@ -297,22 +215,24 @@ session.setAttribute("member_id", "1");
                             <div class="file_box">
                                 <div class="file_info">
                                    <input type="file" name="file" id="upload_btn" multiple>
-                                   <label for="upload_btn"></label>
+                                   <label for="upload_btn">파일첨부</label>
 
                                 </div>
                                <div class="file_preview"> </div>
                             </div>
 
-           <div class="form-group">
-               <button type="submit" class="btn btn-primary">등록</button>
-               <a href="${pageContext.request.contextPath}/reviewboard/review_list3?page=1" class="btn btn-secondary">취소</a>
-           </div>
+
 
            <input type="hidden" name="member_id" value="${member_id}">
-           <p>${path}</p>
-       </form>
-   </div>
 
+           <p>${path}</p>
+   </div>
+   <div class="form-group btn_box">
+                             <button type="submit" class="btn btn-primary">등록</button>
+                             <a href="${pageContext.request.contextPath}/reviewboard/review_list3?page=1" class="btn btn-secondary">취소</a>
+                         </div>
+       </form>
+</main>
    <!-- jQuery 추가 -->
    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
    <!-- Bootstrap JS 추가 -->
