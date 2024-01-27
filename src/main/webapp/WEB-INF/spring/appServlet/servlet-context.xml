@@ -21,6 +21,7 @@
 	<resources mapping="/resources/**" location="/resources/" />
 	<resources mapping="/upload-dir/**" location="file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" />
 
+
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<beans:property name="prefix" value="/WEB-INF/views/" />

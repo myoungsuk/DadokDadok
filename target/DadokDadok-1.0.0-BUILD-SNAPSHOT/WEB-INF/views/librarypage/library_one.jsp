@@ -39,6 +39,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
 
 
     <script type="text/javascript">

@@ -35,6 +35,8 @@
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
 
     <style>
         .logo-link {
@@ -245,7 +247,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Book</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Book</li>
                 </ol>
             </div>
@@ -387,7 +389,7 @@
 
     function formatDate(date) {
         var d = new Date(date);
-        d.setDate(d.getDate() - 2); // 하루 전 날짜로 설정
+        d.setDate(d.getDate() - 3); // 하루 전 날짜로 설정
 
         var month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -401,7 +403,7 @@
 
     function increaseDateByOne(dateString) {
         var date = new Date(dateString);
-        date.setDate(date.getDate() + 2); // 날짜에 1을 더합니다.
+        date.setDate(date.getDate() + 3); // 날짜에 1을 더합니다.
 
         var month = '' + (date.getMonth() + 1),
             day = '' + date.getDate(),

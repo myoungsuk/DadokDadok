@@ -111,21 +111,21 @@
             <div class="row">
                 <div class="col-lg-4">
                     <%--            <img src="../resources/assets/img/profile.png" class="img-fluid" alt="Profile">--%>
-                    <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
-                    <c:set var="defaultImagePath"
-                           value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
-                    <c:set var="imagePath" value="${member.userImg}"/>
-                    <c:set var="relativePath" value="${fn:replace(imagePath, dbPath, '')}"/>
-                    <c:choose>
-                        <c:when test="${not empty imagePath}">
-                            <!-- 사용자가 이미지를 업로드한 경우 -->
-                            <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"
-                                 class="img-fluid rounded-image" alt="Profile">
-                        </c:when>
-                        <c:otherwise>
-                            <!-- 기본 이미지 표시 -->
-                            <img src="${defaultImagePath}" class="img-fluid rounded-image" alt="Profile">
-                        </c:otherwise>
+                        <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
+                        <c:set var="defaultImagePath"
+                               value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
+                        <c:set var="imagePath" value="${member.userImg}"/>
+                        <c:set var="relativePath" value="${fn:replace(imagePath, dbPath, '')}"/>
+                        <c:choose>
+                            <c:when test="${not empty imagePath}">
+                                <!-- 사용자가 이미지를 업로드한 경우 -->
+                                <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"
+                                     class="img-fluid rounded-image" alt="Profile">
+                            </c:when>
+                            <c:otherwise>
+                                <!-- 기본 이미지 표시 -->
+                                <img src="${defaultImagePath}" class="img-fluid rounded-image" alt="Profile">
+                            </c:otherwise>
                     </c:choose>
                 </div>
                 <div class="col-lg-8 pt-4 pt-lg-0 content">

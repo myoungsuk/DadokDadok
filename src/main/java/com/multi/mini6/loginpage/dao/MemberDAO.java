@@ -2,6 +2,7 @@ package com.multi.mini6.loginpage.dao;
 
 import com.multi.mini6.loginpage.vo.MemberDeleteReasonVO;
 import com.multi.mini6.loginpage.vo.MemberVO;
+import com.multi.mini6.loginpage.vo.PasswordChangeDTO;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -32,6 +33,12 @@ public class MemberDAO {
     public MemberVO getMember(String email){
         return sqlSession.selectOne("getMember", email);
 
+    }
+    public int changePassword(PasswordChangeDTO passwordChangeDTO) {
+        return sqlSession.update("changePassword", passwordChangeDTO);
+    }
+    public String getCurrentHashedPassword(String email) {
+        return sqlSession.selectOne("getCurrentHashedPassword", email);
     }
     //이메일 중복확인
     public int checkEmail(String email){

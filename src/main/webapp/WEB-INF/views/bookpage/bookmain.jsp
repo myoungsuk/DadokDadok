@@ -389,7 +389,7 @@
 
     function formatDate(date) {
         var d = new Date(date);
-        d.setDate(d.getDate() - 2); // 하루 전 날짜로 설정
+        d.setDate(d.getDate() - 3); // 하루 전 날짜로 설정
 
         var month = '' + (d.getMonth() + 1),
             day = '' + d.getDate(),
@@ -403,7 +403,7 @@
 
     function increaseDateByOne(dateString) {
         var date = new Date(dateString);
-        date.setDate(date.getDate() + 2); // 날짜에 1을 더합니다.
+        date.setDate(date.getDate() + 3); // 날짜에 1을 더합니다.
 
         var month = '' + (date.getMonth() + 1),
             day = '' + date.getDate(),

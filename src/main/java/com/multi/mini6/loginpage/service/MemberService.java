@@ -4,7 +4,9 @@ import com.multi.mini6.loginpage.PathUtil;
 import com.multi.mini6.loginpage.vo.MemberDeleteReasonVO;
 import com.multi.mini6.loginpage.vo.MemberVO;
 import com.multi.mini6.loginpage.dao.MemberDAO;
+import com.multi.mini6.loginpage.vo.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,7 @@ import java.util.*;
 
 @Service
 @RequiredArgsConstructor
+@Log4j2
 public class MemberService {
 
     private final MemberDAO memberDAO;
@@ -53,6 +56,40 @@ public class MemberService {
     }
 
     @Transactional
+    public boolean changePassword(String email, PasswordChangeDTO dto) {
+
+        dto.setEmail(email);
+        // 데이터베이스에서 현재 사용자의 해시된 비밀번호를 가져옵니다.
+        String currentHashedPassword = memberDAO.getCurrentHashedPassword(email);
+
+        // 현재 비밀번호가 일치하는지 확인합니다.
+        if (!passwordEncoder.matches(dto.getCurrentPassword(), currentHashedPassword)) {
+            log.info("currentHashedPassword: " + currentHashedPassword);
+            return false; // 현재 비밀번호가 일치하지 않습니다.
+        }
+
+        // 새 비밀번호와 확인용 새 비밀번호가 일치하는지 확인합니다.
+        if (!dto.getNewPassword().equals(dto.getConfirmNewPassword())) {
+            log.info("newPassword: " + dto.getNewPassword());
+            return false; // 새 비밀번호들이 일치하지 않습니다.
+        }
+
+        // 모든 검사를 통과했다면 비밀번호 변경을 진행합니다.
+        // 새 비밀번호를 암호화합니다.
+        String encryptedNewPassword = passwordEncoder.encode(dto.getNewPassword());
+        log.info("encryptedNewPassword: " + encryptedNewPassword);
+
+        dto.setNewPassword(encryptedNewPassword);
+        log.info("dto.getNewPassword(): " + dto.getNewPassword());
+
+        // 암호화된 새 비밀번호로 데이터베이스를 업데이트합니다.
+        memberDAO.changePassword(dto);
+        log.info("비밀번호 변경 완료");
+
+        return true;
+    }
+
+    @Transactional
     public void saveProfileImage(MultipartFile profileImage, String email) {
         if (!profileImage.isEmpty()) {
             try {
@@ -69,7 +106,7 @@ public class MemberService {
 
                 // 새 이미지 파일을 저장하고 경로를 반환받습니다.
                 String newFilePath = PathUtil.writeImageFile(profileImage, email);
-
+                log.info("newFilePath = " + newFilePath);
                 // 데이터베이스에 새 프로필 이미지 경로를 저장합니다.
                 Map<String, Object> params = new HashMap<>();
                 params.put("email", email);

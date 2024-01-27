@@ -35,6 +35,8 @@
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
     <!-- =======================================================
     * Template Name: Flattern
     * Updated: Sep 18 2023 with Bootstrap v5.3.2
@@ -139,7 +141,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Setting</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>Setting</li>
                 </ol>
             </div>
@@ -233,16 +235,23 @@
                                     <br><br>
                                     <label for="addr1">Address</label>
                                     <br>
-                                    <input class="form-control bg-light" style="width: 40%; display: inline;" placeholder="우편번호" name="zipcode" id="addr1" type="text" value="${member.zipcode}" readonly/>
-                                    <button type="button" class="btn btn-primary" onclick="execPostCode();"><i class="fa fa-search"></i> 우편번호 찾기</button>
+                                    <input class="form-control bg-light" style="width: 40%; display: inline;"
+                                           placeholder="우편번호" name="zipcode" id="addr1" type="text"
+                                           value="${member.zipcode}" readonly/>
+                                    <button type="button" class="btn btn-primary" onclick="execPostCode();"><i
+                                            class="fa fa-search"></i> 우편번호 찾기
+                                    </button>
                                 </div>
 
                                 <div class="form-group mb-4">
                                     <label for="address">도로명 주소</label>
-                                    <input type="text" class="form-control bg-light" id="address" name="address" value="${member.address}" readonly data-toggle="tooltip" data-placement="top" title="변경할 수 없는 사안입니다">
+                                    <input type="text" class="form-control bg-light" id="address" name="address"
+                                           value="${member.address}" readonly data-toggle="tooltip" data-placement="top"
+                                           title="변경할 수 없는 사안입니다">
                                 </div>
                                 <div class="form-group">
-                                    <input class="form-control" placeholder="상세주소" name="detail_address" id="addr3" type="text" value="${member.detail_address}"/>
+                                    <input class="form-control" placeholder="상세주소" name="detail_address" id="addr3"
+                                           type="text" value="${member.detail_address}"/>
                                 </div>
 
                                 <!-- 닉네임 필드 -->
@@ -367,26 +376,26 @@
     // Daum 우편번호 찾기 함수
     function execPostCode() {
         new daum.Postcode({
-            oncomplete: function(data) {
+            oncomplete: function (data) {
                 // 도로명 주소 변수
                 var fullRoadAddr = data.roadAddress;
                 // 도로명 조합형 주소 변수
                 var extraRoadAddr = '';
 
                 // 법정동명이 있을 경우 추가
-                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
                     extraRoadAddr += data.bname;
                 }
                 // 건물명이 있고, 공동주택일 경우 추가
-                if(data.buildingName !== '' && data.apartment === 'Y'){
+                if (data.buildingName !== '' && data.apartment === 'Y') {
                     extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
                 // 도로명, 지번 조합형 주소가 있을 경우 추가
-                if(extraRoadAddr !== ''){
+                if (extraRoadAddr !== '') {
                     extraRoadAddr = ' (' + extraRoadAddr + ')';
                 }
                 // 최종 주소 문자열 생성
-                if(fullRoadAddr !== ''){
+                if (fullRoadAddr !== '') {
                     fullRoadAddr += extraRoadAddr;
                 }
 

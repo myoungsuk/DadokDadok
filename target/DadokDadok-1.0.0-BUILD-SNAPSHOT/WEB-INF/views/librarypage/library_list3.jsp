@@ -42,6 +42,8 @@ pageEncoding="UTF-8"%>
     <!-- Template Main CSS File -->
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
 
+  <link href="${pageContext.request.contextPath}/resources/css/main.css" rel="stylesheet">
+
     <!-- 페이징 스크립트 -->
     <script>
         $(function() {

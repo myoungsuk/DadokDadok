@@ -1,78 +1,22 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" %>
-<%@page import="java.util.List" %>
-<%@page import="com.multi.mini6.reviewboard.vo.ReviewVO" %>
-<%@page import="com.multi.mini6.reviewboard.vo.ReviewAttachVO" %>
-
+    pageEncoding="UTF-8"%>
+<%@page import="java.util.List"%>
+<%@page import="com.multi.mini6.reviewboard.vo.ReviewVO"%>
+<%@page import="com.multi.mini6.reviewboard.vo.ReviewAttachVO"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="UTF-8">
-    <title>게시판 목록</title>
-    <!-- Favicons -->
-    <link href="../../../resources/assets/img/favicon.png" rel="icon">
-    <link href="../../../resources/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+<jsp:include page="/WEB-INF/views/head.jsp"/>
+<script type="text/javascript" src="../../../resources/js/jquery-3.7.1.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
 
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Muli:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-          rel="stylesheet">
+<script type="text/javascript">
 
-    <!-- Vendor CSS Files -->
-    <link href="../../../resources/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/aos/aos.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-    <link href="../../../resources/assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+    $(function() {
+            $('.btn.btn-outline-secondary').click(function() {
 
-    <!-- Template Main CSS File -->
-    <link href="../../../resources/assets/css/style.css" rel="stylesheet">
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Bootstrap JS (optional) -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
-<%--    <script type="text/javascript" src="${pageContext.request.contextPath}/resources/js/jquery-3.7.1.js"></script>--%>
-    <!-- jquery-3.7.1 -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <style>
-
-        .logo-link {
-            display: flex;
-            align-items: center;
-            text-decoration: none; /* 링크 밑줄 제거 */
-        }
-
-        .logo-image {
-            max-width: 300px; /* 로고 이미지 크기 조정 */
-            height: auto; /* 이미지 높이 자동 조절 */
-        }
-
-        .logo-text {
-            font-size: 24px; /* 로고 텍스트 크기 */
-            font-weight: bold; /* 글씨 굵게 */
-            color: #333; /* 글씨 색상 */
-            /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-        }
-
-        .row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .row img {
-            max-width: 200px;
-            margin-right: 20px;
-        }
-    </style>
-    <script type="text/javascript">
-
-        $(function () {
-            $('.btn.btn-outline-secondary').click(function () {
-
-                console.log($(this).text());
-
+            console.log( $(this).text());
 
                 $.ajax({
                     url: "review_search1",
@@ -81,20 +25,23 @@
                         keyword: '${keyword}'
 
                     },
-                    success: function (table) {
-                        $('#result').html(table);
-                        $('#keyword').val('${keyword}');
+                    success: function(table) {
+                     $('#result').html(table);
+                          $('#keyword').val('${keyword}');
 
                     },
-                    error: function (error) {
+                    error: function(error) {
                         console.error(error);
                     }
                 });
             });
+
+
+
         });
 
 
-    </script>
+</script>
 </head>
 <!-- ======= Top Bar ======= -->
 <jsp:include page="/WEB-INF/views/topbar.jsp"/>
@@ -103,116 +50,125 @@
 <!-- ======= Header ======= -->
 <jsp:include page="/WEB-INF/views/header.jsp"/>
 <!-- End Header -->
+<main id="main" >
+    <!-- ======= Breadcrumbs ======= -->
+    <section id="breadcrumbs" class="breadcrumbs">
+        <div class="container">
 
-<!-- ======= Breadcrumbs ======= -->
-<section id="breadcrumbs" class="breadcrumbs">
-    <div class="container">
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>독서후기게시판</h2>
+                <ol>
+                        <li><a href="../mainpage/index">Home</a></li>
+                    <li>Setting</li>
+                </ol>
+            </div>
 
-        <div class="d-flex justify-content-between align-items-center">
-            <h2>Setting</h2>
-            <ol>
-                <li><a href="../mainpage/index.jsp">Home</a></li>
-                <li>Setting</li>
-            </ol>
+        </div>
+    </section><!-- End Breadcrumbs -->
+
+    <div class="container mt-4 reviewboard">
+        <!-- 검색창과 버튼 -->
+        <div class="row mb-3 justify-content-center">
+            <!-- 검색창 -->
+            <div class="col-md-6 text-center">
+                <form action="review_list3" class="d-flex justify-content-center" >
+
+                    <input type = "hidden" name="page" id = "currentPage" value="1">
+                    <input name="keyword" id ="keyword" class="form-control form-control-sm me-2" type="search" placeholder="검색어를 입력하세요" value = "${keyword}"
+                        aria-label="Search">
+
+                    <button class="btn btn-outline-success btn-sm" id="btnSearch" >검색</button>
+
+                </form>
+            </div>
+
+            <!-- Insert 버튼 -->
+            <div class="col-md-6 text-end">
+             <sec:authorize access="isAuthenticated()"> <%-- 로그인한 상태에서만 보임 --%>
+
+                               <a href="review_insert_move" class="btn btn-primary insert_btn">게시글 작성</a>
+
+                      </sec:authorize>
+
+            </div>
+        </div>
+        <div id="result" class="rv_table">
+            <%
+                //jsp에서 자동 import : 클릭하고 ctrl + shiftl + m
+                List<ReviewVO> list = (List<ReviewVO>) request.getAttribute("list");
+
+            %>
+            <div class="container mt-4">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">이미지</th>
+                            <th scope="col">NO</th>
+                            <th scope="col">제목</th>
+                            <th scope="col">내용</th>
+                            <th scope="col">작성일</th>
+                            <th scope="col">조회수</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%
+                            for (ReviewVO review : list) {
+                        %>
+                        <tr>
+                           <td  class="t_img">
+                                  <div>
+
+                                      <% if (review != null && review.getReview_attach() != null) {
+                                          if ((review.getReview_attach().getReview_file_type()).equals("jpg")) { %>
+                                              <img src="${pageContext.request.contextPath}/resources/reviewBoardUpload/<%=review.getReview_attach().getReview_uuid()%>_<%=review.getReview_attach().getReview_file_name()%>">
+                                          <% } else { %>
+                                              <img src="${pageContext.request.contextPath}/resources/reviewBoardUpload/noimg.jpg">
+                                          <% }
+                                      } else { %>
+                                          <img src="${pageContext.request.contextPath}/resources/reviewBoardUpload/noimg.jpg">
+                                      <% } %>
+                                  </div>
+                               </td>
+
+                            <td><div><%=review.getReview_id()%></div></td>
+                            <td> <div><a href="review_one?review_id=<%=review.getReview_id()%>"><%=review.getReview_title()%></a></div>
+                            </td>
+                            <td><div><%=review.getReview_content()%></div></td>
+                             <td><div><fmt:formatDate pattern="yyyy-MM-dd" value="<%=review.getReview_createdAt()%>" /></div></td>
+                            <td><div><%=review.getReview_views()%></div></td>
+
+
+                        </tr>
+                        <%
+                            }
+                        %>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-    </div>
-</section><!-- End Breadcrumbs -->
 
-<body bgcolor="yellow">
-<div class="container mt-4">
-    <!-- 검색창과 버튼 -->
-    <div class="row mb-3 justify-content-center">
-        <!-- 검색창 -->
-        <div class="col-md-6 text-center">
-            <form action="review_search" class="d-flex justify-content-center">
-                <input type="hidden" name="page" id="currentPage" value="1">
-                <input name="keyword" id="keyword" class="form-control form-control-sm me-2" type="search"
-                       placeholder="검색어를 입력하세요" value="${keyword}"
-                       aria-label="Search">
-
-                <button class="btn btn-outline-success btn-sm" type="submit">검색</button>
-
-            </form>
-        </div>
-
-        <!-- Insert 버튼 -->
-        <div class="col-md-6 text-end">
-            <a href="review_insert" class="btn btn-primary">게시글 작성</a>
-        </div>
-    </div>
-
-    <hr>
-
-    <h3>독서후기게시판</h3>
-    <div id="result">
-        <%
-            //jsp에서 자동 import : 클릭하고 ctrl + shiftl + m
-            List<ReviewVO> list = (List<ReviewVO>) request.getAttribute("list");
-
-        %>
-        <div class="container mt-4">
-
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">제목</th>
-                    <th scope="col">내용</th>
-                    <th scope="col">작성일</th>
-                    <th scope="col">수정일</th>
-                    <th scope="col">조회수</th>
-                </tr>
-                </thead>
-                <tbody>
+        <div class="text-center rv_page">
+            <div>전체 게시물 수 : ${count}개 </div>
+            <div>전체 페이지 수 : ${pages}개 </div>
+            <div class="btn-group btn_box" role="group" aria-label="Basic example">
                 <%
-                    for (ReviewVO review : list) {
+                    int pages = (int) request.getAttribute("pages");//int(작) <--- Object(큰)
+                    String keyword = (String) request.getAttribute("keyword");
+
+                    for (int p = 1; p <= pages; p++) {
                 %>
-                <tr>
-                    <td><%=review.getReview_id()%>
-                    </td>
-                    <td><a href="review_one?review_id=<%=review.getReview_id()%>"><%=review.getReview_title()%>
-                    </a>
-                    </td>
-                    <td><%=review.getReview_content()%>
-                    </td>
-                    <td><%=review.getReview_createdAt()%>
-                    </td>
-                    <td><%=review.getReview_updatedAt()%>
-                    </td>
-                    <td><%=review.getReview_views()%>
-                    </td>
-                </tr>
+                <button class="btn btn-outline-secondary"><%= p %></button>
+
+
                 <%
                     }
                 %>
-                </tbody>
-            </table>
+            </div>
         </div>
     </div>
-
-    <hr color="red">
-    <div class="text-center">
-        전체 게시물 수 : ${count}개 <br>
-        전체 페이지 수 : ${pages}개 <br>
-        <div class="btn-group" role="group" aria-label="Basic example">
-            <%
-                int pages = (int) request.getAttribute("pages");//int(작) <--- Object(큰)
-                String keyword = (String) request.getAttribute("keyword");
-
-                for (int p = 1; p <= pages; p++) {
-            %>
-            <button class="btn btn-outline-secondary"><%= p %>
-            </button>
-
-
-            <%
-                }
-            %>
-        </div>
-    </div>
-    <hr color="red">
-</div>
+ </main>
 <!-- ======= Footer ======= -->
 <jsp:include page="/WEB-INF/views/footer.jsp"/>
 <!-- End Footer -->

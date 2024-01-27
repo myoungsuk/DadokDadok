@@ -22,12 +22,11 @@
 	</delete>
 
 	<select id="reviewCommentList" parameterType="int"  resultType="reviewcommentVO">
-		select * from review_comment
-		where review_id = #{review_id}
-		order by
-		cm_id desc
+		SELECT review_comment.*, member.nickname
+		FROM review_comment
+		left JOIN member ON review_comment.member_id = member.member_id
+		WHERE review_comment.review_id = #{review_id}
 	</select>
-
 
 </mapper>
 
