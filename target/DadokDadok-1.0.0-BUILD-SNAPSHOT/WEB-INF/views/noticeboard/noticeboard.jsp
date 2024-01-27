@@ -7,6 +7,12 @@
 <!DOCTYPE html>
 <html>
 <jsp:include page="/WEB-INF/views/head.jsp"/>
+<style>
+    .pinned-notice {
+        background-color: #f2f2f2; /* Light gray background */
+        font-weight: bold; /* Make text bold */
+    }
+</style>
 <body>
 
 <!-- ======= Top Bar ======= -->
