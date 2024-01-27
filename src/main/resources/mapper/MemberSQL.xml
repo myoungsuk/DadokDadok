@@ -170,4 +170,21 @@
         VALUES (#{deleteEmail}, #{memberDeleteReason})
     </insert>
 
+<!--    &lt;!&ndash; 로그인한 사용자의 멤버아이디값을 기준으로 review 리스트 가져오기 &ndash;&gt;-->
+<!--    <select id = "getReviewListById" resultType ="reviewVO">-->
+<!--        select * from review where member_id = #{member_id}-->
+<!--    </select>-->
+    <select id="getReviewListById" resultMap="reviewResultMap">
+        SELECT r.*, m.nickname
+        FROM review r
+        JOIN member m ON r.member_id = m.member_id
+        WHERE r.member_id = #{member_id}
+        ORDER BY r.review_updatedAt DESC
+    </select>
+
+    <resultMap id="reviewResultMap" type="ReviewVO">
+        <id column="review_id" property="review_id"/>
+        <result column="nickname" property="nickname"/>
+    </resultMap>
+
 </mapper>

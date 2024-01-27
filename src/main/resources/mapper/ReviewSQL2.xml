@@ -6,19 +6,40 @@
 <mapper namespace="com.multi.mini6.reviewboard.dao.ReviewDAO">
 	<!-- 전체 페이지개수 계산할 때 전체 게시물 개수가 필요함 -->
 
-	<insert id="reviewInsert" parameterType="reviewVO" useGeneratedKeys="true" keyProperty="review_id">
+<!--	<insert id="reviewInsert" parameterType="reviewVO" useGeneratedKeys="true" keyProperty="review_id">-->
 
-		INSERT INTO review
-		(member_id,
-		book_isbn, review_title,
-		review_content,
-		review_createdAt, review_updatedAt)
-		VALUES
-		(#{member_id}, #{book_isbn},
-		#{review_title},
-		#{review_content},
-		DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'));
+<!--		INSERT INTO review-->
+<!--		(member_id,-->
+<!--		book_isbn, review_title,-->
+<!--		review_content,-->
+<!--		review_views,-->
+<!--		review_createdAt, review_updatedAt)-->
+<!--		VALUES-->
+<!--		(#{member_id}, #{book_isbn},-->
+<!--		#{review_title},-->
+<!--		#{review_views},-->
+<!--		#{review_content},-->
+<!--		DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'), DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'));-->
+<!--	</insert>-->
+	<insert id="reviewInsert" parameterType="reviewVO" useGeneratedKeys="true" keyProperty="review_id">
+		INSERT INTO review (
+			member_id,
+			book_isbn,
+			review_title,
+			review_content,
+			review_createdAt,
+			review_updatedAt,
+			review_views)
+		VALUES (
+				   #{member_id},
+				   #{book_isbn},
+				   #{review_title},
+				   #{review_content},
+				   DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'),
+				   DATE_FORMAT(NOW(), '%Y-%m-%d %H:%i:%s'),
+				   0);
 	</insert>
+
 
 
 
@@ -86,7 +107,7 @@
 	<update id="increaseViews" parameterType="int">
 		UPDATE review
 		SET review_views = review_views + 1
-		WHERE review_id = #{reviewId}
+		WHERE review_id = #{review_id}
 	</update>
 
 	<!-- Get current views for a review -->
