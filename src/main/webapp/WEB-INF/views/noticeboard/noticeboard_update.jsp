@@ -82,7 +82,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
-                    <li><a href="../mainpage/index.jsp">Home</a></li>
+                    <li><a href="../mainpage/index">Home</a></li>
                     <li>공지게시판</li>
                 </ol>
             </div>

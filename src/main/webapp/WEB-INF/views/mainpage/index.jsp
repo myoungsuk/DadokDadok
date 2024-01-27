@@ -211,29 +211,16 @@
          <div class="b_inner">
               <div class="b_title">
                     <p>공지 게시판</p>
-                    <a href="/noticeboard/notice_list"><i class="bx bx-plus"></i></a>
+                    <a href="/noticeboard/noticeboard"><i class="bx bx-plus"></i></a>
               </div>
               <div class="nb_list b_list">
-                    <div>
-                        <p><a href="/noticeboard">공지사항 제목</a></p>
-                        <p>2024-01-17</p>
-                    </div>
-                    <div>
-                        <p><a href="/noticeboard">공지사항 제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목</a></p>
-                        <p>2024-01-17</p>
-                    </div>
-                    <div>
-                        <p><a href="/noticeboard">공지사항 제목</a></p>
-                        <p>2024-01-17</p>
-                    </div>
-                    <div>
-                        <p><a href="/noticeboard">공지사항 제목</a></p>
-                        <p>2024-01-17</p>
-                    </div>
-                    <div>
-                        <p><a href="/noticeboard">공지사항 제목</a></p>
-                        <p>2024-01-17</p>
-                    </div>
+                  <c:forEach items="${noticeBoardList}" var="noticeboardVO">
+                      <div>
+                          <p><a href="/noticeboard/noticeboard_one?notc_id=${noticeboardVO.notc_id}">${noticeboardVO.notc_title}</a></p>
+                          <p>관리자</p>
+                          <p><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeboardVO.notc_createdAt}"/></p>
+                      </div>
+                  </c:forEach>
               </div>
          </div> <%-- end notice_board --%>
          <div class="b_inner">
