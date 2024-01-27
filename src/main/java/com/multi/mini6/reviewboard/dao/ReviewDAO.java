@@ -76,6 +76,7 @@ public class ReviewDAO {
     public ReviewVO reviewBoardOne(int review_id) {
         return my.selectOne("reviewBoardOne", review_id);
     }
+
     public List<ReviewVO> selectReviewAttach(PageVo pageVO){
 
         return my.selectList("selectReviewAttach", pageVO);

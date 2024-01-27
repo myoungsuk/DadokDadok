@@ -3,7 +3,6 @@
 <%@page import="java.util.List"%>
 <%@page import="com.multi.mini6.reviewboard.vo.ReviewVO"%>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
@@ -133,7 +132,7 @@ session.setAttribute("user", "1");
                     // 입력된 댓글 내용 및 사용자 정보
                     const reviewId = '${reviewVO.review_id}';
                     const commentContent = $('#review').val();
-                    const memberId = '${user}';
+                    const memberId = '${reviewCommentVO.member_id}';
 
                     // Ajax 요청
 
@@ -325,21 +324,23 @@ function deleteBoard(review_id) {
                      <fmt:formatDate pattern="yyyy-MM-dd HH:mm:ss" value="<%=dto.getCm_createAt()%>" /><br />
                      <input type="hidden" id="cm_content_<%=dto.getCm_id()%>"  value="<%=dto.getCm_content()%>">
                      <input type="hidden" id="member_id_<%=dto.getCm_id()%>" value="<%=dto.getMember_id()%>">
-                     <sec:authorize access="isAuthenticated()">
-                        <%-- 댓글 작성자와 로그인한 사용자가 같을 경우에만 수정 및 삭제 버튼을 표시 --%>
-                 <sec:authentication property="principal.member.member_id" var="loggedInMemberId" />
-                 <c:if test="${cm_content.member_id eq loggedInMemberId}">
-                            <div class="title_btn">
-                               <button class='btn btn-primary btn-sm btn-edit' id="btn_<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글수정</button>
-                               <button class='btn btn-danger btn-sm btn-delete' id="btn_d<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글삭제</button>
-                            </div>
-                        </c:if>
-                </sec:authorize>
+                        <sec:authorize access="isAuthenticated()">
+                            <sec:authentication property="principal.member.member_id" var="loggedInMemberId" />
+                            <%-- 댓글 작성자 ID와 로그인한 사용자의 ID가 같은지 확인 --%>
+                            <c:if test="${dto.member_id == loggedInMemberId}">
+                                <div class="title_btn">
+                                    <button class='btn btn-primary btn-sm btn-edit' id="btn_<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글수정</button>
+                                    <button class='btn btn-danger btn-sm btn-delete' id="btn_d<%=dto.getCm_id()%>" value="<%=dto.getCm_id()%>">댓글삭제</button>
+                                </div>
+                            </c:if>
+                        </sec:authorize>
+
                     </div>
                  </div>
              </div>
              <% } %>
          </div>
+</div>
 </div>
 </div>
 </main>

@@ -1,6 +1,7 @@
 package com.multi.mini6.reviewboard.controller;
 
 
+import com.multi.mini6.loginpage.vo.CustomUser;
 import net.coobird.thumbnailator.Thumbnailator;
 import com.multi.mini6.reviewboard.vo.PageVo;
 import com.multi.mini6.reviewboard.vo.ReviewAttachVO;
@@ -15,6 +16,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -283,9 +286,16 @@ public class ReviewController {
         return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 
-
+    @PreAuthorize("hasAnyRole('ROLE_MEMBER','ROLE_ADMIN')")
     @RequestMapping("/review_one")
-    public void review_one(ReviewVO reviewVO, Model model) throws Exception {
+    public void review_one(ReviewVO reviewVO, Model model, Authentication authentication) throws Exception {
+
+        CustomUser customUser = (CustomUser) authentication.getPrincipal();
+        int userId =  customUser.getMember().getMember_id();
+
+        ReviewCommentVO reviewCommentVO = new ReviewCommentVO();
+        reviewCommentVO.setMember_id(userId);
+
         // BbsDAO dao = new BbsDAO();
         System.out.println(reviewVO);
         System.out.println("review_one==============================================================================================");
@@ -295,6 +305,7 @@ public class ReviewController {
         reviewService.increaseViews(reviewVO.getReview_id());
         model.addAttribute("reviewVO", reviewVO2);
         model.addAttribute("list", list);
+        model.addAttribute("reviewCommentVO", reviewCommentVO);
 
     }
 

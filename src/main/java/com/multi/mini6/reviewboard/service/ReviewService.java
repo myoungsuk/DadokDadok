@@ -141,7 +141,6 @@ public class ReviewService {
         return reviewDAO.reviewBoardOne(review_id);
     }
     public List<ReviewVO> selectReviewAttach(PageVo pageVO){
-
         return reviewDAO.selectReviewAttach(pageVO);
     }
 }

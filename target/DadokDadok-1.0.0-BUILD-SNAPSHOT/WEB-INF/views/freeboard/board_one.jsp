@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@ page isELIgnored="false" %>
 
 <!DOCTYPE html>
 <html>
@@ -10,65 +11,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
  <script type="text/javascript">
-
-
-
-     $(document).ready(function(){
-
-     // 파일 불러오기
-         //console.log("board_id: " + ${result.board_id});
-       (function(){
-         let board_id = "<c:out value='${result.board_id}'/>";
-
-           let board_id_number = Number(board_id);  // 123
-        // console.log("board_id: " + board_id);
-        // console.log("board_id_number: " + board_id_number);
-
-       $.getJSON("getAttachList/?board_id=" + board_id_number).done(function(arr) {
-
-           // console.log(board_id);
-           // console.dir("arr: " + arr);
-           // console.log(JSON.stringify(  arr, null, 2));
-
-           let img_str = "";
-           let file_str = "";
-           $(arr).each(function(i, attach){
-              // 이미지 파일인 경우 이미지 보여지기
-             //console.log("board_file_type(밖): "  + attach.board_file_type);
-             if(attach.board_file_type == "png" || attach.board_file_type == "jpg" || attach.board_file_type == "jpeg" || attach.board_file_type == "gif") {
-                 let fileCallPath = "/resources/freeBoardUpload/" + attach.board_uuid + "_" + encodeURIComponent(attach.board_file_name);
-                 console.log("fileCallPath: " + fileCallPath);
-                  console.log("board_file_type(안): "  + attach.board_file_type);
-                  img_str += "<span class='img_list' data-uuid='" + attach.board_uuid + "' data-filename='" + attach.board_file_name + "' data-type='" + attach.board_file_type + "'>";
-                  img_str += "<span>" + attach.board_file_name + "</span>";
-                  img_str += "<div><img src='" + fileCallPath + "'></div></span></div></div>";
-                  //console.log("img str :  " + img_str);
-                  $(".img_file").html(img_str);
-               } else {
-               // 이미지 파일이 아닌경우
-               //console.log("board_file_type(안2): "  + attach.board_file_type);
-                  file_str += "<div class='file_list' data-uuid='" + attach.board_uuid + "' data-filename='" + attach.board_file_name + "' data-type='" + attach.board_file_type + "'> ";
-                  file_str += "<div><img src='/resources/img/attach.png'></div>";
-                 file_str += "<span>" + attach.board_file_name + "</span></div>";
-                $(".file").html(file_str);
-               } // if end
-           }); // arr each end
-
-         }); // getJSON end
-
-         // 이미지 파일이 아닌경우 클릭시 다운로드
-         $(".file").on("click", ".file_list", function(e){
-           console.log("click");
-
-           let file = $(this);
-           let path =  "/resources/freeBoardUpload/" + file.data("uuid") + "_" + file.data("filename");
-           //console.log("path : " + path);
-
-           self.location = "download?fileName=" + file.data("uuid") + "_" + file.data("filename");
-         }); // file click end
-       })();  //function end
-
-
+   $(document).ready(function(){
      // 원댓글 수정버튼 누르면 수정할 수 있는 textarea 보여지기
      $(".parentUpdate").click(function(){
           // closest: 선택요소를 포함한 상위 요소 중 지정한 선택자에 해당하는 첫번째 요소
@@ -187,78 +130,34 @@
                   }
             }); // ajax end
     }); //replyInsert click end
+ }); // document end
 
-
-
- }); // document
-
+// 삭제버튼
  function boardDelete(board_id ) {
      let boardId = board_id;
-     // let boardId = ${result.board_id};
-     // console.log("삭제버튼클릭");
-      if(confirm("정말로 삭제하시겠습니까?")) {
-
-         // fileList 변수를 정의
-         let fileList = [];
-
-         // fileList 파일 정보 추가
-        $(".file_content, .img_content").each(function (i, fileContent) {
-
-        var uuid = $(fileContent).data("uuid");
-        var fileName = $(fileContent).data("filename");
-        var fileType = $(fileContent).data("type");
-
-         if (uuid && fileName && fileType) {
-                let attach = {
-                    board_id: boardId,
-                    board_uuid: uuid,
-                    board_file_name: fileName,
-                    board_file_type: fileType
-              };
-              fileList.push(attach);
-         } // if end
-         }); // each end
-        //console.log("fileList : ", fileList);
-        //console.log(JSON.stringify(fileList, null, 2));
-
-        // 첨부파일이 있을때 파일+게시글 삭제
-        if (fileList.length > 0) {
-            $.ajax({
-                    type: "POST",
-                    url: "/freeboard/fileDelete",
-                    contentType: "application/json",
-                    data: JSON.stringify(fileList),
-                    success: function(response) {
-                      console.log("서버 응답:", response);
-                      // 성공적으로 데이터를 전송한  후 목록페이지로 이동
-                      window.location.href = "/freeboard/board_list";
-                    },
-                    error: function(xhr, status, error) {
-                      console.error("에러 발생:", error);
-                      // 에러 처리 로직
-                    }
-          }); // ajax end
-        } else {
-              // 첨부파일 없을때 게시글만 삭제
-             deleteBoard(board_id);
-        }
-      }; //confirm end
-    }; //boardDelete end
-// 첨부파일 없을때 게시글만 삭제
-function deleteBoard(board_id) {
-  $.ajax({
-    type: "POST",
-    url: "/freeboard/board_delete?board_id=" + board_id,
-    success: function(response) {
-      console.log("게시글 삭제 성공:", response);
-      window.location.href = "/freeboard/board_list";
-    },
-    error: function(xhr, status, error) {
-      console.error("게시글 삭제 에러 발생:", error);
-    }
-  });
-}
-
+      if(confirm("정말 삭제하시겠습니까?")) {
+             $.ajax({
+                 url: "/freeboard/board_delete",
+                 type: "post",
+                 data: {board_id: boardId},
+                 success: function(data) {
+                     console.log("data : " + data);
+                     if(data.success) {
+                         alert("게시글이 성공적으로 삭제되었습니다.");
+                        window.location.href = "/freeboard/board_list";
+                     } else {
+                         alert("게시글 삭제에 실패하였습니다.");
+                     }
+                 },
+                 error: function(jqXHR, textStatus, errorThrown) {
+                          console.log(jqXHR);        // 응답 객체
+                          console.log(textStatus);   // 상태 문자열
+                          console.log(errorThrown);  // 예외 정보
+                          alert("게시글 삭제 중 오류가 발생하였습니다.");
+                 }
+             });
+      }
+}; //boardDelete end
 
 // 댓글 작성
 function commentInsert(){
@@ -285,7 +184,6 @@ function commentInsert(){
           console.error("댓글 등록 에러 발생:", error);
         }
     }); // ajax end
-
 }
 
    </script>
@@ -352,8 +250,28 @@ function commentInsert(){
                    <p>${result.board_content}</p>
                 </div>
                <div class="file_content">
-                    <div class="img_file"></div>
-                    <div class="file"></div>
+                   <c:forEach var="s3file" items="${s3FileUrlList}" varStatus="status">
+                      <c:choose>
+                          <c:when test="${s3FileTypes[status.index] == 'png' or s3FileTypes[status.index] == 'jpg' or s3FileTypes[status.index] == 'jpeg' or s3FileTypes[status.index] == 'gif'}">
+                               <div class="img_file">
+                                   <span class="img_list">
+                                       <span>${s3FileNames[status.index]}.${s3FileTypes[status.index]}</span>
+                                       <img src="${s3file}">
+                                   </span><%-- img_list end --%>
+                              </div> <%-- img_file end --%>
+                          </c:when>
+                           <c:otherwise>
+                                <div class="file">
+                                     <div class="file_list">
+                                         <img src="/resources/img/attach.png">
+                                        <div>${s3FileNames[status.index]}.${s3FileTypes[status.index]}</div>
+                                      </div>
+                                </div>
+                          </c:otherwise>
+                      </c:choose>
+                   </c:forEach>
+               <div><%-- file_content end --%>
+            </div>
                </div>
                <div class="comment">
                     <p>댓글</p>
