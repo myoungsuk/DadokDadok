@@ -25,8 +25,7 @@ public class ReviewCommentDAO {
     public int reviewCommentDelete(ReviewCommentVO reviewCommentVO) {
         return my.delete("review_comment_delete", reviewCommentVO);
     }
-
     public List<ReviewCommentVO> reviewCommentList(int reviewCommentVO) {
-        return my.selectList("reviewCommentList", reviewCommentVO);
+        return my.selectList("reviewCommentList",reviewCommentVO);
     }
 }

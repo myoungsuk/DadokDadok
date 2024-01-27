@@ -130,7 +130,7 @@
     <insert id="freeBoardCommentInsert" parameterType="freeboardCommentVO">
         insert into board_comment (board_id, cm_content, cm_createdAt, cm_modifiedAt, member_id, cm_class, cm_group)
         select #{board_id}, #{cm_content}, now(), now(), #{member_id}, #{cm_class}, COALESCE(MAX(cm_group), 0) + 1
-        from board_comment where board_id = #{board_id}eh
+        from board_comment where board_id = #{board_id}
     </insert>
 
     <!--댓글 리스트가져오기-->

@@ -11,6 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -29,15 +32,15 @@ public class NoticeBoardService {
 
     public void updateNotice(NoticeBoardVO noticeBoardVO, MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
-            String fileName = file.getOriginalFilename();
             String uuid = UUID.randomUUID().toString();
-            String filePath = "file:/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/" + uuid + "_" + fileName;
 
-            File newFile = new File(filePath);
-            file.transferTo(newFile);
+            String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
+
+            Path path = Paths.get(filePath);
+            Files.write(path, file.getBytes());
 
             noticeBoardVO.setNotice_uuid(uuid);
-            noticeBoardVO.setNotice_file_name(fileName);
+            noticeBoardVO.setNotice_file_name(file.getOriginalFilename());
         }
 
         noticeBoardDAO.updateNotice(noticeBoardVO);

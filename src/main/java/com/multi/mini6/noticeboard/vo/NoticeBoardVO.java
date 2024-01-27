@@ -34,7 +34,7 @@ public class NoticeBoardVO {
 
     public String getImageUrl() {
         if (notice_uuid != null && !notice_uuid.isEmpty()) {
-            return "/upload-dir/" + notice_uuid + "_" + notice_file_name;
+            return "/upload_data/temp/" + notice_uuid + "_" + notice_file_name;
         } else {
             return null;
         }

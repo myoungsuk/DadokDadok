@@ -33,7 +33,7 @@ public class CustomLoginSuccessHandler implements AuthenticationSuccessHandler{@
 		// 이후 roleList에 포함된 권한을 통해 로그인 계정의 권한에 따라 처리
 		// 각각 if문 처리하지 않으면 리다이렉트가 중복호출됩니다 *주의*
 		if(roleList.contains("ROLE_ADMIN")) {
-			response.sendRedirect("/mainpage/index");
+			response.sendRedirect("/adminpage/BookUploadPage");
 			
 			// 리다이렉트가 또 실행되지 않도록 리턴해주세요
 			return;

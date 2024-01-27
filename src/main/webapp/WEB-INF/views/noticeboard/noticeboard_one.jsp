@@ -10,7 +10,7 @@
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
-    <title>Setting</title>
+    <title>다독다독</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
 
@@ -32,32 +32,56 @@
     <link href="../../../resources/assets/css/style.css" rel="stylesheet">
     <style>
     .logo-link {
-          display: flex;
-          align-items: center;
-          text-decoration: none; /* 링크 밑줄 제거 */
-        }
+      display: flex;
+      align-items: center;
+      text-decoration: none; /* 링크 밑줄 제거 */
+    }
 
-        .logo-image {
-          max-width: 300px; /* 로고 이미지 크기 조정 */
-          height: auto; /* 이미지 높이 자동 조절 */
-        }
+    .logo-image {
+      max-width: 300px; /* 로고 이미지 크기 조정 */
+      height: auto; /* 이미지 높이 자동 조절 */
+    }
 
-        .logo-text {
-          font-size: 24px; /* 로고 텍스트 크기 */
-          font-weight: bold; /* 글씨 굵게 */
-          color: #333; /* 글씨 색상 */
-          /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
-        }
-            .center {
-              margin-top: 2%; /* Adjust the top margin as a percentage of the viewport height */
-              margin-bottom: 2%; /* Adjust the bottom margin as a percentage of the viewport height */
-              margin-left: 14%; /* Adjust the left margin as a percentage of the viewport width */
-              margin-right: 14%; /* Adjust the right margin as a percentage of the viewport width */
-            }
-            .card-text {
-                    white-space: pre-line;
-                }
-          </style>
+    .logo-text {
+      font-size: 24px; /* 로고 텍스트 크기 */
+      font-weight: bold; /* 글씨 굵게 */
+      color: #333; /* 글씨 색상 */
+      /*margin-left: 5px; !* 이미지와 텍스트 간격 *!*/
+    }
+    .main {
+      display: grid;
+        place-items: center;
+        min-height: 100dvh;
+    }
+    .card {
+      display: flex;
+        justify-content: center;
+        margin-left: 20%;
+        margin-right: 20%;
+    }
+    .nextlast {
+      display: flex;
+      flex-direction: column;
+      align-items: left;
+      text-align: left;
+      margin-left: 20%;
+      margin-right: 20%;
+    }
+
+    .nextlast .next,
+    .nextlast .last {
+      margin-bottom: 10px; /* Adjust as needed */
+    }
+    .card-text {
+    white-space: pre-line;
+    }
+    .n_info {
+    text-align: center;
+    }
+    .button-container {
+        text-align: right;
+    }
+    </style>
 </head>
 <body>
 
@@ -73,7 +97,6 @@
     <!-- ======= Breadcrumbs ======= -->
     <section id="breadcrumbs" class="breadcrumbs">
         <div class="container">
-
             <div class="d-flex justify-content-between align-items-center">
                 <h2>공지게시판</h2>
                 <ol>
@@ -81,61 +104,78 @@
                     <li>공지게시판</li>
                 </ol>
             </div>
-
         </div>
     </section><!-- End Breadcrumbs -->
+
     <div class="center">
-        <h2>공지게시판</h2>
+            <div class="n_info">
+            <br><br>
+                <p style="font-size: 24px; font-weight: bold;">공지게시판</p>
+                <div>공지 사항을 준수해 주세요.</div>
+            <br>
+            </div>
         <c:choose>
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">${noticeBoardVO.notc_title}</h5>
+                        <h4 class="card-title">${noticeBoardVO.notc_title}</h5>
                         <p class="card-subtitle">작성일: <fmt:formatDate value="${noticeBoardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">수정일: <fmt:formatDate value="${noticeBoardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">조회수: ${noticeBoardVO.notc_views}</p>
-                        <c:if test="${not empty noticeBoardVO.notice_uuid}">
-                            <img src="<c:url value='/upload-dir/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}'/>" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
+                        <c:if test="${pageContext.request.isUserInRole('ROLE_ADMIN')}">
+                            <div class="button-container">
+                                <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
+                                <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
+                            </div>
                         </c:if>
+                        <c:if test="${not empty noticeBoardVO.notice_uuid}">
+                            <img src="${pageContext.request.contextPath}/upload_data/temp/${noticeBoardVO.notice_uuid}_${noticeBoardVO.notice_file_name}" alt="${noticeBoardVO.notice_file_name}" class="img-fluid">
+                        </c:if>
+                        <br><br>
                         <p class="card-text" style="white-space: pre-line;">${noticeBoardVO.notc_content}</p>
-                            <a href="/noticeboard/noticeboard_update/${noticeBoardVO.notc_id}" role="button" class="btn btn-primary button-spacing">수정</a>
-                            <button type="button" onclick="deleteNotice(${noticeBoardVO.notc_id})" class="btn btn-danger button-spacing">삭제</button>
-                            <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                        <div style="text-align: center;">
+                        <br>
+                        <a href="noticeboard" class="btn btn-secondary">목록으로</a>
+                        </div>
+                        <br>
                     </div>
                 </div>
-
-                <div class="my-3 p-3 bg-white rounded shadow-sm">
-                    <c:choose>
-                        <c:when test="${not empty move.next}">
-                            <c:choose>
-                                <c:when test="${move.next ne 0}">
-                                    <button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'">
-                                        <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글
-                                    </button>
-                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black">${move.nexttitle}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-warning mr-3 mb-3" disabled aria-disabled="true">다음글이 없습니다</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                    </c:choose>
-                    <br/>
-                    <c:choose>
-                        <c:when test="${not empty move.last}">
-                            <c:choose>
-                                <c:when test="${move.last ne 0}">
-                                    <button type="button" class="btn btn-info mr-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'">
-                                        <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글
-                                    </button>
-                                    <a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black">${move.lasttitle}</a>
-                                </c:when>
-                                <c:otherwise>
-                                    <button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
-                                </c:otherwise>
-                            </c:choose>
-                        </c:when>
-                    </c:choose>
+                <br>
+                <div class="nextlast">
+                    <div class="next">
+                        <c:choose>
+                            <c:when test="${not empty move.next}">
+                                <c:choose>
+                                    <c:when test="${move.next ne 0}">
+                                        <button type="button" class="btn btn-warning mr-3 mb-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.next}'">
+                                            <span class="glyphicon glyphicon-menu-up" aria-hidden="true"></span>다음글
+                                        </button>
+                                        <a href="/noticeboard/noticeboard_one?notc_id=${move.next}" style="color: black">${move.nexttitle}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-warning mr-3 mb-3" disabled aria-disabled="true">다음글이 없습니다</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                        </c:choose>
+                    </div>
+                    <div class="last">
+                        <c:choose>
+                            <c:when test="${not empty move.last}">
+                                <c:choose>
+                                    <c:when test="${move.last ne 0}">
+                                        <button type="button" class="btn btn-info mr-3" onclick="location.href='/noticeboard/noticeboard_one?notc_id=${move.last}'">
+                                            <span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span>이전글
+                                        </button>
+                                        <a href="/noticeboard/noticeboard_one?notc_id=${move.last}" style="color: black">${move.lasttitle}</a>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="button" class="btn btn-info mr-3" disabled>이전글이 없습니다</button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:when>
+                        </c:choose>
+                    </div>
                 </div>
 
             </c:when>
@@ -146,7 +186,7 @@
         <c:if test="${not empty exception}">
             <p>An error occurred: ${exception.message}</p>
         </c:if>
-    </div>
+    </div><br>
 </main><!-- End #main -->
 
         <!-- ======= Footer ======= -->
@@ -172,6 +212,5 @@
                 });
             }
         </script>
-        </div>
 </body>
 </html>

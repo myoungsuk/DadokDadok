@@ -74,6 +74,6 @@ public class NoticeBoardPageVO {
     }
 
     public int getLimit() {
-        return pageSize; // Assuming pageSize represents the limit
+        return pageSize;
     }
 }
