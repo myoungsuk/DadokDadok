@@ -18,11 +18,12 @@ import java.nio.file.Paths;
 @RestController
 public class NoticeBoardImageController {
 
-    private static final String UPLOAD_DIR = "C:" + File.separator + "upload_data" + File.separator + "temp";
+    private static final String UPLOAD_DIR = "/Users/Kang/uploads/temp";
 
-    @GetMapping("/upload_data/temp/{filename:.+}")
-    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
-        String filePath = UPLOAD_DIR + File.separator + filename;
+    @GetMapping("/Users/Kang/uploads/temp/{filename}_{uuid:.+}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename, @PathVariable String uuid) throws IOException {
+        String imageName = filename + "_" + uuid;
+        String filePath = UPLOAD_DIR + "/" + imageName;
         Path imagePath = Paths.get(filePath);
 
         if (!Files.exists(imagePath)) {

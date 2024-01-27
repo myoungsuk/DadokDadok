@@ -39,6 +39,8 @@ public class NoticeBoardController {
     @Inject
     NoticeBoardService noticeBoardService;
 
+    private static final String UPLOAD_DIR = "/Users/Kang/uploads/temp";
+
     @RequestMapping("/noticeboard")
     public void getNotices(Model model,
                              NoticeBoardPageVO noticeBoardPageVO,
@@ -88,14 +90,15 @@ public class NoticeBoardController {
 
             if (file != null && !file.isEmpty()) {
                 String uuid = UUID.randomUUID().toString();
+                String originalFilename = file.getOriginalFilename(); // Get the original filename
 
-                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
+                String filePath = UPLOAD_DIR + File.separator + uuid + "_" + originalFilename; // Corrected filePath assignment
 
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
-                noticeBoardVO.setNotice_file_name(file.getOriginalFilename());
+                noticeBoardVO.setNotice_file_name(originalFilename);
             }
 
             noticeBoardService.insertNotice(noticeBoardVO);
@@ -129,8 +132,9 @@ public class NoticeBoardController {
         try {
             if (file != null && !file.isEmpty()) {
                 String uuid = UUID.randomUUID().toString();
+                String originalFilename = file.getOriginalFilename(); // Get the original filename
 
-                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
+                String filePath = UPLOAD_DIR + File.separator + uuid + "_" + originalFilename; // Corrected filePath assignment
 
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
