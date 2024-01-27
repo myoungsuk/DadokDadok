@@ -1,0 +1,39 @@
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(1, NOW(), NOW(), 101, '첫번째 공지입니다.', '첫번째 공지에 대한 내용입니다.', '1aa2fef6-0f2e-41eb-8468-7b8c29b6aca1', 'file1', 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(2, NOW(), NOW(), 202, '두번째 공지입니다.', '두번째 공지에 대한 내용입니다.', '1aa2fef6-0f2e-41eb-8468-7b8c29b6aca2', 'file2', 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(3, NOW(), NOW(), 303, '세번째 공지입니다.', '세번째 공지에 대한 내용입니다.', null, null, 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(4, NOW(), NOW(), 404, '네번째 공지입니다.', '네번째 공지에 대한 내용입니다.', null, null, 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(5, NOW(), NOW(), 505, '다섯번째 공지입니다.', '다섯번째 공지에 대한 내용입니다.', null, null, 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(6, NOW(), NOW(), 606, '여섯번째 공지입니다.', '여섯번째 공지에 대한 내용입니다.', null, null, 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(7, NOW(), NOW(), 707, '일곱번째 공지입니다.', '일곱번째 공지에 대한 내용입니다.', null, null, 1);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(8, NOW(), NOW(), 808, '여덟번째 공지입니다.', '여덟번째 공지에 대한 내용입니다.', '1aa2fef6-0f2e-41eb-8468-7b8c29b6aca8', 'file8', 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(9, NOW(), NOW(), 909, '아홉번째 공지입니다.', '아홉번째 공지에 대한 내용입니다.', null, null, 0);
+
+INSERT INTO notice (notc_id, notc_createdAt, notc_updatedAt, notc_views, notc_title, notc_content, notice_uuid, notice_file_name, pinned)
+VALUES
+(10, NOW(), NOW(), 111, '열번째 공지입니다.', '열번째 공지에 대한 내용입니다.', '1aa2fef6-0f2e-41eb-8468-7b8c29b6aca0', 'file10', 0);
