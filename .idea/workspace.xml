@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AnalysisUIOptions">
+    <option name="ANALYZE_INJECTED_CODE" value="false" />
+    <option name="SCOPE_TYPE" value="3" />
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e58a7b1f-b0d4-4d2a-8ca8-417601891e13" name="변경" comment="메인페이지에 공지게시글 최신순5개 노출">
+      <change beforePath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/security-context.xml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/spring/security-context.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/controller/MainPageController.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/controller/MainPageController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/dao/MainPageDAO.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/dao/MainPageDAO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/service/MainPageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/multi/mini6/mainpage/service/MainPageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/multi/mini6/reviewboard/dao/ReviewCommentDAO.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/FreeBoardSQL.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/FreeBoardSQL.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/mapper/MainPageSQL.xml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/mapper/MainPageSQL.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="LogFilters">
+    <option name="FILTER_ERRORS" value="false" />
+    <option name="FILTER_WARNINGS" value="false" />
+    <option name="FILTER_INFO" value="true" />
+    <option name="FILTER_DEBUG" value="true" />
+    <option name="CUSTOM_FILTER" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2bCIcfXzePBqRT498MXNN7AxP2C" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Smart Tomcat.Tomcat: DadokDadok.executor&quot;: &quot;Run&quot;,
+    &quot;Smart Tomcat.이름이 지정되지 않았습니다.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Feat/notice-board&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/yuumi/DadokDadok&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\yuumi\DadokDadok\src\main\webapp\WEB-INF\views\noticeboard" />
+      <recent name="C:\Users\yuumi\DadokDadok\src\main\resources\mapper" />
+      <recent name="C:\Users\yuumi\DadokDadok\src\main\java\com\multi\mini6\noticeboard\vo" />
+      <recent name="C:\Users\yuumi\DadokDadok\src\main\java\com\multi\mini6\noticeboard\service" />
+      <recent name="C:\Users\yuumi\DadokDadok\src\main\java\com\multi\mini6\noticeboard\dao" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="이름이 지정되지 않았습니다" type="com.poratu.idea.plugins.tomcat" nameIsGenerated="true">
+      <predefined_log_file enabled="true" id="Tomcat Localhost Log" />
+      <predefined_log_file enabled="true" id="Tomcat Access Log" />
+      <predefined_log_file id="Tomcat Catalina Log" />
+      <predefined_log_file id="Tomcat Manager Log" />
+      <predefined_log_file id="Tomcat Host Manager Log" />
+      <option name="adminPort" value="8105" />
+      <option name="catalinaBase" value="C:\Users\yuumi\.SmartTomcat\DadokDadok\DadokDadok" />
+      <option name="contextPath" value="/" />
+      <option name="docBase" value="$PROJECT_DIR$/src/main/webapp" />
+      <option name="extraClassPath" value="" />
+      <option name="tomcatInfo">
+        <TomcatInfo>
+          <option name="name" value="Apache Tomcat/8.5.96" />
+          <option name="path" value="$PROJECT_DIR$/../Downloads/apache-tomcat-8.5.96" />
+          <option name="version" value="8.5.96.0" />
+        </TomcatInfo>
+      </option>
+      <option name="vmOptions" value="" />
+      <module name="DadokDadok" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-corretto-17.0.9-249ae16d76d6-98297cd8" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="e58a7b1f-b0d4-4d2a-8ca8-417601891e13" name="변경" comment="" />
+      <created>1705712715298</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1705712715298</updated>
+    </task>
+    <task id="LOCAL-00001" summary="notice">
+      <option name="closed" value="true" />
+      <created>1705714905129</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1705714905129</updated>
+    </task>
+    <task id="LOCAL-00002" summary="notice">
+      <option name="closed" value="true" />
+      <created>1705724896950</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1705724896950</updated>
+    </task>
+    <task id="LOCAL-00003" summary="notice">
+      <option name="closed" value="true" />
+      <created>1705726143841</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1705726143841</updated>
+    </task>
+    <task id="LOCAL-00004" summary="공지게시판 상세보기 오류 수정">
+      <option name="closed" value="true" />
+      <created>1705728743628</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1705728743628</updated>
+    </task>
+    <task id="LOCAL-00005" summary="공지게시판 작성 가능해짐&#10;경로: C:/upload_data/temp/">
+      <option name="closed" value="true" />
+      <created>1705741024427</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1705741024427</updated>
+    </task>
+    <task id="LOCAL-00006" summary="공지게시판">
+      <option name="closed" value="true" />
+      <created>1706059605745</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1706059605745</updated>
+    </task>
+    <task id="LOCAL-00007" summary="메인페이지에 공지게시글 최신순5개 노출">
+      <option name="closed" value="true" />
+      <created>1706319587913</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1706319587913</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
+    <servers />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="notice" />
+    <MESSAGE value="공지게시판 상세보기 오류 수정" />
+    <MESSAGE value="공지게시판 작성 가능해짐&#10;경로: C:/upload_data/temp/" />
+    <MESSAGE value="공지게시판" />
+    <MESSAGE value="메인페이지에 공지게시글 최신순5개 노출" />
+    <option name="LAST_COMMIT_MESSAGE" value="메인페이지에 공지게시글 최신순5개 노출" />
+  </component>
+</project>

@@ -9,5 +9,11 @@
         order by board.board_createdAt desc limit 5
     </select>
 
+    <select id="noticeBoardListFive" resultType="noticeBoardVO">
+        SELECT n.*
+        FROM notice n
+        ORDER BY n.notc_createdAt DESC
+        LIMIT 5
+    </select>
 
 </mapper>
