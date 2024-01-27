@@ -86,6 +86,7 @@
 		from review
 		where book_isbn = #{isbn} -- ISBN에 맞는 리뷰만 필터링
 		order by review_updatedAt desc
+		limit 10
 	</select>
 
 
