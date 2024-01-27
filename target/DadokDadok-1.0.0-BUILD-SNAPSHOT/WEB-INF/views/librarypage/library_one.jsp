@@ -114,9 +114,9 @@
     <style>
 
         /* Some basic custom styles */
-        .container {
-                margin-top: 20px;
-            }
+        /*.container {*/
+        /*        margin-top: 20px;*/
+        /*    }*/
         .container2 {
             display : flex;
             justify-content: center; /* 가로 중앙 정렬 */
