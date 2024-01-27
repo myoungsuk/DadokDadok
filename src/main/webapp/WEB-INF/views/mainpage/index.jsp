@@ -217,7 +217,6 @@
                   <c:forEach items="${noticeBoardList}" var="noticeboardVO">
                       <div>
                           <p><a href="/noticeboard/noticeboard_one?notc_id=${noticeboardVO.notc_id}">${noticeboardVO.notc_title}</a></p>
-                          <p>관리자</p>
                           <p><fmt:formatDate pattern="yyyy-MM-dd" value="${noticeboardVO.notc_createdAt}"/></p>
                       </div>
                   </c:forEach>

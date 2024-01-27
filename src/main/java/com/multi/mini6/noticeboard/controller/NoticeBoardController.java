@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.inject.Inject;
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -39,13 +40,11 @@ public class NoticeBoardController {
     @Inject
     NoticeBoardService noticeBoardService;
 
-    private static final String UPLOAD_DIR = "/Users/Kang/uploads/temp";
-
     @RequestMapping("/noticeboard")
     public void getNotices(Model model,
-                             NoticeBoardPageVO noticeBoardPageVO,
-                             @RequestParam(defaultValue = "1") int page,
-                             @RequestParam(defaultValue = "10") int pageSize) throws Exception {
+                           NoticeBoardPageVO noticeBoardPageVO,
+                           @RequestParam(defaultValue = "1") int page,
+                           @RequestParam(defaultValue = "10") int pageSize) throws Exception {
         int totalItemCount = noticeBoardService.getNoticeBoardCount();
         noticeBoardPageVO = new NoticeBoardPageVO(page, pageSize, totalItemCount);
 
@@ -90,15 +89,14 @@ public class NoticeBoardController {
 
             if (file != null && !file.isEmpty()) {
                 String uuid = UUID.randomUUID().toString();
-                String originalFilename = file.getOriginalFilename(); // Get the original filename
 
-                String filePath = UPLOAD_DIR + File.separator + uuid + "_" + originalFilename; // Corrected filePath assignment
+                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
 
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
 
                 noticeBoardVO.setNotice_uuid(uuid);
-                noticeBoardVO.setNotice_file_name(originalFilename);
+                noticeBoardVO.setNotice_file_name(file.getOriginalFilename());
             }
 
             noticeBoardService.insertNotice(noticeBoardVO);
@@ -132,9 +130,8 @@ public class NoticeBoardController {
         try {
             if (file != null && !file.isEmpty()) {
                 String uuid = UUID.randomUUID().toString();
-                String originalFilename = file.getOriginalFilename(); // Get the original filename
 
-                String filePath = UPLOAD_DIR + File.separator + uuid + "_" + originalFilename; // Corrected filePath assignment
+                String filePath = "C:" + File.separator + "upload_data" + File.separator + "temp" + File.separator + uuid + "_" + file.getOriginalFilename();
 
                 Path path = Paths.get(filePath);
                 Files.write(path, file.getBytes());
