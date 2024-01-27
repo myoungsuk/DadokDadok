@@ -42,6 +42,9 @@ session.setAttribute("user", "1");
 
                      if(attach.review_file_type == "png" || attach.review_file_type == "jpg" || attach.review_file_type == "jpeg" || attach.review_file_type == "gif") {
                          let fileCallPath = "/resources/reviewBoardUpload/" + attach.review_uuid + "_" + encodeURIComponent(attach.review_file_name);
+                         // let fileCallPath = "/Users/Kang/DadokDadok/src/main/webapp/resources/reviewBoardUpload/" + attach.review_uuid + "_" + encodeURIComponent(attach.review_file_name);
+
+                         console.log("fileCallPath JSP : " + fileCallPath);
 
                           img_str += "<span class='img_list' data-uuid='" + attach.review_uuid + "' data-filename='" + attach.review_file_name + "' data-type='" + attach.review_file_type + "'>";
                           img_str += "<span>" + attach.review_file_name + "</span>";
