@@ -306,7 +306,6 @@
         <div class="container">
             <div class="rv_title">후기 게시판</div>
             <div class="portfolio-container" data-aos="fade-up">
-
             </div>
             <%-- container --%>
     </section><!-- End review Section -->

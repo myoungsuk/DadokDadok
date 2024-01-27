@@ -83,3 +83,7 @@
          .board .container .b_inner { width: 100%; }
          .board .container .b_inner:nth-child(1) { margin: 0 0 20px 0; }
     }
+
+div.portfolio-container { display: flex; height: auto !important; flex-wrap: wrap; }
+
+.portfolio .portfolio-item { overflow: hidden; padding: 20px; }
