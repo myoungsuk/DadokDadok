@@ -2,8 +2,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="java.util.List" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -118,7 +117,7 @@
             <c:when test="${not empty noticeBoardVO}">
                 <div class="card">
                     <div class="card-body">
-                        <h4 class="card-title">${noticeBoardVO.notc_title}</h5>
+                        <h5 class="card-title">${noticeBoardVO.notc_title}</h5>
                         <p class="card-subtitle">작성일: <fmt:formatDate value="${noticeBoardVO.notc_createdAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">수정일: <fmt:formatDate value="${noticeBoardVO.notc_updatedAt}" pattern="yyyy-MM-dd HH:mm"/></p>
                         <p class="card-subtitle">조회수: ${noticeBoardVO.notc_views}</p>
