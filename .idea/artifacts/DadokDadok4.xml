@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="DadokDadok4">
+    <output-path>$PROJECT_DIR$/out/artifacts/DadokDadok4</output-path>
+    <root id="archive" name="DadokDadok_war.war">
+      <element id="artifact" artifact-name="DadokDadok:war exploded" />
+    </root>
+  </artifact>
+</component>
