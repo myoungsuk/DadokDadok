@@ -22,6 +22,18 @@ Spring, mybatis, jsp 를 사용한 독서 커뮤니티 사이트 **다독다독*
 ![image](https://github.com/myoungsuk/DadokDadok/assets/94948198/66316b9d-1565-4876-9e41-d5fae24e28a6)
 <br><br>
 
+## 📌 프로젝트 구현 화면
+![01main](https://github.com/myoungsuk/DadokDadok/assets/94948198/a44a2f80-b519-4d61-a8e3-1883711e669d)
+![02book](https://github.com/myoungsuk/DadokDadok/assets/94948198/710a4314-dbad-4dca-a848-3b92786c9b85)
+![03library](https://github.com/myoungsuk/DadokDadok/assets/94948198/6bd5dc27-605c-4bc4-9a72-d6f6ea0e2818)
+![04review](https://github.com/myoungsuk/DadokDadok/assets/94948198/eb99b3fd-e454-4636-b07f-dc10c398b76e)
+![05free](https://github.com/myoungsuk/DadokDadok/assets/94948198/baa2e14b-e8f4-42a8-b690-0ff437f0308b)
+![06notice](https://github.com/myoungsuk/DadokDadok/assets/94948198/ba08a969-12ba-4f10-8711-9af4a3c1a06c)
+![07adminupload](https://github.com/myoungsuk/DadokDadok/assets/94948198/14497ecd-6934-4775-8cf4-163a4b30c426)
+![08setting](https://github.com/myoungsuk/DadokDadok/assets/94948198/f733aebc-923e-4220-a80e-82d91bf50ab7)
+![09mypage](https://github.com/myoungsuk/DadokDadok/assets/94948198/14e800cf-6e6d-4d1d-9433-19f5d263fd92)
+<br><br>
+
 ## 📌 프로젝트 주요 정의서
 ![image67](https://github.com/myoungsuk/DadokDadok/assets/94948198/06c1e9b5-1d71-4017-9633-a6c3ce27d21c)
 <br><br>
@@ -343,16 +355,7 @@ DADOKDADOK
 └─work
 
 ```
+<br><br>
 
-## 📌 프로젝트 구현 화면 일부
-![01main](https://github.com/myoungsuk/DadokDadok/assets/94948198/a44a2f80-b519-4d61-a8e3-1883711e669d)
-![02book](https://github.com/myoungsuk/DadokDadok/assets/94948198/710a4314-dbad-4dca-a848-3b92786c9b85)
-![03library](https://github.com/myoungsuk/DadokDadok/assets/94948198/6bd5dc27-605c-4bc4-9a72-d6f6ea0e2818)
-![04review](https://github.com/myoungsuk/DadokDadok/assets/94948198/eb99b3fd-e454-4636-b07f-dc10c398b76e)
-![05free](https://github.com/myoungsuk/DadokDadok/assets/94948198/baa2e14b-e8f4-42a8-b690-0ff437f0308b)
-![06notice](https://github.com/myoungsuk/DadokDadok/assets/94948198/ba08a969-12ba-4f10-8711-9af4a3c1a06c)
-![07adminupload](https://github.com/myoungsuk/DadokDadok/assets/94948198/14497ecd-6934-4775-8cf4-163a4b30c426)
-![08setting](https://github.com/myoungsuk/DadokDadok/assets/94948198/f733aebc-923e-4220-a80e-82d91bf50ab7)
-![09mypage](https://github.com/myoungsuk/DadokDadok/assets/94948198/14e800cf-6e6d-4d1d-9433-19f5d263fd92)
 
 
