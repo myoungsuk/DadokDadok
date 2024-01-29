@@ -1,5 +1,8 @@
 package com.multi.mini6.loginpage.service;//package com.multi.mini6.service;
 
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.multi.mini6.loginpage.PathUtil;
 import com.multi.mini6.loginpage.vo.MemberDeleteReasonVO;
 import com.multi.mini6.loginpage.vo.MemberVO;
@@ -7,6 +10,8 @@ import com.multi.mini6.loginpage.dao.MemberDAO;
 import com.multi.mini6.loginpage.vo.PasswordChangeDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +33,11 @@ public class MemberService {
 
     private final MemberDAO memberDAO;
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    private final AmazonS3 s3Client;
+
+    @Value("${bucketName}")
+    private String bucketName;
 
     public List<MemberVO> getMemberList() {
         return memberDAO.getMemberList();
@@ -96,15 +107,38 @@ public class MemberService {
                 // 데이터베이스에서 기존 이미지 경로를 가져옵니다.
                 String existingImagePath = memberDAO.getProfileImgPathByEmail(email);
 
-                // 기존 이미지가 있으면 파일 시스템에서 삭제합니다.
+//                AmazonS3 s3Client = this.s3Client;
+
+//                if (existingImagePath != null && !existingImagePath.isEmpty()) {
+//                    URL url = new URL(existingImagePath);
+//                    String key = url.getPath().substring(1); // URL에서 객체 키 추출
+//                    s3Client.deleteObject(bucketName, key);
+//                }
+//                // 기존 이미지가 있으면 파일 시스템에서 삭제합니다.
                 if (existingImagePath != null && !existingImagePath.isEmpty()) {
                     Path pathToDelete = Paths.get(existingImagePath);
                     if (Files.exists(pathToDelete)) {
                         Files.delete(pathToDelete);
                     }
                 }
+//
+                // 새 이미지 파일을 S3에 업로드하고, S3 URL을 반환받습니다.
+//                String filePath = "ProfileImages/" + email + "/" + profileImage.getOriginalFilename();
+//                ObjectMetadata metadata = new ObjectMetadata();
+//                metadata.setContentLength(profileImage.getSize());
+//                metadata.setContentType(profileImage.getContentType());
+//                s3Client.putObject(new PutObjectRequest(bucketName, filePath, profileImage.getInputStream(), metadata));
+//                String newImageS3Url = s3Client.getUrl(bucketName, filePath).toString();
+//
+//                log.info("New S3 Image URL = " + newImageS3Url);
+//
+//                // 데이터베이스에 새 프로필 이미지 S3 URL을 저장합니다.
+//                Map<String, Object> params = new HashMap<>();
+//                params.put("email", email);
+//                params.put("userImg", newImageS3Url); // S3에 저장된 파일의 URL
+//                memberDAO.updateProfileImg(params);
 
-                // 새 이미지 파일을 저장하고 경로를 반환받습니다.
+//                // 새 이미지 파일을 저장하고 경로를 반환받습니다.
                 String newFilePath = PathUtil.writeImageFile(profileImage, email);
                 log.info("newFilePath = " + newFilePath);
                 // 데이터베이스에 새 프로필 이미지 경로를 저장합니다.

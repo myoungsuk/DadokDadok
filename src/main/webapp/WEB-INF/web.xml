@@ -59,7 +59,7 @@
 		<multipart-config>
 
 <!--			<location>/upload_data/temp</location>-->
-			 <location>/Users/Kang/uploads/temp</location>
+<!--			 <location>/Users/Kang/uploads/temp</location>-->
 <!--		<location>C:\upload_data\temp</location>-->
 			<max-file-size>20971520</max-file-size>
 			<max-request-size>41943040</max-request-size>

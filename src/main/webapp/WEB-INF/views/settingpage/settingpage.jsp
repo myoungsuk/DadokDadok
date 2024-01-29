@@ -181,8 +181,7 @@
                                 <input type="file" id="userImg" name="userImg" accept="image/*"
                                        onchange="chooseImage(this)">
                                 <label for="userImg" class="img-upload-label">
-                                    <c:set var="dbPath"
-                                           value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
+                                    <c:set var="dbPath" value="/home/ec2-user/local/apache-tomcat-8.5.98/upload-dir/"/>
                                     <c:set var="defaultImagePath"
                                            value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
                                     <c:set var="imagePath" value="${member.userImg}"/>
