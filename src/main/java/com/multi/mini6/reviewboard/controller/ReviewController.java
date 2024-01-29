@@ -105,9 +105,9 @@ public class ReviewController {
 
         List<ReviewAttachVO> list = new ArrayList<>();
 
-//        String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/reviewBoardUpload");
+        String uploadFolder = request.getSession().getServletContext().getRealPath("/resources/reviewBoardUpload");
         // 절대 경로를 직접 지정합니다.
-        String uploadFolder = "/Users/Kang/DadokDadok/src/main/webapp/resources/reviewBoardUpload";
+//        String uploadFolder = "/Users/Kang/DadokDadok/src/main/webapp/resources/reviewBoardUpload";
 
 
         log.info("uploadFolder: " + uploadFolder);

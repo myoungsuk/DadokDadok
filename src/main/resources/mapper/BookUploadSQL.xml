@@ -33,7 +33,7 @@
 	</select>
 	<!-- booksLibraries 테이블에 isbn이랑 lib_code가 존재하는지 확인하는 쿼리 -->
 	<select id="existsByIsbnAndLibCode" parameterType="booksLibrariesVO" resultType="int">
-		SELECT COUNT(1) FROM booksLibraries WHERE isbn = #{isbn} AND lib_code = #{lib_code}
+		SELECT COUNT(1) FROM bookslibraries WHERE isbn = #{isbn} AND lib_code = #{lib_code}
 	</select>
 
 	<!-- 새로운 책을 삽입하는 쿼리 -->
@@ -45,7 +45,7 @@
 	</insert>
 	<!-- 도서와도서관 정보를 삽입 -->
 	<insert id="insertBooksLibraries" parameterType="booksLibrariesVO">
-		INSERT INTO booksLibraries ( isbn, lib_code, numberOfCopies, numberOfLoans)
+		INSERT INTO bookslibraries ( isbn, lib_code, numberOfCopies, numberOfLoans)
 		VALUES (#{isbn}, #{lib_code}, #{numberOfCopies}, #{numberOfLoans})
 	</insert>
 
@@ -62,7 +62,7 @@
 
 	<!-- 도서관의 도서 정보를 업데이트 -->
 	<update id="updateBooksLibraries" parameterType="booksLibrariesVO">
-		UPDATE booksLibraries
+		UPDATE bookslibraries
 		SET
 			numberOfCopies = #{numberOfCopies},
 			numberOfLoans = #{numberOfLoans}
@@ -83,7 +83,7 @@
 
 	<!-- booksLibraries 총 개수 -->
 	<select id="getBooksLibrariesCount" resultType="int">
-		SELECT COUNT(*) FROM booksLibraries
+		SELECT COUNT(*) FROM bookslibraries
 	</select>
 
 </mapper>

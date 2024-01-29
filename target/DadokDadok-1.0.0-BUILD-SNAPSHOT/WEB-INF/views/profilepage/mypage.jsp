@@ -110,7 +110,9 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-lg-4">
-                    <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
+<%--                    <c:set var="dbPath" value = "upload-dir/" + "${member.userImg}" +  />--%>
+<%--                    <c:set var="dbPath" value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>--%>
+                    <c:set var="dbPath" value="/home/ec2-user/local/apache-tomcat-8.5.98/upload-dir/"/>
                     <c:set var="defaultImagePath"
                            value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
                     <c:set var="imagePath" value="${member.userImg}"/>
