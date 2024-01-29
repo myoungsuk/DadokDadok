@@ -275,7 +275,12 @@
           </span>
         </a>
 
-        <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+        <ol class="carousel-indicators" id="hero-carousel-indicators">
+            <li data-bs-target="#heroCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></li>
+            <li data-bs-target="#heroCarousel" data-bs-slide-to="1" aria-label="Slide 2"></li>
+            <li data-bs-target="#heroCarousel" data-bs-slide-to="2" aria-label="Slide 3"></li>
+        </ol>
+
 
     </div>
 
@@ -363,7 +368,7 @@
     });
 </script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         $('.carousel').carousel();
     });
 

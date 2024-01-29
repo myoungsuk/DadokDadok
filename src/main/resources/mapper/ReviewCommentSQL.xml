@@ -12,7 +12,7 @@
 <!--		(null, #{review_id}, #{member_id},#{book_id}, #{cm_content}, now(),now())-->
 <!--	</insert>-->
 	<insert id="review_comment_insert" useGeneratedKeys="true" keyProperty="cm_id" parameterType="reviewcommentVO">
-		INSERT INTO review_comment (review_id, member_id, cm_content, cm_createdAt, cm_modifiedAt)
+		INSERT INTO review_comment (review_id, member_id, cm_content, cm_createdAt, cm_modiefiedAt)
 		VALUES (#{review_id}, #{member_id}, #{cm_content}, now(), now())
 	</insert>
 
