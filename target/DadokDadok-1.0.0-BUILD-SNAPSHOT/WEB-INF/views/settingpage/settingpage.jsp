@@ -181,8 +181,8 @@
                                 <input type="file" id="userImg" name="userImg" accept="image/*"
                                        onchange="chooseImage(this)">
                                 <label for="userImg" class="img-upload-label">
-                                    <c:set var="dbPath"
-                                           value="/Users/Kang/Downloads/apache-tomcat-8.5.95/bin/upload-dir/"/>
+
+                                    <c:set var="dbPath" value="/home/ec2-user/local/apache-tomcat-8.5.98/upload-dir/"/>
                                     <c:set var="defaultImagePath"
                                            value="${pageContext.request.contextPath}/resources/assets/img/profile/profile.png"/>
                                     <c:set var="imagePath" value="${member.userImg}"/>
@@ -190,8 +190,11 @@
                                     <c:choose>
                                         <c:when test="${not empty imagePath}">
                                             <!-- 사용자가 이미지를 업로드한 경우 -->
-                                            <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"
-                                                 class="img-fluid" alt="Profile">
+<%--                                            <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}"--%>
+                                            <img src="${pageContext.request.contextPath}/upload-dir/${relativePath}" class="img-fluid" alt="Profile">
+                                            <script>
+                                                console.log("업로드된 이미지 경로: ${pageContext.request.contextPath}/upload-dir/${relativePath}");
+                                            </script>
                                         </c:when>
                                         <c:otherwise>
                                             <!-- 기본 이미지 표시 -->
